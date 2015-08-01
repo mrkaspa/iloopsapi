@@ -1,0 +1,74 @@
+{
+	"ImportPath": "bitbucket.org/kiloops/api",
+	"GoVersion": "go1.4.2",
+	"Deps": [
+		{
+			"ImportPath": "github.com/agtorre/gocolorize",
+			"Comment": "v1.0.0",
+			"Rev": "f42b554bf7f006936130c9bb4f971afd2d87f671"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin",
+			"Comment": "v1.0rc1-136-gfd5d429",
+			"Rev": "fd5d4294a5d5223d55fc76d7840f4b0ad91647bb"
+		},
+		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "v1.2-112-gfb72997",
+			"Rev": "fb7299726d2e68745a8805b14f2ff44b5c2cfa84"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/gorm",
+			"Rev": "25ba9487aa744c5c484c16af15221b440a90c98c"
+		},
+		{
+			"ImportPath": "github.com/joho/godotenv",
+			"Comment": "v1-8-g443e926",
+			"Rev": "443e926da0d793d3b3f32118b1e4ba52ada26503"
+		},
+		{
+			"ImportPath": "github.com/lib/pq/hstore",
+			"Comment": "go1.0-cutoff-58-g0dad96c",
+			"Rev": "0dad96c0b94f8dee039aa40467f767467392a0af"
+		},
+		{
+			"ImportPath": "github.com/manucorporat/sse",
+			"Rev": "fe6ea2c8e398672518ef204bf0fbd9af858d0e15"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-colorable",
+			"Rev": "40e4aedc8fabf8c23e040057540867186712faa5"
+		},
+		{
+			"ImportPath": "github.com/revel/revel",
+			"Comment": "v0.12.0-1-g83c6204",
+			"Rev": "83c62046c726f36daec7a28a335521f94b2561a6"
+		},
+		{
+			"ImportPath": "github.com/robfig/config",
+			"Rev": "0f78529c8c7e3e9a25f15876532ecbc07c7d99e6"
+		},
+		{
+			"ImportPath": "github.com/robfig/pathtree",
+			"Rev": "41257a1839e945fce74afd070e02bab2ea2c776a"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "b71143c25f0aad5f54981684b715686d34c56d25"
+		},
+		{
+			"ImportPath": "golang.org/x/net/websocket",
+			"Rev": "b71143c25f0aad5f54981684b715686d34c56d25"
+		},
+		{
+			"ImportPath": "gopkg.in/bluesuncorp/validator.v5",
+			"Comment": "v5.10.3",
+			"Rev": "77108103e5fd435ff31967e1a011fda801391c85"
+		},
+		{
+			"ImportPath": "gopkg.in/fsnotify.v1",
+			"Comment": "v1.2.0",
+			"Rev": "96c060f6a6b7e0d6f75fddd10efeaca3e5d1bcb0"
+		}
+	]
+}
