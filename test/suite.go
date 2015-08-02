@@ -12,9 +12,14 @@ import (
 	"bitbucket.org/kiloops/api/models"
 )
 
+var apiVersion = "v1"
+
 func around(f func(c client)) {
 	ts := beforeEach()
-	c := client{BaseURL: ts.URL}
+	c := client{
+		baseURL:     ts.URL + "/" + apiVersion,
+		contentType: "application/json",
+	}
 	f(c)
 	afterEach(ts)
 }
@@ -40,20 +45,21 @@ func initEnv() {
 
 //Client for http requests
 type client struct {
-	BaseURL string
+	baseURL     string
+	contentType string
 }
 
-func (c client) callRequest(method string, path string, contentType string, reader io.Reader) (*http.Response, error) {
-	return c.callRequestWithHeaders(method, path, contentType, reader, make(map[string]string))
+func (c client) callRequest(method string, path string, reader io.Reader) (*http.Response, error) {
+	return c.callRequestWithHeaders(method, path, reader, make(map[string]string))
 }
 
-func (c client) callRequestWithHeaders(method string, path string, contentType string, reader io.Reader, headers map[string]string) (*http.Response, error) {
+func (c client) callRequestWithHeaders(method string, path string, reader io.Reader, headers map[string]string) (*http.Response, error) {
 	client := &http.Client{}
-	req, err := http.NewRequest(method, c.BaseURL+path, reader)
+	req, err := http.NewRequest(method, c.baseURL+path, reader)
 	if err != nil {
 		panic(err)
 	}
-	req.Header.Set("Content-Type", contentType)
+	req.Header.Set("Content-Type", c.contentType)
 	for key, val := range headers {
 		req.Header.Set(key, val)
 	}
