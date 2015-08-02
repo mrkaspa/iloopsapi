@@ -15,14 +15,8 @@ import (
 
 func main() {
 	initEnv()
-	models.InitDB()
 
-	router := gin.Default()
-
-	v1 := router.Group("v1")
-	{
-		v1.POST("users", endpoint.UserCreate)
-	}
+	router := GetMainEngine()
 
 	s := &http.Server{
 		Addr:         ":8080",
@@ -36,6 +30,19 @@ func main() {
 
 func initEnv() {
 	if err := godotenv.Load(".env_dev"); err != nil {
-		log.Fatal("Error loading .env_test file")
+		log.Fatal("Error loading .env_dev file")
 	}
+}
+
+//GetMainEngine server & routes
+func GetMainEngine() *gin.Engine {
+	models.InitDB()
+	router := gin.Default()
+
+	v1 := router.Group("v1")
+	{
+		v1.POST("users", endpoint.UserCreate)
+	}
+
+	return router
 }
