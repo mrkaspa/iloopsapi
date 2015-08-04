@@ -6,18 +6,40 @@ import (
 	"bitbucket.org/kiloops/api/models"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"gopkg.in/validator.v2"
 )
 
 //UserCreate serves the route POST /users
 func UserCreate(c *gin.Context) {
-	inTxn(func(txn *gorm.DB) {
-		var user models.User
-		if err := c.BindJSON(&user); err == nil {
-			if txn.Save(&user).Error == nil {
-				c.JSON(http.StatusOK, user)
-				return
+	models.Gdb.InTx(func(txn *gorm.DB) {
+		var userLogin models.UserLogin
+		if err := c.BindJSON(&userLogin); err == nil {
+			if validator.Validate(&userLogin) == nil {
+				user := models.User{Email: userLogin.Email, Password: userLogin.Password}
+				if txn.Save(&user).Error == nil {
+					userLogged := models.UserLogged{Email: user.Email, Token: user.Token}
+					c.JSON(http.StatusOK, userLogged)
+				} else {
+					errorJSON(c, "User can't be saved")
+				}
+			} else {
+				c.JSON(http.StatusBadRequest, err.(validator.ErrorMap))
 			}
-			c.JSON(http.StatusBadRequest, user)
+		}
+	})
+}
+
+func UserLogin(c *gin.Context) {
+	models.Gdb.InTx(func(txn *gorm.DB) {
+		var userLogin models.UserLogin
+		if err := c.BindJSON(&userLogin); err == nil {
+			var user models.User
+			if err := txn.Find(&user, "email = ?", userLogin.Email).Error; err == nil && user.Email != "" && user.LoggedIn(userLogin) {
+				userLogged := models.UserLogged{Email: user.Email, Token: user.Token}
+				c.JSON(http.StatusOK, userLogged)
+			} else {
+				errorJSON(c, "User not found")
+			}
 		}
 	})
 }

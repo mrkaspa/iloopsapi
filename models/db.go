@@ -10,7 +10,11 @@ import (
 )
 
 // it can be used for jobs
-var Gdb gorm.DB
+type KDB struct {
+	*gorm.DB
+}
+
+var Gdb KDB
 
 // init db
 func InitDB() {
@@ -31,13 +35,18 @@ func InitDB() {
 
 	// Add unique index
 	db.Model(&User{}).AddUniqueIndex("idx_user_email", "email")
-	Gdb = db
+	Gdb = KDB{&db}
 }
 
-func InitTx() *gorm.DB {
-	txn := Gdb.Begin()
+func (kdb KDB) InTx(f func(*gorm.DB)) {
+	txn := kdb.InitTx()
+	defer Commit(txn)
+	f(txn)
+}
+
+func (kdb KDB) InitTx() *gorm.DB {
+	txn := kdb.Begin()
 	if txn.Error != nil {
-		fmt.Println("Unable to open a connection")
 		fmt.Println(txn.Error)
 		panic(txn.Error)
 	}

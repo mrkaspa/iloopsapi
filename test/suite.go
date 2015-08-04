@@ -2,7 +2,6 @@ package test
 
 import (
 	"io"
-	"log"
 	"net/http"
 	"net/http/httptest"
 
@@ -14,13 +13,14 @@ import (
 
 var apiVersion = "v1"
 
-func around(f func(c client)) {
+func Around(f func(c *Client)) {
 	ts := beforeEach()
-	c := client{
-		baseURL:     ts.URL + "/" + apiVersion,
-		contentType: "application/json",
+	c := Client{
+		&http.Client{},
+		ts.URL + "/" + apiVersion,
+		"application/json",
 	}
-	f(c)
+	f(&c)
 	afterEach(ts)
 }
 
@@ -28,7 +28,6 @@ func beforeEach() *httptest.Server {
 	initEnv()
 	models.InitDB()
 	ts := httptest.NewServer(main.GetMainEngine())
-
 	return ts
 }
 
@@ -38,30 +37,36 @@ func afterEach(ts *httptest.Server) {
 }
 
 func initEnv() {
-	if err := godotenv.Load(".env_test"); err != nil {
-		log.Fatal("Error loading .env_test file")
+	path := ".env_test"
+	for i := 1; ; i++ {
+		if err := godotenv.Load(path); err != nil {
+			if i > 3 {
+				panic("Error loading .env_test file")
+			} else {
+				path = "../" + path
+			}
+		} else {
+			break
+		}
 	}
 }
 
 //Client for http requests
-type client struct {
+type Client struct {
+	*http.Client
 	baseURL     string
 	contentType string
 }
 
-func (c client) callRequest(method string, path string, reader io.Reader) (*http.Response, error) {
-	return c.callRequestWithHeaders(method, path, reader, make(map[string]string))
+func (c Client) CallRequest(method string, path string, reader io.Reader) (*http.Response, error) {
+	return c.CallRequestWithHeaders(method, path, reader, make(map[string]string))
 }
 
-func (c client) callRequestWithHeaders(method string, path string, reader io.Reader, headers map[string]string) (*http.Response, error) {
-	client := &http.Client{}
-	req, err := http.NewRequest(method, c.baseURL+path, reader)
-	if err != nil {
-		panic(err)
-	}
+func (c Client) CallRequestWithHeaders(method string, path string, reader io.Reader, headers map[string]string) (*http.Response, error) {
+	req, _ := http.NewRequest(method, c.baseURL+path, reader)
 	req.Header.Set("Content-Type", c.contentType)
 	for key, val := range headers {
 		req.Header.Set(key, val)
 	}
-	return client.Do(req)
+	return c.Do(req)
 }

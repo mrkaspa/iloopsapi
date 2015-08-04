@@ -42,6 +42,7 @@ func GetMainEngine() *gin.Engine {
 	v1 := router.Group("v1")
 	{
 		v1.POST("users", endpoint.UserCreate)
+		v1.POST("users/login", endpoint.UserLogin)
 	}
 
 	return router
