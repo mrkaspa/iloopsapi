@@ -1,40 +1,49 @@
-package test
+package endpoint
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"testing"
 
 	"github.com/joho/godotenv"
 
-	"bitbucket.org/kiloops/api"
+	"bitbucket.org/kiloops/api/endpoint"
 	"bitbucket.org/kiloops/api/models"
+
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
-var apiVersion = "v1"
+var (
+	ts         *httptest.Server
+	client     Client
+	apiVersion = "v1"
+)
 
-func Around(f func(c *Client)) {
-	ts := beforeEach()
-	c := Client{
+func TestApi(t *testing.T) {
+	RegisterFailHandler(Fail)
+	fmt.Println("Suite found")
+	RunSpecs(t, "Api Suite")
+}
+
+var _ = BeforeSuite(func() {
+	initEnv()
+	models.InitDB()
+	ts = httptest.NewServer(endpoint.GetMainEngine())
+	client = Client{
 		&http.Client{},
 		ts.URL + "/" + apiVersion,
 		"application/json",
 	}
-	f(&c)
-	afterEach(ts)
-}
+})
 
-func beforeEach() *httptest.Server {
-	initEnv()
-	models.InitDB()
-	ts := httptest.NewServer(main.GetMainEngine())
-	return ts
-}
-
-func afterEach(ts *httptest.Server) {
+var _ = AfterSuite(func() {
 	models.Gdb.Delete(models.User{})
+	models.Gdb.Close()
 	ts.Close()
-}
+})
 
 func initEnv() {
 	path := ".env_test"
