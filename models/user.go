@@ -1,12 +1,9 @@
 package models
 
 import (
-	"crypto/rand"
-	"crypto/sha1"
-	"encoding/base64"
-	"encoding/hex"
-	"fmt"
 	"time"
+
+	"bitbucket.org/kiloops/api/utils"
 )
 
 //User model
@@ -33,28 +30,11 @@ type UserLogged struct {
 
 //BeforeCreate callback
 func (u *User) BeforeCreate() {
-	u.Password = MD5(u.Password)
-	u.Token = GenerateToken(20)
+	u.Password = utils.MD5(u.Password)
+	u.Token = utils.GenerateToken(20)
 }
 
 //LoggedIn validtes if a user is logged
 func (u User) LoggedIn(login UserLogin) bool {
-	return MD5(login.Password) == u.Password
-}
-
-//MD5 encription
-func MD5(cad string) string {
-	hash := sha1.New()
-	hash.Write([]byte(cad))
-	return hex.EncodeToString(hash.Sum(nil))
-}
-
-//GenerateToken a random
-func GenerateToken(size int) string {
-	rb := make([]byte, size)
-	_, err := rand.Read(rb)
-	if err != nil {
-		fmt.Println(err)
-	}
-	return base64.URLEncoding.EncodeToString(rb)
+	return utils.MD5(login.Password) == u.Password
 }

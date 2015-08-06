@@ -14,7 +14,7 @@ func UserCreate(c *gin.Context) {
 	models.Gdb.InTx(func(txn *gorm.DB) {
 		var userLogin models.UserLogin
 		if err := c.BindJSON(&userLogin); err == nil {
-			if validator.Validate(&userLogin) == nil {
+			if err := validator.Validate(&userLogin); err == nil {
 				user := models.User{Email: userLogin.Email, Password: userLogin.Password}
 				if txn.Save(&user).Error == nil {
 					userLogged := models.UserLogged{Email: user.Email, Token: user.Token}
@@ -29,6 +29,7 @@ func UserCreate(c *gin.Context) {
 	})
 }
 
+//UserLogin serves the route POST /users/login
 func UserLogin(c *gin.Context) {
 	models.Gdb.InTx(func(txn *gorm.DB) {
 		var userLogin models.UserLogin

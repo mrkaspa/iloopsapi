@@ -12,6 +12,7 @@ import (
 	"bitbucket.org/kiloops/api/endpoint"
 	"bitbucket.org/kiloops/api/models"
 
+	_ "github.com/go-sql-driver/mysql"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -40,10 +41,16 @@ var _ = BeforeSuite(func() {
 })
 
 var _ = AfterSuite(func() {
-	models.Gdb.Delete(models.User{})
+	// cleanDB()
 	models.Gdb.Close()
 	ts.Close()
 })
+
+func cleanDB() {
+	fmt.Println("***Cleaning***")
+	models.Gdb.Delete(models.User{})
+	models.Gdb.Delete(models.SSH{})
+}
 
 func initEnv() {
 	path := ".env_test"

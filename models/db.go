@@ -9,18 +9,19 @@ import (
 	"github.com/revel/revel"
 )
 
-// it can be used for jobs
+//KDB database connection
 type KDB struct {
 	*gorm.DB
 }
 
+//Gdb connection
 var Gdb KDB
 
-// init db
+//InitDB connection
 func InitDB() {
-	// open db
+	//open db
 	fmt.Println("*** INIT DB ***")
-	// connString := revel.Config.StringDefault("db.conn", "")
+	//connString := revel.Config.StringDefault("db.conn", "")
 	connString := os.Getenv("MYSQL_DB")
 	db, err := gorm.Open("mysql", connString)
 	if err != nil {
@@ -31,19 +32,25 @@ func InitDB() {
 	db.DB().Ping()
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(100)
-	db.AutoMigrate(&User{})
 
-	// Add unique index
+	//Migrations
+	db.AutoMigrate(&User{})
+	db.AutoMigrate(&SSH{})
+
+	//Add unique index
 	db.Model(&User{}).AddUniqueIndex("idx_user_email", "email")
+	db.Model(&SSH{}).AddUniqueIndex("idx_ssh_hash", "hash")
 	Gdb = KDB{&db}
 }
 
+//InTx executes function in a transaction
 func (kdb KDB) InTx(f func(*gorm.DB)) {
 	txn := kdb.InitTx()
 	defer Commit(txn)
 	f(txn)
 }
 
+//InitTx creates a transaction
 func (kdb KDB) InitTx() *gorm.DB {
 	txn := kdb.Begin()
 	if txn.Error != nil {
@@ -53,7 +60,7 @@ func (kdb KDB) InitTx() *gorm.DB {
 	return txn
 }
 
-// This method clears the c.Txn after each transaction
+//Commit a transaction
 func Commit(txn *gorm.DB) {
 	txn.Commit()
 	if err := txn.Error; err != nil && err != sql.ErrTxDone {
@@ -61,7 +68,7 @@ func Commit(txn *gorm.DB) {
 	}
 }
 
-// This method clears the c.Txn after each transaction, too
+//Rollback a transaction
 func Rollback(txn *gorm.DB) {
 	txn.Rollback()
 	if err := txn.Error; err != nil && err != sql.ErrTxDone {
