@@ -11,7 +11,7 @@ type SSH struct {
 	ID        int       `gorm:"primary_key" json:"id"`
 	PublicKey string    `sql:"type:text" json:"public_key" validate:"nonzero"`
 	Hash      string    `sql:"type:varchar(500)" json:"-"`
-	UserID    int       `json:"user_id" validate:"nonzero"`
+	UserID    int       `json:"user_id"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
