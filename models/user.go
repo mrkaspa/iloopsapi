@@ -77,12 +77,12 @@ func (u User) CreateProject(txn *gorm.DB, project *Project) error {
 
 func (u User) HasAdminAccessTo(projectID int) bool {
 	var count int
-	Gdb.Where("user_id = ? and project_id = ? and role = ?", u.ID, projectID, Creator).Count(&count)
+	Gdb.Model(UsersProjects{}).Where("user_id = ? and project_id = ? and role = ?", u.ID, projectID, Creator).Count(&count)
 	return count > 0
 }
 
 func (u User) HasWriteAccessTo(projectID int) bool {
 	var count int
-	Gdb.Where("user_id = ? and project_id = ? and role in (?,?)", u.ID, projectID, Creator, Collaborator).Count(&count)
+	Gdb.Model(UsersProjects{}).Where("user_id = ? and project_id = ? and role in (?,?)", u.ID, projectID, Creator, Collaborator).Count(&count)
 	return count > 0
 }
