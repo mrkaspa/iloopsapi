@@ -50,18 +50,21 @@ func ProjectCreate(c *gin.Context) {
 
 //ProjectDestroy serves the route DELETE /projects/:id
 func ProjectDestroy(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
-	var project models.Project
-	models.Gdb.First(&project, id)
-	if project.ID != 0 {
-		if models.Gdb.Delete(&project).Error != nil {
-			c.JSON(http.StatusOK, project)
+	models.Gdb.InTx(func(txn *gorm.DB) {
+		id, _ := strconv.Atoi(c.Param("id"))
+		var project models.Project
+		txn.First(&project, id)
+		if project.ID != 0 {
+			if err := txn.Delete(&project).Error; err == nil {
+				project.DeleteRels(txn)
+				c.JSON(http.StatusOK, project)
+			} else {
+				c.JSON(http.StatusBadRequest, "Could not delete the project")
+			}
 		} else {
-			c.JSON(http.StatusBadRequest, "Could not delete the project")
+			c.JSON(http.StatusNotFound, "")
 		}
-	} else {
-		c.JSON(http.StatusNotFound, "")
-	}
+	})
 }
 
 //ProjectLeave serves the route PUT /projects/:id

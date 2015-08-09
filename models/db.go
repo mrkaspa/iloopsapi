@@ -46,9 +46,9 @@ func InitDB() {
 	db.Model(&UsersProjects{}).AddUniqueIndex("idx_user_project", "user_id", "project_id")
 
 	//Add FK
-	db.Model(&SSH{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
-	db.Model(&UsersProjects{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
-	db.Model(&UsersProjects{}).AddForeignKey("project_id", "projects(id)", "CASCADE", "CASCADE")
+	// db.Model(&SSH{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
+	// db.Model(&UsersProjects{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
+	// db.Model(&UsersProjects{}).AddForeignKey("project_id", "projects(id)", "CASCADE", "CASCADE")
 
 	Gdb = KDB{&db}
 }
