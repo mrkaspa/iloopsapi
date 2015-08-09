@@ -15,9 +15,9 @@ func GetMainEngine() *gin.Engine {
 		v1.DELETE("ssh/:id", Authorized(), SSHDestroy)
 
 		v1.GET("projects", Authorized(), ProjectList)
-		v1.GET("projects/:id", Authorized(), ProjectShow)
+		v1.GET("projects/:id", Authorized(), WriteAccessToProject(), ProjectShow)
 		v1.POST("projects", Authorized(), ProjectCreate)
-		v1.DELETE("projects/:id", Authorized(), ProjectDestroy)
+		v1.DELETE("projects/:id", Authorized(), AdminAccessToProject(), ProjectDestroy)
 	}
 
 	return router
