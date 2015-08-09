@@ -19,17 +19,13 @@ func ProjectList(c *gin.Context) {
 
 //ProjectShow serves the route GET /projects/:id
 func ProjectShow(c *gin.Context) {
-	user := userSession(c)
-	var projectExist int
 	id, _ := strconv.Atoi(c.Param("id"))
-	if models.Gdb.Model(models.UsersProjects{}).Where("user_id = ? and project_id = ?", user.ID, id).Count(&projectExist); projectExist > 0 {
-		var project models.Project
-		models.Gdb.First(&project, id)
-		if project.ID != 0 {
-			c.JSON(http.StatusOK, project)
-		} else {
-			c.JSON(http.StatusNotFound, "")
-		}
+	var project models.Project
+	models.Gdb.First(&project, id)
+	if project.ID != 0 {
+		c.JSON(http.StatusOK, project)
+	} else {
+		c.JSON(http.StatusNotFound, "")
 	}
 }
 
@@ -54,7 +50,18 @@ func ProjectCreate(c *gin.Context) {
 
 //ProjectDestroy serves the route DELETE /projects/:id
 func ProjectDestroy(c *gin.Context) {
-
+	id, _ := strconv.Atoi(c.Param("id"))
+	var project models.Project
+	models.Gdb.First(&project, id)
+	if project.ID != 0 {
+		if models.Gdb.Delete(&project).Error != nil {
+			c.JSON(http.StatusOK, project)
+		} else {
+			c.JSON(http.StatusBadRequest, "Could not delete the project")
+		}
+	} else {
+		c.JSON(http.StatusNotFound, "")
+	}
 }
 
 //ProjectLeave serves the route PUT /projects/:id

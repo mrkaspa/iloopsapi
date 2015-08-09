@@ -67,6 +67,17 @@ var _ = Describe("Projects", func() {
 
 		})
 
+		Describe("DELETE /projects/:id", func() {
+
+			FIt("deletes a project", func() {
+				resp, _ := client.CallRequestWithHeaders("DELETE", fmt.Sprintf("/projects/%d", project.ID), bytes.NewReader(emptyJSON), authHeaders(user))
+				Expect(resp.StatusCode).To(Equal(http.StatusOK))
+				projectsOwned := user.OwnedProjects()
+				Expect(len(projectsOwned)).To(Equal(0))
+			})
+
+		})
+
 	})
 
 })
