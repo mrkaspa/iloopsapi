@@ -1,7 +1,10 @@
 package models
 
 import (
+	"errors"
 	"time"
+
+	"github.com/jinzhu/gorm"
 
 	"bitbucket.org/kiloops/api/utils"
 )
@@ -37,4 +40,37 @@ func (u *User) BeforeCreate() {
 //LoggedIn validtes if a user is logged
 func (u User) LoggedIn(login UserLogin) bool {
 	return utils.MD5(login.Password) == u.Password
+}
+
+func (u User) AllProjects() []UsersProjects {
+	userProjects := []UsersProjects{}
+	Gdb.Where("user_id = ?", u.ID).Find(&userProjects)
+	return userProjects
+}
+
+func (u User) OwnedProjects() []UsersProjects {
+	userProjects := []UsersProjects{}
+	Gdb.Where("user_id = ? and role = ?", u.ID, Creator).Find(&userProjects)
+	return userProjects
+}
+
+func (u User) CollaboratorProjects() []UsersProjects {
+	userProjects := []UsersProjects{}
+	Gdb.Where("user_id = ? and role = ?", u.ID, Collaborator).Find(&userProjects)
+	return userProjects
+}
+
+func (u User) CreateProject(txn *gorm.DB, project *Project) error {
+	if txn.Save(&project).Error == nil {
+		//Creates a relation between the user and the project
+		userProject := UsersProjects{Role: Creator, UserID: u.ID, ProjectID: project.ID}
+		if txn.Save(&userProject).Error == nil {
+			return nil
+		} else {
+			txn.Rollback()
+			return errors.New("User Project can't be saved")
+		}
+	} else {
+		return errors.New("Project can't be saved")
+	}
 }

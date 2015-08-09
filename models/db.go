@@ -36,10 +36,14 @@ func InitDB() {
 	//Migrations
 	db.AutoMigrate(&User{})
 	db.AutoMigrate(&SSH{})
+	db.AutoMigrate(&Project{})
+	db.AutoMigrate(&UsersProjects{})
 
 	//Add unique index
 	db.Model(&User{}).AddUniqueIndex("idx_user_email", "email")
 	db.Model(&SSH{}).AddUniqueIndex("idx_ssh_hash", "hash")
+	db.Model(&Project{}).AddUniqueIndex("idx_project_slug", "slug")
+	db.Model(&UsersProjects{}).AddUniqueIndex("idx_user_project", "user_id", "project_id")
 	Gdb = KDB{&db}
 }
 

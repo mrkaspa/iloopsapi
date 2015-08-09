@@ -14,10 +14,10 @@ func GetMainEngine() *gin.Engine {
 		v1.POST("ssh", Authorized(), SSHCreate)
 		v1.DELETE("ssh/:id", Authorized(), SSHDestroy)
 
-		// v1.GET("projects", ProjectList)
-		// v1.GET("projects/:id", ProjectShow)
-		// v1.POST("projects", ProjectCreate)
-		// v1.DELETE("projects/:id", ProjectDestroy)
+		v1.GET("projects", Authorized(), ProjectList)
+		v1.GET("projects/:id", Authorized(), ProjectShow)
+		v1.POST("projects", Authorized(), ProjectCreate)
+		v1.DELETE("projects/:id", Authorized(), ProjectDestroy)
 	}
 
 	return router

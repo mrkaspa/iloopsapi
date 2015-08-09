@@ -9,10 +9,11 @@ const (
 
 //UsersProjects ManyToMany rel
 type UsersProjects struct {
-	ID        int `gorm:"primary_key" json:"id"`
-	Role      int `json:"role"`
-	ProjectID int `json:"project_id"`
-	UserID    int `json:"user_id"`
+	ID        int     `gorm:"primary_key" json:"id"`
+	Role      int     `json:"role"`
+	ProjectID int     `json:"project_id"`
+	UserID    int     `json:"user_id"`
+	Project   Project `json:"-"`
 
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`

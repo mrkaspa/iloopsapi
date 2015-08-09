@@ -44,7 +44,7 @@ var _ = Describe("SSH", func() {
 		var ssh models.SSH
 
 		BeforeEach(func() {
-			ssh = addSSH(&user)
+			ssh = addSSH(user)
 		})
 
 		It("create an ssh", func() {

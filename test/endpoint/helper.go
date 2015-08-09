@@ -52,7 +52,7 @@ func saveUser() models.User {
 	return user
 }
 
-func addSSH(user *models.User) models.SSH {
+func addSSH(user models.User) models.SSH {
 	sshKey := `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCadJM0DdJotRnSWW7coFcCxMW1cCZIJqkyW3wMQoUOU2VHuLExh44tDpSAiz2EEeFlqJ5hI67ZI+3bSx7puKSr44l78H/Kb8UDLidAUao7JZoo0thq7bAVesGr+8aligmULvxH3sQqstI9yNcifJ56jHUVTB14PslBmhA56pmGOva0ojmdt9l2aBy4LxQBDc5Js+AcPlfC2zXE7rtaiafB/M3992V+7CEisbAv7CpsI3SPdpW2p4mfR1zMVpf4Jt6lQJW6Sr53/bzAP4/Tif3fgbZhoSL8qnnLi3556gWi90FwFhCoqqDR/lN3sxJQx5NxxCF8mbNgpmS5qDptFyF michel.ingesoft@gmail.com`
 	ssh := models.SSH{PublicKey: sshKey, UserID: user.ID}
 	models.Gdb.InTx(func(txn *gorm.DB) {
@@ -63,7 +63,28 @@ func addSSH(user *models.User) models.SSH {
 	return ssh
 }
 
-func debugResponse(resp http.Response) {
+func addProject(user models.User) models.Project {
+	project := models.Project{Name: "Demo Project"}
+	models.Gdb.InTx(func(txn *gorm.DB) {
+		if user.CreateProject(txn, &project) != nil {
+			panic("error creating the project")
+		}
+	})
+	return project
+}
+
+func getBodyJSON(resp *http.Response, i interface{}) {
+	defer resp.Body.Close()
+	if jsonDataFromHTTP, err := ioutil.ReadAll(resp.Body); err == nil {
+		if err := json.Unmarshal([]byte(jsonDataFromHTTP), &i); err != nil {
+			panic(err)
+		}
+	} else {
+		panic(err)
+	}
+}
+
+func debugResponse(resp *http.Response) {
 	defer resp.Body.Close()
 	contents, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println("*****************")

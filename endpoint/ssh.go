@@ -16,8 +16,7 @@ func SSHCreate(c *gin.Context) {
 		var ssh models.SSH
 		if err := c.BindJSON(&ssh); err == nil {
 			if err := validator.Validate(&ssh); err == nil {
-				userParam, _ := c.Get("userSession")
-				user := userParam.(models.User)
+				user := userSession(c)
 				ssh.UserID = user.ID
 				if txn.Save(&ssh).Error == nil {
 					c.JSON(http.StatusOK, "")

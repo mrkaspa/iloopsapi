@@ -49,6 +49,8 @@ func cleanDB() {
 	fmt.Println("***Cleaning***")
 	models.Gdb.Delete(models.User{})
 	models.Gdb.Delete(models.SSH{})
+	models.Gdb.Delete(models.Project{})
+	models.Gdb.Delete(models.UsersProjects{})
 }
 
 func initEnv() {
