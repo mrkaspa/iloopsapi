@@ -4,8 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/jinzhu/gorm"
-
+	"bitbucket.org/kiloops/api/models"
 	"bitbucket.org/kiloops/api/utils"
 )
 
@@ -60,19 +59,23 @@ func (u User) CollaboratorProjects() []UsersProjects {
 	return userProjects
 }
 
-func (u User) CreateProject(txn *gorm.DB, project *Project) error {
+func (u User) CreateProject(txn *models.KDB, project *Project) error {
 	if txn.Save(&project).Error == nil {
 		//Creates a relation between the user and the project
 		userProject := UsersProjects{Role: Creator, UserID: u.ID, ProjectID: project.ID}
 		if txn.Save(&userProject).Error == nil {
 			return nil
 		} else {
-			txn.Rollback()
+			txn.KRollback()
 			return errors.New("User Project can't be saved")
 		}
 	} else {
 		return errors.New("Project can't be saved")
 	}
+}
+
+func (u User) LeaveProject(txn *models.KDB, projectID int) error {
+	return txn.Where("user_id = ?, project_id = ?", u.ID, projectID).Delete(UsersProjects{}).Error
 }
 
 func (u User) HasAdminAccessTo(projectID int) bool {

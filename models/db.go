@@ -12,6 +12,7 @@ import (
 //KDB database connection
 type KDB struct {
 	*gorm.DB
+	Rolled bool
 }
 
 //Gdb connection
@@ -50,38 +51,42 @@ func InitDB() {
 	// db.Model(&UsersProjects{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
 	// db.Model(&UsersProjects{}).AddForeignKey("project_id", "projects(id)", "CASCADE", "CASCADE")
 
-	Gdb = KDB{&db}
+	Gdb = KDB{&db, false}
 }
 
 //InTx executes function in a transaction
-func (kdb KDB) InTx(f func(*gorm.DB)) {
+func (kdb KDB) InTx(f func(*KDB)) {
 	txn := kdb.InitTx()
-	defer Commit(txn)
+	defer kdb.KCommit()
 	f(txn)
 }
 
 //InitTx creates a transaction
-func (kdb KDB) InitTx() *gorm.DB {
+func (kdb *KDB) InitTx() *KDB {
 	txn := kdb.Begin()
 	if txn.Error != nil {
 		fmt.Println(txn.Error)
 		panic(txn.Error)
 	}
-	return txn
+	return &KDB{txn, false}
 }
 
-//Commit a transaction
-func Commit(txn *gorm.DB) {
-	txn.Commit()
-	if err := txn.Error; err != nil && err != sql.ErrTxDone {
-		panic(err)
+//KCommit a transaction
+func (kdb *KDB) KCommit() {
+	if !kdb.Rolled {
+		kdb.Commit()
+		if err := kdb.Error; err != nil && err != sql.ErrTxDone {
+			panic(err)
+		}
 	}
 }
 
-//Rollback a transaction
-func Rollback(txn *gorm.DB) {
-	txn.Rollback()
-	if err := txn.Error; err != nil && err != sql.ErrTxDone {
+//KRollback a transaction
+func (kdb *KDB) KRollback() {
+	kdb.Rollback()
+	if err := kdb.Error; err != nil && err != sql.ErrTxDone {
 		panic(err)
+	} else {
+		kdb.Rolled = true
 	}
 }

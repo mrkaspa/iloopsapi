@@ -6,7 +6,6 @@ import (
 
 	"bitbucket.org/kiloops/api/models"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 	"gopkg.in/validator.v2"
 )
 
@@ -31,7 +30,7 @@ func ProjectShow(c *gin.Context) {
 
 //ProjectCreate serves the route POST /projects
 func ProjectCreate(c *gin.Context) {
-	models.Gdb.InTx(func(txn *gorm.DB) {
+	models.Gdb.InTx(func(txn *models.KDB) {
 		var project models.Project
 		if err := c.BindJSON(&project); err == nil {
 			if err := validator.Validate(&project); err == nil {
@@ -39,7 +38,7 @@ func ProjectCreate(c *gin.Context) {
 				if err := user.CreateProject(txn, &project); err == nil {
 					c.JSON(http.StatusOK, project)
 				} else {
-					errorJSON(c, err.Error())
+					c.JSON(http.StatusBadRequest, "Couldn't create the project")
 				}
 			} else {
 				c.JSON(http.StatusBadRequest, err.(validator.ErrorMap))
@@ -50,7 +49,7 @@ func ProjectCreate(c *gin.Context) {
 
 //ProjectDestroy serves the route DELETE /projects/:id
 func ProjectDestroy(c *gin.Context) {
-	models.Gdb.InTx(func(txn *gorm.DB) {
+	models.Gdb.InTx(func(txn *models.KDB) {
 		id, _ := strconv.Atoi(c.Param("id"))
 		var project models.Project
 		txn.First(&project, id)
@@ -69,7 +68,19 @@ func ProjectDestroy(c *gin.Context) {
 
 //ProjectLeave serves the route PUT /projects/:id
 func ProjectLeave(c *gin.Context) {
-
+	models.Gdb.InTx(func(txn *models.KDB) {
+		user := userSession(c)
+		id, _ := strconv.Atoi(c.Param("id"))
+		if !user.HasAdminAccessTo(id) {
+			if err := user.LeaveProject(txn, id); err == nil {
+				c.JSON(http.StatusOK, "")
+			} else {
+				c.JSON(http.StatusBadRequest, "Could not leave the project")
+			}
+		} else {
+			c.JSON(http.StatusForbidden, "")
+		}
+	})
 }
 
 //ProjectAddUser serves the route PUT /projects/:id

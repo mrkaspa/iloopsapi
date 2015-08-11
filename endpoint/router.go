@@ -17,8 +17,11 @@ func GetMainEngine() *gin.Engine {
 			auth.DELETE("ssh/:id", SSHDestroy)
 
 			auth.GET("projects", ProjectList)
-			auth.GET("projects/:id", WriteAccessToProject(), ProjectShow)
 			auth.POST("projects", ProjectCreate)
+			auth.GET("projects/:id", WriteAccessToProject(), ProjectShow)
+			auth.PUT("projects/:id/leave", WriteAccessToProject(), ProjectLeave)
+			auth.PUT("projects/:id/add", AdminAccessToProject(), ProjectAddUser)
+			auth.PUT("projects/:id/delegate", AdminAccessToProject(), ProjectDelegate)
 			auth.DELETE("projects/:id", AdminAccessToProject(), ProjectDestroy)
 		}
 	}

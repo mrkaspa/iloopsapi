@@ -6,6 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+//Project on the system
 type Project struct {
 	ID     int    `gorm:"primary_key" json:"id"`
 	Slug   string `json:"slug"`
@@ -16,6 +17,7 @@ type Project struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+//DeleteRels UsersProjects
 func (p *Project) DeleteRels(txn *gorm.DB) {
 	txn.Where("project_id = ?", p.ID).Delete(UsersProjects{})
 }
