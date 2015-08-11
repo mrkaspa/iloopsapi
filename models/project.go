@@ -1,10 +1,6 @@
 package models
 
-import (
-	"time"
-
-	"github.com/jinzhu/gorm"
-)
+import "time"
 
 //Project on the system
 type Project struct {
@@ -18,6 +14,6 @@ type Project struct {
 }
 
 //DeleteRels UsersProjects
-func (p *Project) DeleteRels(txn *gorm.DB) {
+func (p *Project) DeleteRels(txn *KDB) {
 	txn.Where("project_id = ?", p.ID).Delete(UsersProjects{})
 }

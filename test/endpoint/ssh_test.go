@@ -54,7 +54,7 @@ var _ = Describe("SSH", func() {
 
 		It("throws error when delete an unknown ssh", func() {
 			resp, _ := client.CallRequestWithHeaders("DELETE", "/ssh/-1", bytes.NewReader(emptyJSON), authHeaders(user))
-			Expect(resp.StatusCode).To(Equal(http.StatusBadRequest))
+			Expect(resp.StatusCode).To(Equal(http.StatusNotFound))
 		})
 
 	})

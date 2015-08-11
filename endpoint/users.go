@@ -38,7 +38,7 @@ func UserLogin(c *gin.Context) {
 				userLogged := models.UserLogged{Email: user.Email, Token: user.Token}
 				c.JSON(http.StatusOK, userLogged)
 			} else {
-				c.JSON(http.StatusNotFound, "User not found")
+				c.JSON(http.StatusBadRequest, "User not found")
 			}
 		}
 	})

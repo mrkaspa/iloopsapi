@@ -4,7 +4,6 @@ import (
 	"errors"
 	"time"
 
-	"bitbucket.org/kiloops/api/models"
 	"bitbucket.org/kiloops/api/utils"
 )
 
@@ -59,7 +58,7 @@ func (u User) CollaboratorProjects() []UsersProjects {
 	return userProjects
 }
 
-func (u User) CreateProject(txn *models.KDB, project *Project) error {
+func (u User) CreateProject(txn *KDB, project *Project) error {
 	if txn.Save(&project).Error == nil {
 		//Creates a relation between the user and the project
 		userProject := UsersProjects{Role: Creator, UserID: u.ID, ProjectID: project.ID}
@@ -74,7 +73,7 @@ func (u User) CreateProject(txn *models.KDB, project *Project) error {
 	}
 }
 
-func (u User) LeaveProject(txn *models.KDB, projectID int) error {
+func (u User) LeaveProject(txn *KDB, projectID int) error {
 	return txn.Where("user_id = ?, project_id = ?", u.ID, projectID).Delete(UsersProjects{}).Error
 }
 

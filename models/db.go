@@ -57,7 +57,7 @@ func InitDB() {
 //InTx executes function in a transaction
 func (kdb KDB) InTx(f func(*KDB)) {
 	txn := kdb.InitTx()
-	defer kdb.KCommit()
+	defer txn.KCommit()
 	f(txn)
 }
 
