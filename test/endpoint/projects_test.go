@@ -78,6 +78,19 @@ var _ = Describe("Projects", func() {
 
 		})
 
+		Describe("PUT /projects/:id/leave", func() {
+
+			FIt("deletes a project", func() {
+				resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%d/leave", project.ID), bytes.NewReader(emptyJSON), authHeaders(user))
+				Expect(resp.StatusCode).To(Equal(http.StatusForbidden))
+			})
+
+		})
+
+		Context("Adding another user to the project", func() {
+
+		})
+
 	})
 
 })

@@ -88,3 +88,12 @@ func (u User) HasWriteAccessTo(projectID int) bool {
 	Gdb.Model(UsersProjects{}).Where("user_id = ? and project_id = ? and role in (?,?)", u.ID, projectID, Creator, Collaborator).Count(&count)
 	return count > 0
 }
+
+func FindUser(id int) (*User, error) {
+	var user User
+	Gdb.First(&user, id)
+	if user.ID != 0 {
+		return &user, nil
+	}
+	return nil, errors.New("User not found")
+}

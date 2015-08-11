@@ -19,9 +19,7 @@ func ProjectList(c *gin.Context) {
 //ProjectShow serves the route GET /projects/:id
 func ProjectShow(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	var project models.Project
-	models.Gdb.First(&project, id)
-	if project.ID != 0 {
+	if project, err := models.FindProject(id); err == nil {
 		c.JSON(http.StatusOK, project)
 	} else {
 		c.JSON(http.StatusNotFound, "")
@@ -83,12 +81,45 @@ func ProjectLeave(c *gin.Context) {
 	})
 }
 
-//ProjectAddUser serves the route PUT /projects/:id
+//ProjectAddUser serves the route PUT /projects/:id/add/:user_id
 func ProjectAddUser(c *gin.Context) {
-
+	models.Gdb.InTx(func(txn *models.KDB) {
+		id, _ := strconv.Atoi(c.Param("id"))
+		userID, _ := strconv.Atoi(c.Param("user_id"))
+		if project, err := models.FindProject(id); err == nil {
+			if user, err := models.FindUser(userID); err == nil {
+				if err := project.AddUser(txn, user); err == nil {
+					c.JSON(http.StatusOK, "")
+				} else {
+					c.JSON(http.StatusBadRequest, "")
+				}
+			} else {
+				c.JSON(http.StatusNotFound, "")
+			}
+		} else {
+			c.JSON(http.StatusNotFound, "")
+		}
+	})
 }
 
-//ProjectDelegate serves the route PUT /projects/:id
+//ProjectDelegate serves the route PUT /projects/:id/delegate/:user_id
 func ProjectDelegate(c *gin.Context) {
-
+	models.Gdb.InTx(func(txn *models.KDB) {
+		id, _ := strconv.Atoi(c.Param("id"))
+		userAdmin := userSession(c)
+		userID, _ := strconv.Atoi(c.Param("user_id"))
+		if project, err := models.FindProject(id); err == nil {
+			if user, err := models.FindUser(userID); err == nil {
+				if err := project.DelegateUser(txn, userAdmin, user); err == nil {
+					c.JSON(http.StatusOK, "")
+				} else {
+					c.JSON(http.StatusBadRequest, "")
+				}
+			} else {
+				c.JSON(http.StatusNotFound, "")
+			}
+		} else {
+			c.JSON(http.StatusNotFound, "")
+		}
+	})
 }

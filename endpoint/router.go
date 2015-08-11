@@ -20,8 +20,8 @@ func GetMainEngine() *gin.Engine {
 			auth.POST("projects", ProjectCreate)
 			auth.GET("projects/:id", WriteAccessToProject(), ProjectShow)
 			auth.PUT("projects/:id/leave", WriteAccessToProject(), ProjectLeave)
-			auth.PUT("projects/:id/add", AdminAccessToProject(), ProjectAddUser)
-			auth.PUT("projects/:id/delegate", AdminAccessToProject(), ProjectDelegate)
+			auth.PUT("projects/:id/add/:user_id", AdminAccessToProject(), ProjectAddUser)
+			auth.PUT("projects/:id/delegate/:user_id", AdminAccessToProject(), ProjectDelegate)
 			auth.DELETE("projects/:id", AdminAccessToProject(), ProjectDestroy)
 		}
 	}
