@@ -30,9 +30,10 @@ type UserLogged struct {
 }
 
 //BeforeCreate callback
-func (u *User) BeforeCreate() {
+func (u *User) BeforeCreate() error {
 	u.Password = utils.MD5(u.Password)
 	u.Token = utils.GenerateToken(20)
+	return nil
 }
 
 //LoggedIn validtes if a user is logged
@@ -60,6 +61,7 @@ func (u User) CollaboratorProjects() []UsersProjects {
 
 func (u User) CreateProject(txn *KDB, project *Project) error {
 	if txn.Save(&project).Error == nil {
+		project.GenerateSlug(txn)
 		//Creates a relation between the user and the project
 		userProject := UsersProjects{Role: Creator, UserID: u.ID, ProjectID: project.ID}
 		if txn.Save(&userProject).Error == nil {

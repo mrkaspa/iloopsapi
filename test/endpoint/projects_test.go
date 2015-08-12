@@ -22,13 +22,14 @@ var _ = Describe("Projects", func() {
 
 	Describe("POST /projects", func() {
 
-		It("create a project", func() {
+		FIt("create a project", func() {
 			project := models.Project{Name: "Demo Project"}
 			projectJSON, _ := json.Marshal(project)
 			resp, _ := client.CallRequestWithHeaders("POST", "/projects", bytes.NewReader(projectJSON), authHeaders(user))
 			Expect(resp.StatusCode).To(Equal(http.StatusOK))
 			getBodyJSON(resp, &project)
 			Expect(project.Slug).ToNot(BeNil())
+			Expect(project.Slug).ToNot(BeEmpty())
 			projectsOwned := user.OwnedProjects()
 			Expect(len(projectsOwned)).To(Equal(1))
 		})

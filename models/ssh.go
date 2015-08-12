@@ -16,8 +16,9 @@ type SSH struct {
 }
 
 //BeforeCreate callback
-func (s *SSH) BeforeCreate() {
+func (s *SSH) BeforeCreate() error {
 	s.Hash = utils.MD5(s.PublicKey)
+	return nil
 }
 
 //TableName for SSH

@@ -2,18 +2,26 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"time"
+
+	"github.com/gosimple/slug"
 )
 
 //Project on the system
 type Project struct {
-	ID     int    `gorm:"primary_key" json:"id"`
-	Slug   string `json:"slug"`
-	Name   string `json:"name"`
-	UserID int    `json:"user_id"`
+	ID   int    `gorm:"primary_key" json:"id"`
+	Slug string `json:"slug"`
+	Name string `json:"name"`
 
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+}
+
+func (p *Project) GenerateSlug(txn *KDB) error {
+	nameSlug := slug.Make(p.Name)
+	p.Slug = fmt.Sprintf("%s-%d", nameSlug, p.ID)
+	return txn.Save(p).Error
 }
 
 //DeleteRels UsersProjects
