@@ -1,6 +1,7 @@
 package endpoint
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -64,7 +65,7 @@ func ProjectDestroy(c *gin.Context) {
 	})
 }
 
-//ProjectLeave serves the route PUT /projects/:id
+//ProjectLeave serves the route PUT /projects/:id/leave
 func ProjectLeave(c *gin.Context) {
 	models.Gdb.InTx(func(txn *models.KDB) {
 		user := userSession(c)
@@ -73,6 +74,7 @@ func ProjectLeave(c *gin.Context) {
 			if err := user.LeaveProject(txn, id); err == nil {
 				c.JSON(http.StatusOK, "")
 			} else {
+				fmt.Println(err)
 				c.JSON(http.StatusBadRequest, "Could not leave the project")
 			}
 		} else {

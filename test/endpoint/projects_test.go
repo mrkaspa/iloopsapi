@@ -80,7 +80,7 @@ var _ = Describe("Projects", func() {
 
 		Describe("PUT /projects/:id/leave", func() {
 
-			FIt("deletes a project", func() {
+			It("an admin tries to leave a project", func() {
 				resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%d/leave", project.ID), bytes.NewReader(emptyJSON), authHeaders(user))
 				Expect(resp.StatusCode).To(Equal(http.StatusForbidden))
 			})
@@ -88,6 +88,51 @@ var _ = Describe("Projects", func() {
 		})
 
 		Context("Adding another user to the project", func() {
+
+			var otherUser models.User
+
+			BeforeEach(func() {
+				otherUser = saveOtherUser()
+			})
+
+			Describe("PUT /projects/:id/add/:user_id", func() {
+
+				It("adds another user to the project", func() {
+					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%d/add/%d", project.ID, otherUser.ID), bytes.NewReader(emptyJSON), authHeaders(user))
+					Expect(resp.StatusCode).To(Equal(http.StatusOK))
+					projectsCollab := otherUser.CollaboratorProjects()
+					Expect(len(projectsCollab)).To(Equal(1))
+				})
+
+			})
+
+			Describe("PUT /projects/:id/delegate/:user_id", func() {
+
+				It("delegates admin role to another user", func() {
+					models.Gdb.InTx(func(txn *models.KDB) {
+						project.AddUser(txn, &otherUser)
+					})
+					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%d/delegate/%d", project.ID, otherUser.ID), bytes.NewReader(emptyJSON), authHeaders(user))
+					Expect(resp.StatusCode).To(Equal(http.StatusOK))
+					projectsCollab := user.CollaboratorProjects()
+					Expect(len(projectsCollab)).To(Equal(1))
+					projectsOwned := otherUser.OwnedProjects()
+					Expect(len(projectsOwned)).To(Equal(1))
+				})
+
+			})
+
+			Describe("PUT /projects/:id/leave", func() {
+
+				It("an user leaves a project", func() {
+					models.Gdb.InTx(func(txn *models.KDB) {
+						project.AddUser(txn, &otherUser)
+					})
+					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%d/leave", project.ID), bytes.NewReader(emptyJSON), authHeaders(otherUser))
+					Expect(resp.StatusCode).To(Equal(http.StatusOK))
+				})
+
+			})
 
 		})
 

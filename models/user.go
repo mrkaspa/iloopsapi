@@ -74,12 +74,18 @@ func (u User) CreateProject(txn *KDB, project *Project) error {
 }
 
 func (u User) LeaveProject(txn *KDB, projectID int) error {
-	return txn.Where("user_id = ?, project_id = ?", u.ID, projectID).Delete(UsersProjects{}).Error
+	return txn.Where("user_id = ? and project_id = ?", u.ID, projectID).Delete(UsersProjects{}).Error
 }
 
 func (u User) HasAdminAccessTo(projectID int) bool {
 	var count int
 	Gdb.Model(UsersProjects{}).Where("user_id = ? and project_id = ? and role = ?", u.ID, projectID, Creator).Count(&count)
+	return count > 0
+}
+
+func (u User) HasCollaboratorAccessTo(projectID int) bool {
+	var count int
+	Gdb.Model(UsersProjects{}).Where("user_id = ? and project_id = ? and role = ?", u.ID, projectID, Collaborator).Count(&count)
 	return count > 0
 }
 

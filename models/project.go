@@ -29,16 +29,21 @@ func (p *Project) AddUser(txn *KDB, user *User) error {
 
 //DelegateUser sets an user as Creator
 func (p *Project) DelegateUser(txn *KDB, userAdmin, user *User) error {
-	if err := txn.Model(UsersProjects{}).Where("user_id = ? and project_id = ?", userAdmin.ID, p.ID).Update("role", Collaborator).Error; err == nil {
-		if err := txn.Model(UsersProjects{}).Where("user_id = ? and project_id = ?", user.ID, p.ID).Update("role", Creator).Error; err == nil {
-			return nil
+	if user.HasCollaboratorAccessTo(p.ID) {
+		if err := txn.Model(UsersProjects{}).Where("user_id = ? and project_id = ?", userAdmin.ID, p.ID).Update("role", Collaborator).Error; err == nil {
+			if err := txn.Model(UsersProjects{}).Where("user_id = ? and project_id = ?", user.ID, p.ID).Update("role", Creator).Error; err == nil {
+				return nil
+			} else {
+				txn.KRollback()
+				return err
+			}
 		} else {
 			txn.KRollback()
 			return err
 		}
 	} else {
 		txn.KRollback()
-		return err
+		return errors.New("The user doesn't have collaborator access to the project")
 	}
 }
 

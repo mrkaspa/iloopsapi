@@ -3,7 +3,8 @@ package models
 import "time"
 
 const (
-	Creator = iota
+	_ = iota
+	Creator
 	Collaborator
 )
 
