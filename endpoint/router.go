@@ -24,6 +24,11 @@ func GetMainEngine() *gin.Engine {
 			auth.PUT("projects/:id/delegate/:user_id", AdminAccessToProject(), ProjectDelegate)
 			auth.DELETE("projects/:id", AdminAccessToProject(), ProjectDestroy)
 		}
+
+		internal := v1.Group("")
+		{
+			internal.POST("/executions/:project_id", ExecutionCreate)
+		}
 	}
 
 	return router

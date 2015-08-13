@@ -39,6 +39,7 @@ func InitDB() {
 	db.AutoMigrate(&SSH{})
 	db.AutoMigrate(&Project{})
 	db.AutoMigrate(&UsersProjects{})
+	db.AutoMigrate(&Execution{})
 
 	//Add unique index
 	db.Model(&User{}).AddUniqueIndex("idx_user_email", "email")

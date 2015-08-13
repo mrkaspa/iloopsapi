@@ -22,7 +22,7 @@ var _ = Describe("Projects", func() {
 
 	Describe("POST /projects", func() {
 
-		FIt("create a project", func() {
+		It("create a project", func() {
 			project := models.Project{Name: "Demo Project"}
 			projectJSON, _ := json.Marshal(project)
 			resp, _ := client.CallRequestWithHeaders("POST", "/projects", bytes.NewReader(projectJSON), authHeaders(user))
