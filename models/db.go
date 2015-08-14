@@ -9,14 +9,8 @@ import (
 	"github.com/revel/revel"
 )
 
-//KDB database connection
-type KDB struct {
-	*gorm.DB
-	Rolled bool
-}
-
 //Gdb connection
-var Gdb KDB
+var Gdb *gorm.DB
 
 //InitDB connection
 func InitDB() {
@@ -48,46 +42,25 @@ func InitDB() {
 	db.Model(&UsersProjects{}).AddUniqueIndex("idx_user_project", "user_id", "project_id")
 
 	//Add FK
-	// db.Model(&SSH{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
-	// db.Model(&UsersProjects{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
-	// db.Model(&UsersProjects{}).AddForeignKey("project_id", "projects(id)", "CASCADE", "CASCADE")
-
-	Gdb = KDB{&db, false}
+	db.Model(&SSH{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
+	db.Model(&UsersProjects{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
+	db.Model(&UsersProjects{}).AddForeignKey("project_id", "projects(id)", "CASCADE", "CASCADE")
+	db.Model(&Execution{}).AddForeignKey("project_id", "projects(id)", "RESTRICT", "RESTRICT")
+	Gdb = &db
 }
 
 //InTx executes function in a transaction
-func (kdb KDB) InTx(f func(*KDB)) {
-	txn := kdb.InitTx()
-	defer txn.KCommit()
-	f(txn)
-}
-
-//InitTx creates a transaction
-func (kdb *KDB) InitTx() *KDB {
-	txn := kdb.Begin()
+func InTx(f func(*gorm.DB) bool) {
+	txn := Gdb.Begin()
 	if txn.Error != nil {
-		fmt.Println(txn.Error)
 		panic(txn.Error)
 	}
-	return &KDB{txn, false}
-}
-
-//KCommit a transaction
-func (kdb *KDB) KCommit() {
-	if !kdb.Rolled {
-		kdb.Commit()
-		if err := kdb.Error; err != nil && err != sql.ErrTxDone {
-			panic(err)
-		}
-	}
-}
-
-//KRollback a transaction
-func (kdb *KDB) KRollback() {
-	kdb.Rollback()
-	if err := kdb.Error; err != nil && err != sql.ErrTxDone {
-		panic(err)
+	if f(txn) == true {
+		txn.Commit()
 	} else {
-		kdb.Rolled = true
+		txn.Rollback()
+	}
+	if err := txn.Error; err != nil && err != sql.ErrTxDone {
+		panic(err)
 	}
 }

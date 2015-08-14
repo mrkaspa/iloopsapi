@@ -73,6 +73,10 @@ func Open(dialect string, args ...interface{}) (DB, error) {
 			db:       dbSql,
 		}
 		db.parent = &db
+
+		if err == nil {
+			err = db.DB().Ping() // Send a ping to make sure the database connection is alive.
+		}
 	}
 
 	return db, err
@@ -113,7 +117,7 @@ func (s *DB) Callback() *callback {
 }
 
 func (s *DB) SetLogger(l logger) {
-	s.parent.logger = l
+	s.logger = l
 }
 
 func (s *DB) LogMode(enable bool) *DB {
@@ -254,9 +258,9 @@ func (s *DB) FirstOrCreate(out interface{}, where ...interface{}) *DB {
 		if !result.RecordNotFound() {
 			return result
 		}
-		c.NewScope(out).inlineCondition(where...).initialize().callCallbacks(s.parent.callback.creates)
+		c.err(c.NewScope(out).inlineCondition(where...).initialize().callCallbacks(s.parent.callback.creates).db.Error)
 	} else if len(c.search.assignAttrs) > 0 {
-		c.NewScope(out).InstanceSet("gorm:update_interface", s.search.assignAttrs).callCallbacks(s.parent.callback.updates)
+		c.err(c.NewScope(out).InstanceSet("gorm:update_interface", s.search.assignAttrs).callCallbacks(s.parent.callback.updates).db.Error)
 	}
 	return c
 }
@@ -384,7 +388,9 @@ func (s *DB) DropTableIfExists(value interface{}) *DB {
 func (s *DB) HasTable(value interface{}) bool {
 	scope := s.clone().NewScope(value)
 	tableName := scope.TableName()
-	return scope.Dialect().HasTable(scope, tableName)
+	has := scope.Dialect().HasTable(scope, tableName)
+	s.err(scope.db.Error)
+	return has
 }
 
 func (s *DB) AutoMigrate(values ...interface{}) *DB {
@@ -423,6 +429,14 @@ func (s *DB) RemoveIndex(indexName string) *DB {
 	scope := s.clone().NewScope(s.Value)
 	scope.removeIndex(indexName)
 	return scope.db
+}
+
+func (s *DB) CurrentDatabase() string {
+	var (
+		scope = s.clone().NewScope(s.Value)
+		name  = s.dialect.CurrentDatabase(scope)
+	)
+	return name
 }
 
 /*

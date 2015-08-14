@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"go/ast"
 	"reflect"
-	"regexp"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/qor/inflection"
 )
 
 var modelStructs = map[reflect.Type]*ModelStruct{}
@@ -71,9 +72,6 @@ type Relationship struct {
 	JoinTableHandler             JoinTableHandlerInterface
 }
 
-var pluralMapKeys = []*regexp.Regexp{regexp.MustCompile("ch$"), regexp.MustCompile("ss$"), regexp.MustCompile("sh$"), regexp.MustCompile("day$"), regexp.MustCompile("y$"), regexp.MustCompile("x$"), regexp.MustCompile("([^s])s?$")}
-var pluralMapValues = []string{"ches", "sses", "shes", "days", "ies", "xes", "${1}s"}
-
 func (scope *Scope) GetModelStruct() *ModelStruct {
 	var modelStruct ModelStruct
 
@@ -113,11 +111,7 @@ func (scope *Scope) GetModelStruct() *ModelStruct {
 	} else {
 		name := ToDBName(scopeType.Name())
 		if scope.db == nil || !scope.db.parent.singularTable {
-			for index, reg := range pluralMapKeys {
-				if reg.MatchString(name) {
-					name = reg.ReplaceAllString(name, pluralMapValues[index])
-				}
-			}
+			name = inflection.Plural(name)
 		}
 
 		modelStruct.defaultTableName = name
@@ -162,12 +156,12 @@ func (scope *Scope) GetModelStruct() *ModelStruct {
 		for _, field := range fields {
 			if !field.IsIgnored {
 				fieldStruct := field.Struct
-				fieldType, indirectType := fieldStruct.Type, fieldStruct.Type
+				indirectType := fieldStruct.Type
 				if indirectType.Kind() == reflect.Ptr {
 					indirectType = indirectType.Elem()
 				}
 
-				if _, isScanner := reflect.New(fieldType).Interface().(sql.Scanner); isScanner {
+				if _, isScanner := reflect.New(indirectType).Interface().(sql.Scanner); isScanner {
 					field.IsScanner, field.IsNormal = true, true
 				}
 

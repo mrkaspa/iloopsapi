@@ -1,6 +1,9 @@
 {
 	"ImportPath": "bitbucket.org/kiloops/api",
 	"GoVersion": "go1.4.2",
+	"Packages": [
+		"./..."
+	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/agtorre/gocolorize",
@@ -18,8 +21,12 @@
 			"Rev": "fb7299726d2e68745a8805b14f2ff44b5c2cfa84"
 		},
 		{
+			"ImportPath": "github.com/gosimple/slug",
+			"Rev": "89683c2e46c1b0b72bc8ef98a1bbb58922940e5f"
+		},
+		{
 			"ImportPath": "github.com/jinzhu/gorm",
-			"Rev": "25ba9487aa744c5c484c16af15221b440a90c98c"
+			"Rev": "e1ce3b706624d5a28d7d7bc4b48c9e61eac14896"
 		},
 		{
 			"ImportPath": "github.com/joho/godotenv",
@@ -28,8 +35,8 @@
 		},
 		{
 			"ImportPath": "github.com/lib/pq/hstore",
-			"Comment": "go1.0-cutoff-58-g0dad96c",
-			"Rev": "0dad96c0b94f8dee039aa40467f767467392a0af"
+			"Comment": "go1.0-cutoff-59-gb269bd0",
+			"Rev": "b269bd035a727d6c1081f76e7a239a1b00674c40"
 		},
 		{
 			"ImportPath": "github.com/manucorporat/sse",
@@ -38,6 +45,24 @@
 		{
 			"ImportPath": "github.com/mattn/go-colorable",
 			"Rev": "40e4aedc8fabf8c23e040057540867186712faa5"
+		},
+		{
+			"ImportPath": "github.com/onsi/ginkgo",
+			"Comment": "v1.2.0-11-gd94e2f4",
+			"Rev": "d94e2f4000332f62b356ecb2840c98f4218f5358"
+		},
+		{
+			"ImportPath": "github.com/onsi/gomega",
+			"Comment": "v1.0-52-ga2ab864",
+			"Rev": "a2ab8644e0b6a33df2cbe44673bd0f6ebba9abc3"
+		},
+		{
+			"ImportPath": "github.com/qor/inflection",
+			"Rev": "45321e63b98c756df17369c027c1df89298e1288"
+		},
+		{
+			"ImportPath": "github.com/rainycape/unidecode",
+			"Rev": "836ef0a715aedf08a12d595ed73ec8ed5b288cac"
 		},
 		{
 			"ImportPath": "github.com/revel/revel",
@@ -54,11 +79,11 @@
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
-			"Rev": "b71143c25f0aad5f54981684b715686d34c56d25"
+			"Rev": "d9558e5c97f85372afee28cf2b6059d7d3818919"
 		},
 		{
 			"ImportPath": "golang.org/x/net/websocket",
-			"Rev": "b71143c25f0aad5f54981684b715686d34c56d25"
+			"Rev": "d9558e5c97f85372afee28cf2b6059d7d3818919"
 		},
 		{
 			"ImportPath": "gopkg.in/bluesuncorp/validator.v5",

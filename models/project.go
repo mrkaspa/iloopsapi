@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gosimple/slug"
+	"github.com/jinzhu/gorm"
 )
 
 //Project on the system
@@ -18,39 +19,36 @@ type Project struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func (p *Project) GenerateSlug(txn *KDB) error {
+func (p *Project) AfterCreate(txn *gorm.DB) error {
 	nameSlug := slug.Make(p.Name)
 	p.Slug = fmt.Sprintf("%s-%d", nameSlug, p.ID)
 	return txn.Save(p).Error
 }
 
-//DeleteRels UsersProjects
-func (p *Project) DeleteRels(txn *KDB) {
-	txn.Where("project_id = ?", p.ID).Delete(UsersProjects{})
+//BeforeDelete UsersProjects
+func (p *Project) BeforeDelete(txn *gorm.DB) error {
+	return txn.Where("project_id = ?", p.ID).Delete(UsersProjects{}).Error
 }
 
 //AddUser adds new user
-func (p *Project) AddUser(txn *KDB, user *User) error {
+func (p *Project) AddUser(txn *gorm.DB, user *User) error {
 	r := UsersProjects{Role: Collaborator, UserID: user.ID, ProjectID: p.ID}
 	return txn.Save(&r).Error
 }
 
 //DelegateUser sets an user as Creator
-func (p *Project) DelegateUser(txn *KDB, userAdmin, user *User) error {
+func (p *Project) DelegateUser(txn *gorm.DB, userAdmin, user *User) error {
 	if user.HasCollaboratorAccessTo(p.ID) {
 		if err := txn.Model(UsersProjects{}).Where("user_id = ? and project_id = ?", userAdmin.ID, p.ID).Update("role", Collaborator).Error; err == nil {
 			if err := txn.Model(UsersProjects{}).Where("user_id = ? and project_id = ?", user.ID, p.ID).Update("role", Creator).Error; err == nil {
 				return nil
 			} else {
-				txn.KRollback()
 				return err
 			}
 		} else {
-			txn.KRollback()
 			return err
 		}
 	} else {
-		txn.KRollback()
 		return errors.New("The user doesn't have collaborator access to the project")
 	}
 }

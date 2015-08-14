@@ -3,6 +3,7 @@ package gorm
 import (
 	"errors"
 	"fmt"
+	"regexp"
 	"strings"
 	"time"
 
@@ -85,6 +86,13 @@ func (scope *Scope) Quote(str string) string {
 	} else {
 		return scope.Dialect().Quote(str)
 	}
+}
+
+func (scope *Scope) QuoteIfPossible(str string) string {
+	if regexp.MustCompile("^[a-zA-Z]+(.[a-zA-Z]+)*$").MatchString(str) {
+		return scope.Quote(str)
+	}
+	return str
 }
 
 // Dialect get dialect
@@ -197,7 +205,9 @@ func (scope *Scope) CallMethod(name string, checkError bool) {
 			case func(s *Scope):
 				f(scope)
 			case func(s *DB):
-				f(scope.NewDB())
+				newDB := scope.NewDB()
+				f(newDB)
+				scope.Err(newDB.Error)
 			case func() error:
 				scope.Err(f())
 			case func(s *Scope) error:
@@ -212,10 +222,18 @@ func (scope *Scope) CallMethod(name string, checkError bool) {
 
 	if values := scope.IndirectValue(); values.Kind() == reflect.Slice {
 		for i := 0; i < values.Len(); i++ {
-			call(values.Index(i).Addr().Interface())
+			value := values.Index(i).Addr().Interface()
+			if values.Index(i).Kind() == reflect.Ptr {
+				value = values.Index(i).Interface()
+			}
+			call(value)
 		}
 	} else {
-		call(scope.Value)
+		if scope.IndirectValue().CanAddr() {
+			call(scope.IndirectValue().Addr().Interface())
+		} else {
+			call(scope.IndirectValue().Interface())
+		}
 	}
 }
 

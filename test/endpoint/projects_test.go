@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"bitbucket.org/kiloops/api/models"
+	"github.com/jinzhu/gorm"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -110,8 +111,9 @@ var _ = Describe("Projects", func() {
 			Describe("PUT /projects/:id/delegate/:user_id", func() {
 
 				It("delegates admin role to another user", func() {
-					models.Gdb.InTx(func(txn *models.KDB) {
+					models.InTx(func(txn *gorm.DB) bool {
 						project.AddUser(txn, &otherUser)
+						return true
 					})
 					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%d/delegate/%d", project.ID, otherUser.ID), bytes.NewReader(emptyJSON), authHeaders(user))
 					Expect(resp.StatusCode).To(Equal(http.StatusOK))
@@ -126,8 +128,9 @@ var _ = Describe("Projects", func() {
 			Describe("PUT /projects/:id/leave", func() {
 
 				It("an user leaves a project", func() {
-					models.Gdb.InTx(func(txn *models.KDB) {
+					models.InTx(func(txn *gorm.DB) bool {
 						project.AddUser(txn, &otherUser)
+						return true
 					})
 					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%d/leave", project.ID), bytes.NewReader(emptyJSON), authHeaders(otherUser))
 					Expect(resp.StatusCode).To(Equal(http.StatusOK))
