@@ -138,6 +138,45 @@ var _ = Describe("Projects", func() {
 
 			})
 
+			Describe("PUT /projects/:id/remove/:user_id", func() {
+
+				It("remove an user from a project", func() {
+					models.InTx(func(txn *gorm.DB) bool {
+						project.AddUser(txn, &otherUser)
+						return true
+					})
+					resp, _ := client.CallRequestWithHeaders("DELETE", fmt.Sprintf("/projects/%d/remove/%d", project.ID, otherUser.ID), bytes.NewReader(emptyJSON), authHeaders(user))
+					Expect(resp.StatusCode).To(Equal(http.StatusOK))
+					projectsCollab := user.CollaboratorProjects()
+					Expect(len(projectsCollab)).To(Equal(0))
+				})
+
+			})
+
+		})
+
+	})
+
+	Context("Validating access of an user by his ssh", func() {
+
+		Describe("GET /projects/:id/has_access", func() {
+
+			var (
+				ssh     models.SSH
+				project models.Project
+			)
+
+			BeforeEach(func() {
+				ssh = addSSH(user)
+				project = addProject(user)
+			})
+
+			FIt("Should get ok", func() {
+				sshJSON, _ := json.Marshal(ssh)
+				resp, _ := client.CallRequest("GET", fmt.Sprintf("/projects/%d/has_access", project.ID), bytes.NewReader(sshJSON))
+				Expect(resp.StatusCode).To(Equal(http.StatusOK))
+			})
+
 		})
 
 	})

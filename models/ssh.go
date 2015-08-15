@@ -12,6 +12,7 @@ type SSH struct {
 	PublicKey string    `sql:"type:text" json:"public_key" validate:"nonzero"`
 	Hash      string    `sql:"type:varchar(500)" json:"-"`
 	UserID    int       `json:"user_id"`
+	User      User      `json:"-"`
 	CreatedAt time.Time `json:"created_at"`
 }
 

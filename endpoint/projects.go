@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"bitbucket.org/kiloops/api/models"
+	"bitbucket.org/kiloops/api/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"gopkg.in/validator.v2"
@@ -113,6 +114,29 @@ func ProjectAddUser(c *gin.Context) {
 	})
 }
 
+//ProjectRemoveUser serves the route DELETE /projects/:id/remove/:user_id
+func ProjectRemoveUser(c *gin.Context) {
+	models.InTx(func(txn *gorm.DB) bool {
+		id, _ := strconv.Atoi(c.Param("id"))
+		userID, _ := strconv.Atoi(c.Param("user_id"))
+		if project, err := models.FindProject(id); err == nil {
+			if user, err := models.FindUser(userID); err == nil {
+				if err := project.RemoveUser(txn, user); err == nil {
+					c.JSON(http.StatusOK, "")
+					return true
+				} else {
+					c.JSON(http.StatusBadRequest, "")
+				}
+			} else {
+				c.JSON(http.StatusNotFound, "")
+			}
+		} else {
+			c.JSON(http.StatusNotFound, "")
+		}
+		return false
+	})
+}
+
 //ProjectDelegate serves the route PUT /projects/:id/delegate/:user_id
 func ProjectDelegate(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
@@ -135,4 +159,26 @@ func ProjectDelegate(c *gin.Context) {
 		}
 		return false
 	})
+}
+
+//SSHHasAccess serves the route GET /projects/:id/has_access
+func ProjectHasAccessBySSH(c *gin.Context) {
+	var ssh models.SSH
+	if err := c.BindJSON(&ssh); err == nil {
+		ssh.Hash = utils.MD5(ssh.PublicKey)
+		models.Gdb.Where("hash like ?", ssh.Hash).First(&ssh)
+		id, _ := strconv.Atoi(c.Param("id"))
+		project, err := models.FindProject(id)
+		if ssh.ID != 0 && err == nil {
+			var user models.User
+			models.Gdb.Model(&ssh).Related(&user)
+			if user.HasWriteAccessTo(project.ID) {
+				c.JSON(http.StatusOK, "")
+			} else {
+				c.JSON(http.StatusForbidden, "")
+			}
+		} else {
+			c.JSON(http.StatusNotFound, "")
+		}
+	}
 }

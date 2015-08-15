@@ -21,6 +21,7 @@ func GetMainEngine() *gin.Engine {
 			auth.GET("projects/:id", WriteAccessToProject(), ProjectShow)
 			auth.PUT("projects/:id/leave", WriteAccessToProject(), ProjectLeave)
 			auth.PUT("projects/:id/add/:user_id", AdminAccessToProject(), ProjectAddUser)
+			auth.DELETE("/projects/:id/remove/:user_id", AdminAccessToProject(), ProjectRemoveUser)
 			auth.PUT("projects/:id/delegate/:user_id", AdminAccessToProject(), ProjectDelegate)
 			auth.DELETE("projects/:id", AdminAccessToProject(), ProjectDestroy)
 		}
@@ -28,6 +29,7 @@ func GetMainEngine() *gin.Engine {
 		internal := v1.Group("")
 		{
 			internal.POST("/executions/:project_id", ExecutionCreate)
+			internal.GET("/projects/:id/has_access", ProjectHasAccessBySSH)
 		}
 	}
 
