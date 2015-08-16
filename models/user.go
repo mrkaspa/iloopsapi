@@ -21,8 +21,8 @@ type User struct {
 
 //UserLogin model
 type UserLogin struct {
-	Email    string `json:"email" validate:"nonzero,regexp=^[A-Za-z0-9._%+-]+@[A-Z0-9.-]+\.[A-Za-z]{2,4}$"`
-	Password string `json:"password" validate:"nonzero"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
 }
 
 //UserLogged model

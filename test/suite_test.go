@@ -1,4 +1,4 @@
-package endpoint
+package test
 
 import (
 	"fmt"

@@ -1,13 +1,13 @@
 package endpoint
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"bitbucket.org/kiloops/api/models"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"gopkg.in/validator.v2"
 )
 
 //SSHCreate serves the route POST /ssh
@@ -15,7 +15,8 @@ func SSHCreate(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		var ssh models.SSH
 		if err := c.BindJSON(&ssh); err == nil {
-			if err := validator.Validate(&ssh); err == nil {
+			if valid, errMap := models.ValidStruct(&ssh); valid {
+				fmt.Println("valid >> %b", valid)
 				user := userSession(c)
 				ssh.UserID = user.ID
 				if txn.Save(&ssh).Error == nil {
@@ -25,7 +26,7 @@ func SSHCreate(c *gin.Context) {
 					c.JSON(http.StatusBadRequest, "SSH can't be saved")
 				}
 			} else {
-				c.JSON(http.StatusBadRequest, err.(validator.ErrorMap))
+				c.JSON(http.StatusBadRequest, errMap)
 			}
 		}
 		return false

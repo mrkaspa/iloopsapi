@@ -9,7 +9,6 @@ import (
 	"bitbucket.org/kiloops/api/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"gopkg.in/validator.v2"
 )
 
 //ProjectList serves the route GET /projects
@@ -34,7 +33,7 @@ func ProjectCreate(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		var project models.Project
 		if err := c.BindJSON(&project); err == nil {
-			if err := validator.Validate(&project); err == nil {
+			if valid, errMap := models.ValidStruct(&project); valid {
 				user := userSession(c)
 				if err := user.CreateProject(txn, &project); err == nil {
 					c.JSON(http.StatusOK, project)
@@ -43,7 +42,7 @@ func ProjectCreate(c *gin.Context) {
 					c.JSON(http.StatusBadRequest, "Couldn't create the project")
 				}
 			} else {
-				c.JSON(http.StatusBadRequest, err.(validator.ErrorMap))
+				c.JSON(http.StatusBadRequest, errMap)
 			}
 		}
 		return false

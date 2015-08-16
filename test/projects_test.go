@@ -1,4 +1,4 @@
-package endpoint
+package test
 
 import (
 	"bytes"
@@ -171,7 +171,7 @@ var _ = Describe("Projects", func() {
 				project = addProject(user)
 			})
 
-			FIt("Should get ok", func() {
+			It("Should get ok", func() {
 				sshJSON, _ := json.Marshal(ssh)
 				resp, _ := client.CallRequest("GET", fmt.Sprintf("/projects/%d/has_access", project.ID), bytes.NewReader(sshJSON))
 				Expect(resp.StatusCode).To(Equal(http.StatusOK))

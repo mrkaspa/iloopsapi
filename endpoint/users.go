@@ -6,7 +6,6 @@ import (
 	"bitbucket.org/kiloops/api/models"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"gopkg.in/validator.v2"
 )
 
 //UserCreate serves the route POST /users
@@ -14,7 +13,7 @@ func UserCreate(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		var userLogin models.UserLogin
 		if err := c.BindJSON(&userLogin); err == nil {
-			if err := validator.Validate(&userLogin); err == nil {
+			if valid, errMap := models.ValidStruct(&userLogin); valid {
 				user := models.User{Email: userLogin.Email, Password: userLogin.Password}
 				if txn.Save(&user).Error == nil {
 					userLogged := models.UserLogged{Email: user.Email, Token: user.Token}
@@ -24,7 +23,7 @@ func UserCreate(c *gin.Context) {
 					c.JSON(http.StatusBadRequest, "User can't be saved")
 				}
 			} else {
-				c.JSON(http.StatusBadRequest, err.(validator.ErrorMap))
+				c.JSON(http.StatusBadRequest, errMap)
 			}
 		}
 		return false
