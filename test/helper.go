@@ -3,7 +3,6 @@ package test
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net/http"
 
@@ -15,26 +14,6 @@ import (
 type empty struct{}
 
 var emptyJSON, _ = json.Marshal(empty{})
-
-//Client for http requests
-type Client struct {
-	*http.Client
-	baseURL     string
-	contentType string
-}
-
-func (c Client) CallRequest(method string, path string, reader io.Reader) (*http.Response, error) {
-	return c.CallRequestWithHeaders(method, path, reader, make(map[string]string))
-}
-
-func (c Client) CallRequestWithHeaders(method string, path string, reader io.Reader, headers map[string]string) (*http.Response, error) {
-	req, _ := http.NewRequest(method, c.baseURL+path, reader)
-	req.Header.Set("Content-Type", c.contentType)
-	for key, val := range headers {
-		req.Header.Set(key, val)
-	}
-	return c.Do(req)
-}
 
 func authHeaders(user models.User) map[string]string {
 	return map[string]string{

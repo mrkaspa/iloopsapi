@@ -10,6 +10,7 @@ import (
 
 	"bitbucket.org/kiloops/api/endpoint"
 	"bitbucket.org/kiloops/api/models"
+	"bitbucket.org/kiloops/api/utils"
 
 	_ "github.com/go-sql-driver/mysql"
 	. "github.com/onsi/ginkgo"
@@ -18,7 +19,7 @@ import (
 
 var (
 	ts         *httptest.Server
-	client     Client
+	client     utils.Client
 	apiVersion = "v1"
 )
 
@@ -33,7 +34,7 @@ var _ = BeforeSuite(func() {
 	models.InitDB()
 	cleanDB()
 	ts = httptest.NewServer(endpoint.GetMainEngine())
-	client = Client{
+	client = utils.Client{
 		&http.Client{},
 		ts.URL + "/" + apiVersion,
 		"application/json",
