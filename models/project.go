@@ -12,7 +12,7 @@ import (
 //Project on the system
 type Project struct {
 	ID   int    `gorm:"primary_key" json:"id"`
-	Slug string `json:"slug"`
+	Slug string `json:"slug" sql:"unique_index"`
 	Name string `json:"name" validate:"required"`
 
 	CreatedAt time.Time `json:"created_at"`

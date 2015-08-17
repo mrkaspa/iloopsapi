@@ -10,8 +10,8 @@ import (
 
 //User model
 type User struct {
-	ID        int `gorm:"primary_key"`
-	Email     string
+	ID        int    `gorm:"primary_key"`
+	Email     string `sql:"unique_index"`
 	Password  string
 	Token     string
 	CreatedAt time.Time
