@@ -42,7 +42,7 @@ func ProjectCreate(c *gin.Context) {
 					c.JSON(http.StatusBadRequest, "Couldn't create the project")
 				}
 			} else {
-				c.JSON(http.StatusBadRequest, errMap)
+				c.JSON(http.StatusConflict, errMap)
 			}
 		}
 		return false

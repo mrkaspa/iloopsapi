@@ -27,7 +27,7 @@ func ExecutionCreate(c *gin.Context) {
 						c.JSON(http.StatusBadRequest, "Execution can't be saved")
 					}
 				} else {
-					c.JSON(http.StatusBadRequest, err.(validator.ErrorMap))
+					c.JSON(http.StatusConflict, err.(validator.ErrorMap))
 				}
 			}
 		} else {

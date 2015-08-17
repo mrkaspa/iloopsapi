@@ -34,7 +34,7 @@ var _ = Describe("SSH", func() {
 			ssh := models.SSH{PublicKey: ""}
 			sshJSON, _ := json.Marshal(ssh)
 			resp, _ := client.CallRequestWithHeaders("POST", "/ssh", bytes.NewReader(sshJSON), authHeaders(user))
-			Expect(resp.StatusCode).To(Equal(http.StatusBadRequest))
+			Expect(resp.StatusCode).To(Equal(http.StatusConflict))
 		})
 
 	})

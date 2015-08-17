@@ -23,7 +23,7 @@ func UserCreate(c *gin.Context) {
 					c.JSON(http.StatusBadRequest, "User can't be saved")
 				}
 			} else {
-				c.JSON(http.StatusBadRequest, errMap)
+				c.JSON(http.StatusConflict, errMap)
 			}
 		}
 		return false

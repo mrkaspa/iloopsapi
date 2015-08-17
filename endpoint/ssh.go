@@ -26,7 +26,7 @@ func SSHCreate(c *gin.Context) {
 					c.JSON(http.StatusBadRequest, "SSH can't be saved")
 				}
 			} else {
-				c.JSON(http.StatusBadRequest, errMap)
+				c.JSON(http.StatusConflict, errMap)
 			}
 		}
 		return false
