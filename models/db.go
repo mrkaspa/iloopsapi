@@ -35,6 +35,9 @@ func InitDB() {
 	db.AutoMigrate(&UsersProjects{})
 	db.AutoMigrate(&Execution{})
 
+	//Add unique index
+	db.Model(&UsersProjects{}).AddUniqueIndex("idx_user_project", "user_id", "project_id")
+
 	//Add FK
 	db.Model(&SSH{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
 	db.Model(&UsersProjects{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
