@@ -5,8 +5,7 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-
-	"bitbucket.org/kiloops/api/utils"
+	"github.com/mrkaspa/go-helpers"
 )
 
 //User model
@@ -33,14 +32,14 @@ type UserLogged struct {
 
 //BeforeCreate callback
 func (u *User) BeforeCreate() error {
-	u.Password = utils.MD5(u.Password)
-	u.Token = utils.GenerateToken(20)
+	u.Password = helpers.MD5(u.Password)
+	u.Token = helpers.RandomString(20)
 	return nil
 }
 
 //LoggedIn validtes if a user is logged
 func (u User) LoggedIn(login UserLogin) bool {
-	return utils.MD5(login.Password) == u.Password
+	return helpers.MD5(login.Password) == u.Password
 }
 
 func (u User) AllProjects() []UsersProjects {

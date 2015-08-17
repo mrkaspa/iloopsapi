@@ -44,6 +44,10 @@
 			"Rev": "40e4aedc8fabf8c23e040057540867186712faa5"
 		},
 		{
+			"ImportPath": "github.com/mrkaspa/go-helpers",
+			"Rev": "f3e06b8b95cbe3a9a0317bb9c2996bcc013adb95"
+		},
+		{
 			"ImportPath": "github.com/qor/inflection",
 			"Rev": "45321e63b98c756df17369c027c1df89298e1288"
 		},

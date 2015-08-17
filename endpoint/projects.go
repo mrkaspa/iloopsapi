@@ -6,9 +6,9 @@ import (
 	"strconv"
 
 	"bitbucket.org/kiloops/api/models"
-	"bitbucket.org/kiloops/api/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"github.com/mrkaspa/go-helpers"
 )
 
 //ProjectList serves the route GET /projects
@@ -164,7 +164,7 @@ func ProjectDelegate(c *gin.Context) {
 func ProjectHasAccessBySSH(c *gin.Context) {
 	var ssh models.SSH
 	if err := c.BindJSON(&ssh); err == nil {
-		ssh.Hash = utils.MD5(ssh.PublicKey)
+		ssh.Hash = helpers.MD5(ssh.PublicKey)
 		models.Gdb.Where("hash like ?", ssh.Hash).First(&ssh)
 		id, _ := strconv.Atoi(c.Param("id"))
 		project, err := models.FindProject(id)

@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"bitbucket.org/kiloops/api/utils"
+	"github.com/mrkaspa/go-helpers"
 )
 
 //SSH key
@@ -18,7 +18,7 @@ type SSH struct {
 
 //BeforeCreate callback
 func (s *SSH) BeforeCreate() error {
-	s.Hash = utils.MD5(s.PublicKey)
+	s.Hash = helpers.MD5(s.PublicKey)
 	return nil
 }
 
