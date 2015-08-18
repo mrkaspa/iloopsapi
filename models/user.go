@@ -26,6 +26,7 @@ type UserLogin struct {
 
 //UserLogged model
 type UserLogged struct {
+	ID    int    `gorm:"primary_key"`
 	Email string `json:"email"`
 	Token string `json:"token"`
 }

@@ -68,7 +68,6 @@ func addProject(user models.User) models.Project {
 }
 
 func getBodyJSON(resp *http.Response, i interface{}) {
-	defer resp.Body.Close()
 	if jsonDataFromHTTP, err := ioutil.ReadAll(resp.Body); err == nil {
 		if err := json.Unmarshal([]byte(jsonDataFromHTTP), &i); err != nil {
 			panic(err)

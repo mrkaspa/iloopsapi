@@ -28,6 +28,7 @@ var _ = Describe("Projects", func() {
 			projectJSON, _ := json.Marshal(project)
 			resp, _ := client.CallRequestWithHeaders("POST", "/projects", bytes.NewReader(projectJSON), authHeaders(user))
 			Expect(resp.StatusCode).To(Equal(http.StatusOK))
+			defer resp.Body.Close()
 			getBodyJSON(resp, &project)
 			Expect(project.Slug).ToNot(BeNil())
 			Expect(project.Slug).ToNot(BeEmpty())
@@ -51,6 +52,7 @@ var _ = Describe("Projects", func() {
 				var projects []models.Project
 				resp, _ := client.CallRequestWithHeaders("GET", "/projects", bytes.NewReader(emptyJSON), authHeaders(user))
 				Expect(resp.StatusCode).To(Equal(http.StatusOK))
+				defer resp.Body.Close()
 				getBodyJSON(resp, &projects)
 				Expect(len(projects)).To(Equal(1))
 			})
@@ -63,6 +65,7 @@ var _ = Describe("Projects", func() {
 				var projectResp models.Project
 				resp, _ := client.CallRequestWithHeaders("GET", fmt.Sprintf("/projects/%d", project.ID), bytes.NewReader(emptyJSON), authHeaders(user))
 				Expect(resp.StatusCode).To(Equal(http.StatusOK))
+				defer resp.Body.Close()
 				getBodyJSON(resp, &projectResp)
 				Expect(projectResp.Name).To(Equal(project.Name))
 			})

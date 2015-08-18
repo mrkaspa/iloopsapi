@@ -16,7 +16,7 @@ func UserCreate(c *gin.Context) {
 			if valid, errMap := models.ValidStruct(&userLogin); valid {
 				user := models.User{Email: userLogin.Email, Password: userLogin.Password}
 				if txn.Save(&user).Error == nil {
-					userLogged := models.UserLogged{Email: user.Email, Token: user.Token}
+					userLogged := models.UserLogged{ID: user.ID, Email: user.Email, Token: user.Token}
 					c.JSON(http.StatusOK, userLogged)
 					return true
 				} else {
@@ -32,18 +32,14 @@ func UserCreate(c *gin.Context) {
 
 //UserLogin serves the route POST /users/login
 func UserLogin(c *gin.Context) {
-	models.InTx(func(txn *gorm.DB) bool {
-		var userLogin models.UserLogin
-		if err := c.BindJSON(&userLogin); err == nil {
-			var user models.User
-			if err := txn.Find(&user, "email = ?", userLogin.Email).Error; err == nil && user.Email != "" && user.LoggedIn(userLogin) {
-				userLogged := models.UserLogged{Email: user.Email, Token: user.Token}
-				c.JSON(http.StatusOK, userLogged)
-				return true
-			} else {
-				c.JSON(http.StatusBadRequest, "User not found")
-			}
+	var userLogin models.UserLogin
+	if err := c.BindJSON(&userLogin); err == nil {
+		var user models.User
+		if err := models.Gdb.Find(&user, "email = ?", userLogin.Email).Error; err == nil && user.Email != "" && user.LoggedIn(userLogin) {
+			userLogged := models.UserLogged{ID: user.ID, Email: user.Email, Token: user.Token}
+			c.JSON(http.StatusOK, userLogged)
+		} else {
+			c.JSON(http.StatusBadRequest, "Could not authenticate the User")
 		}
-		return false
-	})
+	}
 }
