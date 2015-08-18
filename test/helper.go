@@ -46,7 +46,7 @@ func saveOtherUser() models.User {
 
 func addSSH(user models.User) models.SSH {
 	sshKey := `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCadJM0DdJotRnSWW7coFcCxMW1cCZIJqkyW3wMQoUOU2VHuLExh44tDpSAiz2EEeFlqJ5hI67ZI+3bSx7puKSr44l78H/Kb8UDLidAUao7JZoo0thq7bAVesGr+8aligmULvxH3sQqstI9yNcifJ56jHUVTB14PslBmhA56pmGOva0ojmdt9l2aBy4LxQBDc5Js+AcPlfC2zXE7rtaiafB/M3992V+7CEisbAv7CpsI3SPdpW2p4mfR1zMVpf4Jt6lQJW6Sr53/bzAP4/Tif3fgbZhoSL8qnnLi3556gWi90FwFhCoqqDR/lN3sxJQx5NxxCF8mbNgpmS5qDptFyF michel.ingesoft@gmail.com`
-	ssh := models.SSH{PublicKey: sshKey, UserID: user.ID}
+	ssh := models.SSH{Name: "demo", PublicKey: sshKey, UserID: user.ID}
 	models.InTx(func(txn *gorm.DB) bool {
 		if txn.Save(&ssh).Error != nil {
 			panic("error creating the ssh")

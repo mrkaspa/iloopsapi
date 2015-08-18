@@ -9,6 +9,7 @@ import (
 //SSH key
 type SSH struct {
 	ID        int       `gorm:"primary_key" json:"id"`
+	Name      string    `json:"name" validate:"required"`
 	PublicKey string    `sql:"type:text" json:"public_key" validate:"required"`
 	Hash      string    `sql:"type:varchar(100);unique_index" json:"-"`
 	UserID    int       `json:"user_id"`
