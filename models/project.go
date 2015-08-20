@@ -11,9 +11,10 @@ import (
 
 //Project on the system
 type Project struct {
-	ID   int    `gorm:"primary_key" json:"id"`
-	Slug string `json:"slug" sql:"unique_index"`
-	Name string `json:"name" validate:"required"`
+	ID      int    `gorm:"primary_key" json:"id"`
+	Slug    string `json:"slug" sql:"unique_index"`
+	Name    string `json:"name" validate:"required"`
+	URLRepo string `json:"url_repo"`
 
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -21,9 +22,19 @@ type Project struct {
 
 //AfterCreate a Project
 func (p *Project) AfterCreate(txn *gorm.DB) error {
+	p.SetSlug()
+	return txn.Save(p).Error
+}
+
+//SetSlug for the project
+func (p *Project) SetSlug() {
 	nameSlug := slug.Make(p.Name)
 	p.Slug = fmt.Sprintf("%s-%d", nameSlug, p.ID)
-	return txn.Save(p).Error
+}
+
+//TODO connect to the git backend
+func (p *Project) CreateRepo() {
+
 }
 
 //BeforeDelete a Project
