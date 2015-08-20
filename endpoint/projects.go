@@ -3,7 +3,6 @@ package endpoint
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"bitbucket.org/kiloops/api/models"
 	"github.com/gin-gonic/gin"
@@ -18,14 +17,9 @@ func ProjectList(c *gin.Context) {
 	c.JSON(http.StatusOK, projects)
 }
 
-//ProjectShow serves the route GET /projects/:id
+//ProjectShow serves the route GET /projects/:slug
 func ProjectShow(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
-	if project, err := models.FindProject(id); err == nil {
-		c.JSON(http.StatusOK, project)
-	} else {
-		c.JSON(http.StatusNotFound, "")
-	}
+	c.JSON(http.StatusOK, currentProject(c))
 }
 
 //ProjectCreate serves the route POST /projects
@@ -49,34 +43,28 @@ func ProjectCreate(c *gin.Context) {
 	})
 }
 
-//ProjectDestroy serves the route DELETE /projects/:id
+//ProjectDestroy serves the route DELETE /projects/:slug
 func ProjectDestroy(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
-		id, _ := strconv.Atoi(c.Param("id"))
-		var project models.Project
-		txn.First(&project, id)
-		if project.ID != 0 {
-			if err := txn.Delete(&project).Error; err == nil {
-				// project.DeleteRels(txn)
-				c.JSON(http.StatusOK, project)
-				return true
-			} else {
-				c.JSON(http.StatusBadRequest, "Could not delete the project")
-			}
+		project := currentProject(c)
+		if err := txn.Delete(&project).Error; err == nil {
+			// project.DeleteRels(txn)
+			c.JSON(http.StatusOK, project)
+			return true
 		} else {
-			c.JSON(http.StatusNotFound, "")
+			c.JSON(http.StatusBadRequest, "Could not delete the project")
 		}
 		return false
 	})
 }
 
-//ProjectLeave serves the route PUT /projects/:id/leave
+//ProjectLeave serves the route PUT /projects/:slug/leave
 func ProjectLeave(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		user := userSession(c)
-		id, _ := strconv.Atoi(c.Param("id"))
-		if !user.HasAdminAccessTo(id) {
-			if err := user.LeaveProject(txn, id); err == nil {
+		project := currentProject(c)
+		if !user.HasAdminAccessTo(project.ID) {
+			if err := user.LeaveProject(txn, project.ID); err == nil {
 				c.JSON(http.StatusOK, "")
 				return true
 			} else {
@@ -90,21 +78,16 @@ func ProjectLeave(c *gin.Context) {
 	})
 }
 
-//ProjectAddUser serves the route PUT /projects/:id/add/:user_id
+//ProjectAddUser serves the route PUT /projects/:slug/add/:email
 func ProjectAddUser(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
-		id, _ := strconv.Atoi(c.Param("id"))
-		userID, _ := strconv.Atoi(c.Param("user_id"))
-		if project, err := models.FindProject(id); err == nil {
-			if user, err := models.FindUser(userID); err == nil {
-				if err := project.AddUser(txn, user); err == nil {
-					c.JSON(http.StatusOK, "")
-					return true
-				} else {
-					c.JSON(http.StatusBadRequest, "")
-				}
+		project := currentProject(c)
+		if user, err := models.FindUserByEmail(c.Param("email")); err == nil {
+			if err := project.AddUser(txn, user); err == nil {
+				c.JSON(http.StatusOK, "")
+				return true
 			} else {
-				c.JSON(http.StatusNotFound, "")
+				c.JSON(http.StatusBadRequest, "")
 			}
 		} else {
 			c.JSON(http.StatusNotFound, "")
@@ -113,21 +96,16 @@ func ProjectAddUser(c *gin.Context) {
 	})
 }
 
-//ProjectRemoveUser serves the route DELETE /projects/:id/remove/:user_id
+//ProjectRemoveUser serves the route DELETE /projects/:slug/remove/:email
 func ProjectRemoveUser(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
-		id, _ := strconv.Atoi(c.Param("id"))
-		userID, _ := strconv.Atoi(c.Param("user_id"))
-		if project, err := models.FindProject(id); err == nil {
-			if user, err := models.FindUser(userID); err == nil {
-				if err := project.RemoveUser(txn, user); err == nil {
-					c.JSON(http.StatusOK, "")
-					return true
-				} else {
-					c.JSON(http.StatusBadRequest, "")
-				}
+		project := currentProject(c)
+		if user, err := models.FindUserByEmail(c.Param("email")); err == nil {
+			if err := project.RemoveUser(txn, user); err == nil {
+				c.JSON(http.StatusOK, "")
+				return true
 			} else {
-				c.JSON(http.StatusNotFound, "")
+				c.JSON(http.StatusBadRequest, "")
 			}
 		} else {
 			c.JSON(http.StatusNotFound, "")
@@ -136,22 +114,17 @@ func ProjectRemoveUser(c *gin.Context) {
 	})
 }
 
-//ProjectDelegate serves the route PUT /projects/:id/delegate/:user_id
+//ProjectDelegate serves the route PUT /projects/:slug/delegate/:email
 func ProjectDelegate(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
-		id, _ := strconv.Atoi(c.Param("id"))
 		userAdmin := userSession(c)
-		userID, _ := strconv.Atoi(c.Param("user_id"))
-		if project, err := models.FindProject(id); err == nil {
-			if user, err := models.FindUser(userID); err == nil {
-				if err := project.DelegateUser(txn, userAdmin, user); err == nil {
-					c.JSON(http.StatusOK, "")
-					return true
-				} else {
-					c.JSON(http.StatusBadRequest, "")
-				}
+		project := currentProject(c)
+		if user, err := models.FindUserByEmail(c.Param("email")); err == nil {
+			if err := project.DelegateUser(txn, userAdmin, user); err == nil {
+				c.JSON(http.StatusOK, "")
+				return true
 			} else {
-				c.JSON(http.StatusNotFound, "")
+				c.JSON(http.StatusBadRequest, "")
 			}
 		} else {
 			c.JSON(http.StatusNotFound, "")
@@ -160,14 +133,13 @@ func ProjectDelegate(c *gin.Context) {
 	})
 }
 
-//SSHHasAccess serves the route GET /projects/:id/has_access
+//SSHHasAccess serves the route GET /projects/:slug/has_access
 func ProjectHasAccessBySSH(c *gin.Context) {
 	var ssh models.SSH
 	if err := c.BindJSON(&ssh); err == nil {
 		ssh.Hash = helpers.MD5(ssh.PublicKey)
 		models.Gdb.Where("hash like ?", ssh.Hash).First(&ssh)
-		id, _ := strconv.Atoi(c.Param("id"))
-		project, err := models.FindProject(id)
+		project, err := models.FindProjectBySlug(c.Param("slug"))
 		if ssh.ID != 0 && err == nil {
 			var user models.User
 			models.Gdb.Model(&ssh).Related(&user)

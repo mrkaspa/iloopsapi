@@ -59,11 +59,12 @@ var _ = Describe("Projects", func() {
 
 		})
 
-		Describe("GET /projects/:id", func() {
+		Describe("GET /projects/:slug", func() {
 
 			It("gets a project", func() {
 				var projectResp models.Project
-				resp, _ := client.CallRequestWithHeaders("GET", fmt.Sprintf("/projects/%d", project.ID), bytes.NewReader(emptyJSON), authHeaders(user))
+				fmt.Printf("URL >> /projects/%s", project.Slug)
+				resp, _ := client.CallRequestWithHeaders("GET", fmt.Sprintf("/projects/%s", project.Slug), bytes.NewReader(emptyJSON), authHeaders(user))
 				Expect(resp.StatusCode).To(Equal(http.StatusOK))
 				defer resp.Body.Close()
 				getBodyJSON(resp, &projectResp)
@@ -72,10 +73,10 @@ var _ = Describe("Projects", func() {
 
 		})
 
-		Describe("DELETE /projects/:id", func() {
+		Describe("DELETE /projects/:slug", func() {
 
 			It("deletes a project", func() {
-				resp, _ := client.CallRequestWithHeaders("DELETE", fmt.Sprintf("/projects/%d", project.ID), bytes.NewReader(emptyJSON), authHeaders(user))
+				resp, _ := client.CallRequestWithHeaders("DELETE", fmt.Sprintf("/projects/%s", project.Slug), bytes.NewReader(emptyJSON), authHeaders(user))
 				Expect(resp.StatusCode).To(Equal(http.StatusOK))
 				projectsOwned := user.OwnedProjects()
 				Expect(len(projectsOwned)).To(Equal(0))
@@ -83,10 +84,10 @@ var _ = Describe("Projects", func() {
 
 		})
 
-		Describe("PUT /projects/:id/leave", func() {
+		Describe("PUT /projects/:slug/leave", func() {
 
 			It("an admin tries to leave a project", func() {
-				resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%d/leave", project.ID), bytes.NewReader(emptyJSON), authHeaders(user))
+				resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%s/leave", project.Slug), bytes.NewReader(emptyJSON), authHeaders(user))
 				Expect(resp.StatusCode).To(Equal(http.StatusForbidden))
 			})
 
@@ -100,10 +101,10 @@ var _ = Describe("Projects", func() {
 				otherUser = saveOtherUser()
 			})
 
-			Describe("PUT /projects/:id/add/:user_id", func() {
+			Describe("PUT /projects/:slug/add/:email", func() {
 
 				It("adds another user to the project", func() {
-					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%d/add/%d", project.ID, otherUser.ID), bytes.NewReader(emptyJSON), authHeaders(user))
+					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%s/add/%s", project.Slug, otherUser.Email), bytes.NewReader(emptyJSON), authHeaders(user))
 					Expect(resp.StatusCode).To(Equal(http.StatusOK))
 					projectsCollab := otherUser.CollaboratorProjects()
 					Expect(len(projectsCollab)).To(Equal(1))
@@ -111,14 +112,14 @@ var _ = Describe("Projects", func() {
 
 			})
 
-			Describe("PUT /projects/:id/delegate/:user_id", func() {
+			Describe("PUT /projects/:slug/delegate/:email", func() {
 
 				It("delegates admin role to another user", func() {
 					models.InTx(func(txn *gorm.DB) bool {
 						project.AddUser(txn, &otherUser)
 						return true
 					})
-					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%d/delegate/%d", project.ID, otherUser.ID), bytes.NewReader(emptyJSON), authHeaders(user))
+					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%s/delegate/%s", project.Slug, otherUser.Email), bytes.NewReader(emptyJSON), authHeaders(user))
 					Expect(resp.StatusCode).To(Equal(http.StatusOK))
 					projectsCollab := user.CollaboratorProjects()
 					Expect(len(projectsCollab)).To(Equal(1))
@@ -128,27 +129,27 @@ var _ = Describe("Projects", func() {
 
 			})
 
-			Describe("PUT /projects/:id/leave", func() {
+			Describe("PUT /projects/:slug/leave", func() {
 
 				It("an user leaves a project", func() {
 					models.InTx(func(txn *gorm.DB) bool {
 						project.AddUser(txn, &otherUser)
 						return true
 					})
-					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%d/leave", project.ID), bytes.NewReader(emptyJSON), authHeaders(otherUser))
+					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%s/leave", project.Slug), bytes.NewReader(emptyJSON), authHeaders(otherUser))
 					Expect(resp.StatusCode).To(Equal(http.StatusOK))
 				})
 
 			})
 
-			Describe("PUT /projects/:id/remove/:user_id", func() {
+			Describe("PUT /projects/:slug/remove/:email", func() {
 
 				It("remove an user from a project", func() {
 					models.InTx(func(txn *gorm.DB) bool {
 						project.AddUser(txn, &otherUser)
 						return true
 					})
-					resp, _ := client.CallRequestWithHeaders("DELETE", fmt.Sprintf("/projects/%d/remove/%d", project.ID, otherUser.ID), bytes.NewReader(emptyJSON), authHeaders(user))
+					resp, _ := client.CallRequestWithHeaders("DELETE", fmt.Sprintf("/projects/%s/remove/%s", project.Slug, otherUser.Email), bytes.NewReader(emptyJSON), authHeaders(user))
 					Expect(resp.StatusCode).To(Equal(http.StatusOK))
 					projectsCollab := user.CollaboratorProjects()
 					Expect(len(projectsCollab)).To(Equal(0))
@@ -176,7 +177,7 @@ var _ = Describe("Projects", func() {
 
 			It("Should get ok", func() {
 				sshJSON, _ := json.Marshal(ssh)
-				resp, _ := client.CallRequest("GET", fmt.Sprintf("/projects/%d/has_access", project.ID), bytes.NewReader(sshJSON))
+				resp, _ := client.CallRequest("GET", fmt.Sprintf("/projects/%s/has_access", project.Slug), bytes.NewReader(sshJSON))
 				Expect(resp.StatusCode).To(Equal(http.StatusOK))
 			})
 

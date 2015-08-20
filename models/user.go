@@ -105,3 +105,12 @@ func FindUser(id int) (*User, error) {
 	}
 	return nil, errors.New("User not found")
 }
+
+func FindUserByEmail(email string) (*User, error) {
+	var user User
+	Gdb.Where("email like ?", email).First(&user)
+	if user.ID != 0 {
+		return &user, nil
+	}
+	return nil, errors.New("User not found")
+}

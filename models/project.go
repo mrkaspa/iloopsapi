@@ -84,3 +84,12 @@ func FindProject(id int) (*Project, error) {
 	}
 	return nil, errors.New("Project not found")
 }
+
+func FindProjectBySlug(slug string) (*Project, error) {
+	var project Project
+	Gdb.Where("slug like ?", slug).First(&project)
+	if project.ID != 0 {
+		return &project, nil
+	}
+	return nil, errors.New("Project not found")
+}

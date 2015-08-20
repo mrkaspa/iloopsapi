@@ -1,7 +1,6 @@
 package endpoint
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -16,7 +15,6 @@ func SSHCreate(c *gin.Context) {
 		var ssh models.SSH
 		if err := c.BindJSON(&ssh); err == nil {
 			if valid, errMap := models.ValidStruct(&ssh); valid {
-				fmt.Println("valid >> %b", valid)
 				user := userSession(c)
 				ssh.UserID = user.ID
 				if txn.Save(&ssh).Error == nil {

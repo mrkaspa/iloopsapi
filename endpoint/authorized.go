@@ -2,7 +2,6 @@ package endpoint
 
 import (
 	"net/http"
-	"strconv"
 
 	"bitbucket.org/kiloops/api/models"
 
@@ -20,7 +19,7 @@ func Authorized() gin.HandlerFunc {
 			var user models.User
 			models.Gdb.Where("id = ? and token = ?", authID, authToken).First(&user)
 			if user.ID != 0 {
-				c.Set("userSession", user)
+				c.Set("userSession", &user)
 				c.Next()
 			} else {
 				c.AbortWithStatus(http.StatusForbidden)
@@ -32,11 +31,15 @@ func Authorized() gin.HandlerFunc {
 func AdminAccessToProject() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		user := userSession(c)
-		projectID, _ := strconv.Atoi(c.Param("id"))
-		if user.HasAdminAccessTo(projectID) {
-			c.Next()
+		if project, err := models.FindProjectBySlug(c.Param("slug")); err == nil {
+			if user.HasAdminAccessTo(project.ID) {
+				c.Set("currentProject", project)
+				c.Next()
+			} else {
+				c.AbortWithStatus(http.StatusForbidden)
+			}
 		} else {
-			c.AbortWithStatus(http.StatusForbidden)
+			c.AbortWithStatus(http.StatusNotFound)
 		}
 	}
 }
@@ -44,11 +47,15 @@ func AdminAccessToProject() gin.HandlerFunc {
 func WriteAccessToProject() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		user := userSession(c)
-		projectID, _ := strconv.Atoi(c.Param("id"))
-		if user.HasWriteAccessTo(projectID) {
-			c.Next()
+		if project, err := models.FindProjectBySlug(c.Param("slug")); err == nil {
+			if user.HasWriteAccessTo(project.ID) {
+				c.Set("currentProject", project)
+				c.Next()
+			} else {
+				c.AbortWithStatus(http.StatusForbidden)
+			}
 		} else {
-			c.AbortWithStatus(http.StatusForbidden)
+			c.AbortWithStatus(http.StatusNotFound)
 		}
 	}
 }
