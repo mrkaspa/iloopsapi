@@ -11,9 +11,7 @@ import (
 	"bitbucket.org/kiloops/api/models"
 )
 
-type empty struct{}
-
-var emptyJSON, _ = json.Marshal(empty{})
+var emptyJSON, _ = json.Marshal(struct{}{})
 
 func authHeaders(user models.User) map[string]string {
 	return map[string]string{
@@ -78,7 +76,6 @@ func getBodyJSON(resp *http.Response, i interface{}) {
 }
 
 func debugResponse(resp *http.Response) {
-	defer resp.Body.Close()
 	contents, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println("*****************")
 	fmt.Println(string(contents))

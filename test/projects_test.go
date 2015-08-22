@@ -63,7 +63,6 @@ var _ = Describe("Projects", func() {
 
 			It("gets a project", func() {
 				var projectResp models.Project
-				fmt.Printf("URL >> /projects/%s", project.Slug)
 				resp, _ := client.CallRequestWithHeaders("GET", fmt.Sprintf("/projects/%s", project.Slug), bytes.NewReader(emptyJSON), authHeaders(user))
 				Expect(resp.StatusCode).To(Equal(http.StatusOK))
 				defer resp.Body.Close()

@@ -14,7 +14,7 @@ type UsersProjects struct {
 	Role      int     `json:"role"`
 	ProjectID int     `json:"project_id"`
 	UserID    int     `json:"user_id"`
-	Project   Project `json:"-"`
+	Project   Project `json:"project"`
 
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`

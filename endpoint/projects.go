@@ -14,7 +14,7 @@ import (
 func ProjectList(c *gin.Context) {
 	user := userSession(c)
 	projects := user.AllProjects()
-	c.JSON(http.StatusOK, projects)
+	c.JSON(http.StatusOK, *projects)
 }
 
 //ProjectShow serves the route GET /projects/:slug

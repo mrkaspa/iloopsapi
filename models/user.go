@@ -43,10 +43,15 @@ func (u User) LoggedIn(login UserLogin) bool {
 	return helpers.MD5(login.Password) == u.Password
 }
 
-func (u User) AllProjects() []UsersProjects {
+func (u User) AllProjects() *[]UsersProjects {
 	userProjects := []UsersProjects{}
 	Gdb.Where("user_id = ?", u.ID).Find(&userProjects)
-	return userProjects
+	fullUserProjects := []UsersProjects{}
+	for _, p := range userProjects {
+		Gdb.Model(&p).Related(&(p.Project))
+		fullUserProjects = append(fullUserProjects, p)
+	}
+	return &fullUserProjects
 }
 
 func (u User) OwnedProjects() []UsersProjects {
