@@ -72,7 +72,7 @@ func ProjectLeave(c *gin.Context) {
 				c.JSON(http.StatusBadRequest, "Could not leave the project")
 			}
 		} else {
-			c.JSON(http.StatusForbidden, "")
+			c.JSON(http.StatusBadRequest, "An admin user can't leave a project")
 		}
 		return false
 	})

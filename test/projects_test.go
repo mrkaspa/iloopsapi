@@ -87,7 +87,7 @@ var _ = Describe("Projects", func() {
 
 			It("an admin tries to leave a project", func() {
 				resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%s/leave", project.Slug), bytes.NewReader(emptyJSON), authHeaders(user))
-				Expect(resp.StatusCode).To(Equal(http.StatusForbidden))
+				Expect(resp.StatusCode).To(Equal(http.StatusBadRequest))
 			})
 
 		})
