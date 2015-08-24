@@ -50,7 +50,6 @@ var _ = AfterSuite(func() {
 
 func cleanDB() {
 	fmt.Println("***Cleaning***")
-	models.Gdb.Delete(models.Execution{})
 	models.Gdb.Delete(models.UsersProjects{})
 	models.Gdb.Delete(models.Project{})
 	models.Gdb.Delete(models.SSH{})

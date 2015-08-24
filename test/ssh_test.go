@@ -51,6 +51,10 @@ var _ = Describe("SSH", func() {
 			ssh = addSSH(user)
 		})
 
+		AfterEach(func() {
+			gitadmin.DeleteSSH(user.Email, ssh.ID)
+		})
+
 		It("create an ssh", func() {
 			resp, _ := client.CallRequestWithHeaders("DELETE", fmt.Sprintf("/ssh/%d", ssh.ID), bytes.NewReader(emptyJSON), authHeaders(user))
 			Expect(resp.StatusCode).To(Equal(http.StatusOK))

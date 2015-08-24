@@ -21,15 +21,14 @@ func GetMainEngine() *gin.Engine {
 			auth.GET("projects/:slug", WriteAccessToProject(), ProjectShow)
 			auth.PUT("projects/:slug/leave", WriteAccessToProject(), ProjectLeave)
 			auth.PUT("projects/:slug/add/:email", AdminAccessToProject(), ProjectAddUser)
-			auth.DELETE("/projects/:slug/remove/:email", AdminAccessToProject(), ProjectRemoveUser)
+			auth.DELETE("projects/:slug/remove/:email", AdminAccessToProject(), ProjectRemoveUser)
 			auth.PUT("projects/:slug/delegate/:email", AdminAccessToProject(), ProjectDelegate)
 			auth.DELETE("projects/:slug", AdminAccessToProject(), ProjectDestroy)
 		}
 
 		internal := v1.Group("")
 		{
-			internal.POST("/executions/:project_id", ExecutionCreate)
-			internal.GET("/projects/:slug/has_access", ProjectHasAccessBySSH)
+			internal.GET("projects/:slug/has_access", ProjectHasAccessBySSH)
 		}
 	}
 
