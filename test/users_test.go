@@ -29,7 +29,6 @@ var _ = Describe("Users", func() {
 	})
 
 	Describe("POST /users/login", func() {
-		var user models.User
 
 		BeforeEach(func() {
 			fmt.Println("***saveUser()***")

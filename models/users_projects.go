@@ -48,7 +48,7 @@ func (u UsersProjects) AfterCreate(txn *gorm.DB) error {
 
 // AfterDelete callback
 func (u UsersProjects) AfterDelete(txn *gorm.DB) error {
-	return u.withRels(txn, func(email string, SSHs *[]SSH, slug string) error {
+	err := u.withRels(txn, func(email string, SSHs *[]SSH, slug string) error {
 		path := gitadmin.ProjectPath(slug)
 		for _, ssh := range *SSHs {
 			if err := gitadmin.RemoveSSHFromProject(email, ssh.ID, slug); err != nil {
@@ -59,9 +59,13 @@ func (u UsersProjects) AfterDelete(txn *gorm.DB) error {
 		gitadmin.CommitChange(path)
 		return nil
 	})
+	return err
 }
 
 func (u UsersProjects) withRels(txn *gorm.DB, f func(string, *[]SSH, string) error) error {
+	if u.ID == 0 {
+		return nil
+	}
 	var project Project
 	var user User
 	txn.Model(&u).Related(&user)

@@ -15,8 +15,6 @@ import (
 
 var _ = Describe("SSH", func() {
 
-	var user models.User
-
 	BeforeEach(func() {
 		cleanDB()
 		user = saveUser()
@@ -48,8 +46,6 @@ var _ = Describe("SSH", func() {
 	})
 
 	Describe("DELETE /ssh/:id", func() {
-
-		var ssh models.SSH
 
 		BeforeEach(func() {
 			ssh = addSSH(user)

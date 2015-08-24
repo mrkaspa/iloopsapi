@@ -16,11 +16,6 @@ import (
 
 var _ = Describe("Projects", func() {
 
-	var (
-		user models.User
-		ssh  models.SSH
-	)
-
 	BeforeEach(func() {
 		cleanDB()
 		user = saveUser()
@@ -52,8 +47,6 @@ var _ = Describe("Projects", func() {
 	})
 
 	Context("After adding a project", func() {
-
-		var project models.Project
 
 		BeforeEach(func() {
 			project = addProject(user)
@@ -111,11 +104,6 @@ var _ = Describe("Projects", func() {
 
 		Context("Adding another user to the project", func() {
 
-			var (
-				otherUser  models.User
-				anotherSSH models.SSH
-			)
-
 			BeforeEach(func() {
 				otherUser = saveOtherUser()
 				anotherSSH = addAnotherSSH(otherUser)
@@ -168,7 +156,7 @@ var _ = Describe("Projects", func() {
 
 			Describe("PUT /projects/:slug/remove/:email", func() {
 
-				FIt("remove an user from a project", func() {
+				It("remove an user from a project", func() {
 					models.InTx(func(txn *gorm.DB) bool {
 						project.AddUser(txn, &otherUser)
 						return true
@@ -188,10 +176,6 @@ var _ = Describe("Projects", func() {
 	Context("Validating access of an user by his ssh", func() {
 
 		Describe("GET /projects/:id/has_access", func() {
-
-			var (
-				project models.Project
-			)
 
 			BeforeEach(func() {
 				project = addProject(user)

@@ -13,11 +13,6 @@ import (
 
 var _ = Describe("Execution", func() {
 
-	var (
-		user    models.User
-		project models.Project
-	)
-
 	BeforeEach(func() {
 		cleanDB()
 		user = saveUser()

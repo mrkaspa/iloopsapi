@@ -80,7 +80,9 @@ func (u User) CreateProject(txn *gorm.DB, project *Project) error {
 }
 
 func (u User) LeaveProject(txn *gorm.DB, projectID int) error {
-	return txn.Where("user_id = ? and project_id = ?", u.ID, projectID).Delete(UsersProjects{}).Error
+	var userProject UsersProjects
+	txn.Where("user_id = ? and project_id = ?", u.ID, projectID).Find(&userProject)
+	return txn.Delete(&userProject).Error
 }
 
 func (u User) HasAdminAccessTo(projectID int) bool {

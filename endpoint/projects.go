@@ -1,7 +1,6 @@
 package endpoint
 
 import (
-	"fmt"
 	"net/http"
 
 	"bitbucket.org/kiloops/api/models"
@@ -68,7 +67,6 @@ func ProjectLeave(c *gin.Context) {
 				c.JSON(http.StatusOK, "")
 				return true
 			} else {
-				fmt.Println(err)
 				c.JSON(http.StatusBadRequest, "Could not leave the project")
 			}
 		} else {

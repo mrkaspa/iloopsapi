@@ -39,8 +39,8 @@ func (p *Project) SetSlug() {
 }
 
 //BeforeDelete a Project
-func (p *Project) BeforeDelete(txn *gorm.DB) error {
-	return txn.Where("project_id = ?", p.ID).Delete(UsersProjects{}).Error
+func (p Project) AfterDelete() error {
+	return gitadmin.DeleteProject(p.Slug)
 }
 
 //AddUser adds new user

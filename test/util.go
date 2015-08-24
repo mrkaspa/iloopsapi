@@ -69,7 +69,7 @@ func addAnotherSSH(user models.User) models.SSH {
 func addProject(user models.User) models.Project {
 	project := models.Project{Name: "Demo Project"}
 	models.InTx(func(txn *gorm.DB) bool {
-		if user.CreateProject(txn, &project) != nil {
+		if err := user.CreateProject(txn, &project); err != nil {
 			panic("error creating the project")
 		}
 		return true
