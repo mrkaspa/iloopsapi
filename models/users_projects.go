@@ -63,9 +63,6 @@ func (u UsersProjects) AfterDelete(txn *gorm.DB) error {
 }
 
 func (u UsersProjects) withRels(txn *gorm.DB, f func(string, *[]SSH, string) error) error {
-	if u.ID == 0 {
-		return nil
-	}
 	var project Project
 	var user User
 	txn.Model(&u).Related(&user)
