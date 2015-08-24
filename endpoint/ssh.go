@@ -18,7 +18,7 @@ func SSHCreate(c *gin.Context) {
 				user := userSession(c)
 				ssh.UserID = user.ID
 				if txn.Save(&ssh).Error == nil {
-					c.JSON(http.StatusOK, "")
+					c.JSON(http.StatusOK, ssh)
 					return true
 				} else {
 					c.JSON(http.StatusBadRequest, "SSH can't be saved")

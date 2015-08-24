@@ -1,9 +1,10 @@
 package models
 
 import (
-	"errors"
 	"fmt"
 	"time"
+
+	"bitbucket.org/kiloops/api/gitadmin"
 
 	"github.com/gosimple/slug"
 	"github.com/jinzhu/gorm"
@@ -23,18 +24,18 @@ type Project struct {
 //AfterCreate a Project
 func (p *Project) AfterCreate(txn *gorm.DB) error {
 	p.SetSlug()
-	return txn.Save(p).Error
+	p.URLRepo = gitadmin.GITURLROOT + ":" + p.Slug + ".git"
+	if err := txn.Save(p).Error; err == nil {
+		return gitadmin.CreateProject(p.Slug)
+	} else {
+		return err
+	}
 }
 
 //SetSlug for the project
 func (p *Project) SetSlug() {
 	nameSlug := slug.Make(p.Name)
 	p.Slug = fmt.Sprintf("%s-%d", nameSlug, p.ID)
-}
-
-//TODO connect to the git backend
-func (p *Project) CreateRepo() {
-
 }
 
 //BeforeDelete a Project
@@ -55,7 +56,7 @@ func (p *Project) RemoveUser(txn *gorm.DB, user *User) error {
 	if userProject.Role == Collaborator {
 		return txn.Delete(&userProject).Error
 	}
-	return errors.New("You can't remove a Creator from a project")
+	return ErrCreatorNotRemoved
 }
 
 //DelegateUser sets an user as Creator
@@ -71,7 +72,7 @@ func (p *Project) DelegateUser(txn *gorm.DB, userAdmin, user *User) error {
 			return err
 		}
 	} else {
-		return errors.New("The user doesn't have collaborator access to the project")
+		return ErrUserIsNotCollaborator
 	}
 }
 
@@ -82,7 +83,7 @@ func FindProject(id int) (*Project, error) {
 	if project.ID != 0 {
 		return &project, nil
 	}
-	return nil, errors.New("Project not found")
+	return nil, ErrProjectNotFound
 }
 
 func FindProjectBySlug(slug string) (*Project, error) {
@@ -91,5 +92,5 @@ func FindProjectBySlug(slug string) (*Project, error) {
 	if project.ID != 0 {
 		return &project, nil
 	}
-	return nil, errors.New("Project not found")
+	return nil, ErrProjectNotFound
 }

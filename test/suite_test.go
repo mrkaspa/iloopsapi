@@ -9,6 +9,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"bitbucket.org/kiloops/api/endpoint"
+	"bitbucket.org/kiloops/api/gitadmin"
 	"bitbucket.org/kiloops/api/models"
 	"bitbucket.org/kiloops/api/utils"
 
@@ -32,6 +33,7 @@ func TestApi(t *testing.T) {
 var _ = BeforeSuite(func() {
 	initEnv()
 	models.InitDB()
+	gitadmin.InitVars()
 	cleanDB()
 	ts = httptest.NewServer(endpoint.GetMainEngine())
 	client = utils.Client{

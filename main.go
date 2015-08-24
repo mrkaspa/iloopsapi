@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"bitbucket.org/kiloops/api/endpoint"
+	"bitbucket.org/kiloops/api/gitadmin"
 	"bitbucket.org/kiloops/api/models"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
@@ -14,6 +15,7 @@ import (
 func main() {
 	initEnv()
 	models.InitDB()
+	gitadmin.InitVars()
 
 	router := endpoint.GetMainEngine()
 

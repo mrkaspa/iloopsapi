@@ -3,6 +3,8 @@ package models
 import (
 	"time"
 
+	"bitbucket.org/kiloops/api/gitadmin"
+
 	"github.com/mrkaspa/go-helpers"
 )
 
@@ -21,6 +23,26 @@ type SSH struct {
 func (s *SSH) BeforeCreate() error {
 	s.Hash = helpers.MD5(s.PublicKey)
 	return nil
+}
+
+//AfterCreate callback
+func (s *SSH) AfterCreate() error {
+	var user User
+	Gdb.Model(s).Related(&user)
+	if user.ID != 0 {
+		return gitadmin.AddSSH(user.Email, s.ID, s.PublicKey)
+	}
+	return ErrUserNotFound
+}
+
+//AfterDelete callback
+func (s *SSH) AfterDelete() error {
+	var user User
+	Gdb.Model(s).Related(&user)
+	if user.ID != 0 {
+		return gitadmin.DeleteSSH(user.Email, s.ID)
+	}
+	return ErrUserNotFound
 }
 
 //TableName for SSH

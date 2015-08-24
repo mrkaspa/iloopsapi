@@ -6,19 +6,29 @@ import (
 	"fmt"
 	"net/http"
 
+	"bitbucket.org/kiloops/api/gitadmin"
 	"bitbucket.org/kiloops/api/models"
 	"github.com/jinzhu/gorm"
+	"github.com/mrkaspa/go-helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
 var _ = Describe("Projects", func() {
 
-	var user models.User
+	var (
+		user models.User
+		ssh  models.SSH
+	)
 
 	BeforeEach(func() {
 		cleanDB()
 		user = saveUser()
+		ssh = addSSH(user)
+	})
+
+	AfterEach(func() {
+		gitadmin.DeleteSSH(user.Email, ssh.ID)
 	})
 
 	Describe("POST /projects", func() {
@@ -34,6 +44,9 @@ var _ = Describe("Projects", func() {
 			Expect(project.Slug).ToNot(BeEmpty())
 			projectsOwned := user.OwnedProjects()
 			Expect(len(projectsOwned)).To(Equal(1))
+			path := gitadmin.ProjectPath(project.Slug)
+			Expect(helpers.FileExists(path)).To(BeTrue())
+			gitadmin.DeleteProject(project.Slug)
 		})
 
 	})
@@ -44,6 +57,10 @@ var _ = Describe("Projects", func() {
 
 		BeforeEach(func() {
 			project = addProject(user)
+		})
+
+		AfterEach(func() {
+			gitadmin.DeleteProject(project.Slug)
 		})
 
 		Describe("GET /projects", func() {
@@ -94,10 +111,18 @@ var _ = Describe("Projects", func() {
 
 		Context("Adding another user to the project", func() {
 
-			var otherUser models.User
+			var (
+				otherUser  models.User
+				anotherSSH models.SSH
+			)
 
 			BeforeEach(func() {
 				otherUser = saveOtherUser()
+				anotherSSH = addAnotherSSH(otherUser)
+			})
+
+			AfterEach(func() {
+				gitadmin.DeleteSSH(otherUser.Email, anotherSSH.ID)
 			})
 
 			Describe("PUT /projects/:slug/add/:email", func() {
@@ -143,7 +168,7 @@ var _ = Describe("Projects", func() {
 
 			Describe("PUT /projects/:slug/remove/:email", func() {
 
-				It("remove an user from a project", func() {
+				FIt("remove an user from a project", func() {
 					models.InTx(func(txn *gorm.DB) bool {
 						project.AddUser(txn, &otherUser)
 						return true
@@ -165,13 +190,15 @@ var _ = Describe("Projects", func() {
 		Describe("GET /projects/:id/has_access", func() {
 
 			var (
-				ssh     models.SSH
 				project models.Project
 			)
 
 			BeforeEach(func() {
-				ssh = addSSH(user)
 				project = addProject(user)
+			})
+
+			AfterEach(func() {
+				gitadmin.DeleteProject(project.Slug)
 			})
 
 			It("Should get ok", func() {

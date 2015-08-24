@@ -1,7 +1,6 @@
 package models
 
 import (
-	"errors"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -73,10 +72,10 @@ func (u User) CreateProject(txn *gorm.DB, project *Project) error {
 		if txn.Save(&userProject).Error == nil {
 			return nil
 		} else {
-			return errors.New("User Project can't be saved")
+			return ErrUserProjectNotSaved
 		}
 	} else {
-		return errors.New("Project can't be saved")
+		return ErrProjectNotSaved
 	}
 }
 
@@ -108,7 +107,7 @@ func FindUser(id int) (*User, error) {
 	if user.ID != 0 {
 		return &user, nil
 	}
-	return nil, errors.New("User not found")
+	return nil, ErrUserNotFound
 }
 
 func FindUserByEmail(email string) (*User, error) {
@@ -117,5 +116,5 @@ func FindUserByEmail(email string) (*User, error) {
 	if user.ID != 0 {
 		return &user, nil
 	}
-	return nil, errors.New("User not found")
+	return nil, ErrUserNotFound
 }
