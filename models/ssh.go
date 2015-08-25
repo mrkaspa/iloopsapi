@@ -5,6 +5,7 @@ import (
 
 	"bitbucket.org/kiloops/api/gitadmin"
 
+	"github.com/jinzhu/gorm"
 	"github.com/mrkaspa/go-helpers"
 )
 
@@ -14,7 +15,7 @@ type SSH struct {
 	Name      string    `json:"name" validate:"required"`
 	PublicKey string    `sql:"type:text" json:"public_key" validate:"required"`
 	Hash      string    `sql:"type:varchar(100);unique_index" json:"-"`
-	UserID    int       `json:"user_id" validate:"required"`
+	UserID    int       `json:"user_id"`
 	User      User      `json:"-"`
 	CreatedAt time.Time `json:"created_at"`
 }
@@ -26,9 +27,9 @@ func (s *SSH) BeforeCreate() error {
 }
 
 //AfterCreate callback
-func (s *SSH) AfterCreate() error {
+func (s *SSH) AfterCreate(txn *gorm.DB) error {
 	var user User
-	Gdb.Model(s).Related(&user)
+	txn.Model(s).Related(&user)
 	if user.ID != 0 {
 		return gitadmin.AddSSH(user.Email, s.ID, s.PublicKey)
 	}
@@ -36,9 +37,9 @@ func (s *SSH) AfterCreate() error {
 }
 
 //AfterDelete callback
-func (s *SSH) AfterDelete() error {
+func (s *SSH) AfterDelete(txn *gorm.DB) error {
 	var user User
-	Gdb.Model(s).Related(&user)
+	txn.Model(s).Related(&user)
 	if user.ID != 0 {
 		return gitadmin.DeleteSSH(user.Email, s.ID)
 	}

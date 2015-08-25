@@ -15,7 +15,7 @@ func UserCreate(c *gin.Context) {
 		if err := c.BindJSON(&userLogin); err == nil {
 			if valid, errMap := models.ValidStruct(&userLogin); valid {
 				user := models.User{Email: userLogin.Email, Password: userLogin.Password}
-				if txn.Save(&user).Error == nil {
+				if txn.Create(&user).Error == nil {
 					userLogged := models.UserLogged{ID: user.ID, Email: user.Email, Token: user.Token}
 					c.JSON(http.StatusOK, userLogged)
 					return true

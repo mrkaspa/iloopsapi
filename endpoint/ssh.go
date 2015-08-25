@@ -17,7 +17,7 @@ func SSHCreate(c *gin.Context) {
 			if valid, errMap := models.ValidStruct(&ssh); valid {
 				user := userSession(c)
 				ssh.UserID = user.ID
-				if txn.Save(&ssh).Error == nil {
+				if txn.Create(&ssh).Error == nil {
 					c.JSON(http.StatusOK, ssh)
 					return true
 				} else {

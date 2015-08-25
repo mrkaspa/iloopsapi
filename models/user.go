@@ -66,10 +66,10 @@ func (u User) CollaboratorProjects() []UsersProjects {
 }
 
 func (u User) CreateProject(txn *gorm.DB, project *Project) error {
-	if txn.Save(&project).Error == nil {
+	if txn.Create(&project).Error == nil {
 		// Creates a relation between the user and the project
 		userProject := UsersProjects{Role: Creator, UserID: u.ID, ProjectID: project.ID}
-		if txn.Save(&userProject).Error == nil {
+		if txn.Create(&userProject).Error == nil {
 			return nil
 		} else {
 			return ErrUserProjectNotSaved
