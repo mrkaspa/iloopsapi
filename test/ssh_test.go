@@ -16,7 +16,6 @@ import (
 var _ = Describe("SSH", func() {
 
 	BeforeEach(func() {
-		cleanDB()
 		user = saveUser()
 	})
 

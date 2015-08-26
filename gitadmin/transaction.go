@@ -69,3 +69,12 @@ func RollbackChange(path string) error {
 	session := sh.NewSession()
 	return session.SetDir(path).Command("git", "reset", "--hard", "HEAD").Run()
 }
+
+func RevertAll(path string) error {
+	fmt.Println("***RevertAll***")
+	if utils.IsTest() {
+		session := sh.NewSession()
+		return session.SetDir(path).Command("git", "clean", "-f").Run()
+	}
+	return nil
+}

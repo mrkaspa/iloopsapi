@@ -13,14 +13,10 @@ import (
 
 var _ = Describe("Users", func() {
 
-	BeforeEach(func() {
-		cleanDB()
-	})
-
 	Describe("POST /users", func() {
 
 		It("create an user", func() {
-			userLogin := models.UserLogin{Email: "michel.ingesoft@gmail.com", Password: "h1h1h1h1h1h1"}
+			userLogin := defaultUser()
 			userJSON, _ := json.Marshal(userLogin)
 			resp, _ := client.CallRequest("POST", "/users", bytes.NewReader(userJSON))
 			Expect(resp.StatusCode).To(Equal(http.StatusOK))
@@ -36,7 +32,7 @@ var _ = Describe("Users", func() {
 		})
 
 		It("login successfully", func() {
-			userLogin := models.UserLogin{Email: "michel.ingesoft@gmail.com", Password: "h1h1h1h1h1h1"}
+			userLogin := defaultUser()
 			userJSON, _ := json.Marshal(userLogin)
 			resp, _ := client.CallRequest("POST", "/users/login", bytes.NewReader(userJSON))
 			Expect(resp.StatusCode).To(Equal(http.StatusOK))

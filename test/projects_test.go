@@ -17,7 +17,6 @@ import (
 var _ = Describe("Projects", func() {
 
 	BeforeEach(func() {
-		cleanDB()
 		user = saveUser()
 		ssh = addSSH(user)
 	})

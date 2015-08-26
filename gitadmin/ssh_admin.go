@@ -1,7 +1,6 @@
 package gitadmin
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -11,7 +10,6 @@ import (
 
 //AddSSH to gitolite
 func AddSSH(email string, sshID int, content string) error {
-	fmt.Println("***AddSSH***")
 	path := KeyPath(email, sshID)
 	if helpers.FileExists(path) {
 		return ErrSSHFileExists
@@ -31,7 +29,6 @@ func AddSSH(email string, sshID int, content string) error {
 
 //DeleteSSH from gitolite
 func DeleteSSH(email string, sshID int) error {
-	fmt.Println("***DeleteSSH***")
 	path := KeyPath(email, sshID)
 	if err := os.Remove(path); err == nil {
 		chanResp := make(chan error)
