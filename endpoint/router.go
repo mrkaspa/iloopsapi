@@ -32,5 +32,7 @@ func GetMainEngine() *gin.Engine {
 		}
 	}
 
+	router.NoRoute(Proxy)
+
 	return router
 }

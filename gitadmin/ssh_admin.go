@@ -1,6 +1,7 @@
 package gitadmin
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -10,13 +11,16 @@ import (
 
 //AddSSH to gitolite
 func AddSSH(email string, sshID int, content string) error {
+	fmt.Println("***AddSSH***")
 	path := KeyPath(email, sshID)
 	if helpers.FileExists(path) {
 		return ErrSSHFileExists
 	}
 	if _, err := os.Create(path); err == nil {
 		if err := ioutil.WriteFile(path, []byte(content), os.ModePerm); err == nil {
-			return CommitChange(GITOLITEPATH)
+			chanResp := make(chan error)
+			ChanCommit <- ChanReq{GITOLITEPATH, &chanResp}
+			return GetCloseChanResponse(&chanResp)
 		} else {
 			return err
 		}
@@ -27,9 +31,12 @@ func AddSSH(email string, sshID int, content string) error {
 
 //DeleteSSH from gitolite
 func DeleteSSH(email string, sshID int) error {
+	fmt.Println("***DeleteSSH***")
 	path := KeyPath(email, sshID)
 	if err := os.Remove(path); err == nil {
-		return CommitChange(GITOLITEPATH)
+		chanResp := make(chan error)
+		ChanCommit <- ChanReq{GITOLITEPATH, &chanResp}
+		return GetCloseChanResponse(&chanResp)
 	} else {
 		return err
 	}

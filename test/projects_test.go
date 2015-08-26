@@ -175,7 +175,7 @@ var _ = Describe("Projects", func() {
 
 	Context("Validating access of an user by his ssh", func() {
 
-		Describe("GET /projects/:id/has_access", func() {
+		Describe("GET /projects/:slug/has_access", func() {
 
 			BeforeEach(func() {
 				project = addProject(user)

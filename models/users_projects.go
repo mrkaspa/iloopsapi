@@ -34,13 +34,16 @@ func (u UsersProjects) TableName() string {
 // AfterCreate callback
 func (u UsersProjects) AfterCreate(txn *gorm.DB) error {
 	return u.withRels(txn, func(email string, SSHs *[]SSH, slug string) error {
-		path := gitadmin.ProjectPath(slug)
 		for _, ssh := range *SSHs {
 			if err := gitadmin.AddSSHToProject(email, ssh.ID, slug); err != nil {
-				gitadmin.RevertChange(path)
+				chanResp := make(chan error)
+				gitadmin.ChanRollback <- gitadmin.ChanReq{gitadmin.GITOLITEPATH, &chanResp}
+				gitadmin.GetCloseChanResponse(&chanResp)
 				return err
 			}
-			gitadmin.CommitChange(path)
+			chanResp := make(chan error)
+			gitadmin.ChanCommit <- gitadmin.ChanReq{gitadmin.GITOLITEPATH, &chanResp}
+			return gitadmin.GetCloseChanResponse(&chanResp)
 		}
 		return nil
 	})
@@ -49,15 +52,17 @@ func (u UsersProjects) AfterCreate(txn *gorm.DB) error {
 // AfterDelete callback
 func (u UsersProjects) AfterDelete(txn *gorm.DB) error {
 	err := u.withRels(txn, func(email string, SSHs *[]SSH, slug string) error {
-		path := gitadmin.ProjectPath(slug)
 		for _, ssh := range *SSHs {
 			if err := gitadmin.RemoveSSHFromProject(email, ssh.ID, slug); err != nil {
-				gitadmin.RevertChange(path)
+				chanResp := make(chan error)
+				gitadmin.ChanRollback <- gitadmin.ChanReq{gitadmin.GITOLITEPATH, &chanResp}
+				gitadmin.GetCloseChanResponse(&chanResp)
 				return err
 			}
 		}
-		gitadmin.CommitChange(path)
-		return nil
+		chanResp := make(chan error)
+		gitadmin.ChanCommit <- gitadmin.ChanReq{gitadmin.GITOLITEPATH, &chanResp}
+		return gitadmin.GetCloseChanResponse(&chanResp)
 	})
 	return err
 }

@@ -34,6 +34,7 @@ var _ = BeforeSuite(func() {
 	initEnv()
 	models.InitDB()
 	gitadmin.InitVars()
+	gitadmin.InitGitAdmin()
 	cleanDB()
 	ts = httptest.NewServer(endpoint.GetMainEngine())
 	client = utils.Client{
@@ -46,6 +47,7 @@ var _ = BeforeSuite(func() {
 var _ = AfterSuite(func() {
 	models.Gdb.Close()
 	ts.Close()
+	gitadmin.FinishGitAdmin()
 })
 
 func cleanDB() {

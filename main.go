@@ -16,6 +16,7 @@ func main() {
 	initEnv()
 	models.InitDB()
 	gitadmin.InitVars()
+	gitadmin.InitGitAdmin()
 
 	router := endpoint.GetMainEngine()
 

@@ -54,7 +54,9 @@ func RemoveSSHFromProject(email string, sshID int, slug string) error {
 func DeleteProject(slug string) error {
 	path := ProjectPath(slug)
 	if err := os.Remove(path); err == nil {
-		return CommitChange(GITOLITEPATH)
+		chanResp := make(chan error)
+		ChanCommit <- ChanReq{GITOLITEPATH, &chanResp}
+		return GetCloseChanResponse(&chanResp)
 	} else {
 		return err
 	}
@@ -86,7 +88,9 @@ func saveProjectFile(path string, slug string, users *[]string, commit bool) err
 	content := fmt.Sprintf(TemplateProjectConf, slug, strings.TrimSpace(usersBuff.String()), slug, slug)
 	if err := ioutil.WriteFile(path, []byte(content), os.ModePerm); err == nil {
 		if commit {
-			return CommitChange(GITOLITEPATH)
+			chanResp := make(chan error)
+			ChanCommit <- ChanReq{GITOLITEPATH, &chanResp}
+			return GetCloseChanResponse(&chanResp)
 		} else {
 			return nil
 		}

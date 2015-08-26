@@ -23,7 +23,7 @@ func authHeaders(user models.User) map[string]string {
 func saveUser() models.User {
 	user := models.User{Email: "michel.ingesoft@gmail.com", Password: "h1h1h1h1h1h1"}
 	models.InTx(func(txn *gorm.DB) bool {
-		if txn.Save(&user).Error != nil {
+		if txn.Create(&user).Error != nil {
 			panic("error creating the user")
 		}
 		return true
@@ -34,7 +34,7 @@ func saveUser() models.User {
 func saveOtherUser() models.User {
 	user := models.User{Email: "angelbotto@gmail.com", Password: "h1h1h1h1h1h1"}
 	models.InTx(func(txn *gorm.DB) bool {
-		if txn.Save(&user).Error != nil {
+		if txn.Create(&user).Error != nil {
 			panic("error creating the user")
 		}
 		return true
@@ -46,7 +46,7 @@ func addSSH(user models.User) models.SSH {
 	sshKey := `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlCc96zWY05/vFIcP5NLhi8bIVkcUdSyet1Dw7+rQqbeEJaQ0Ifz/x17AGkQAnC0ZjdHI7sCFjVGuvk6agw6MJzKU8a+iWisAVu4hvv22DXBPKYak28GMEW3e0Ba/8mUiCdLCW5lfQ85QmDABqdWb6BGy2VSJ/k4NfWW728RwbQf1MZSwS2+kqvR3XjpkpMETLz5DmRty6Dqp3al73JbE7raWhidoYeS0wiJKsWiaucfewz+feubNkEnO5/p1v1zpAlaPYEVvZEeG5ABchNZ4Co+SGvVd4+FuxVgLkPOqpV5y3JFFrmSJE4HMsin96u/3OHcgVwew6nyE9YyoKZ/rL michel.ing@hotmail.com`
 	ssh := models.SSH{Name: "demo", PublicKey: sshKey, UserID: user.ID}
 	models.InTx(func(txn *gorm.DB) bool {
-		if txn.Save(&ssh).Error != nil {
+		if txn.Create(&ssh).Error != nil {
 			panic("error creating the ssh")
 		}
 		return true
@@ -58,7 +58,7 @@ func addAnotherSSH(user models.User) models.SSH {
 	sshKey := `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBZ5qb4XIWo4yQbRJWqjSdJs/9TYs8QranpnUOoHQDd/6Teik4NptSJ8QaMpF+9p6euscG7ceIRvBUFvc0Cecy/E7uVoQVm/BosypvbrywvTcnwNkHeNJftu05wk4iUj4AYol57zXxYXH0hqq/UD7ijSlsG/d24n9NR9r3Ocng1BWpjd+ZdJFqzYLwp/1vVMOohVdOKtJymnkjFWBoEqaZ3g4p8glb/NrjC0154r6vLq3FBLglEqCdcXXX6dy0QFEtGPHrqAGVj10vnJYUsPrGjZzOHYHxQwvzdtmtI8lMSoPEHZ39ODrABzfv7b07bT4it9YVFodUUyfNn+bZYp/F mrkaspa@github.com`
 	ssh := models.SSH{Name: "demo", PublicKey: sshKey, UserID: user.ID}
 	models.InTx(func(txn *gorm.DB) bool {
-		if txn.Save(&ssh).Error != nil {
+		if txn.Create(&ssh).Error != nil {
 			panic("error creating the ssh")
 		}
 		return true
