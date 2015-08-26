@@ -1,6 +1,7 @@
 package endpoint
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -24,6 +25,7 @@ func SSHCreate(c *gin.Context) {
 					c.JSON(http.StatusBadRequest, "SSH can't be saved")
 				}
 			} else {
+				fmt.Println(errMap)
 				c.JSON(http.StatusConflict, errMap)
 			}
 		}

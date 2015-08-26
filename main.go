@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"bitbucket.org/kiloops/api/endpoint"
@@ -19,9 +20,10 @@ func main() {
 	gitadmin.InitGitAdmin()
 
 	router := endpoint.GetMainEngine()
+	port := os.Getenv("PORT")
 
 	s := &http.Server{
-		Addr:         ":8080",
+		Addr:         ":" + port,
 		Handler:      router,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,

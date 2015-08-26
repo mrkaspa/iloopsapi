@@ -47,7 +47,6 @@ func ProjectDestroy(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		project := currentProject(c)
 		if err := txn.Delete(&project).Error; err == nil {
-			// project.DeleteRels(txn)
 			c.JSON(http.StatusOK, project)
 			return true
 		} else {

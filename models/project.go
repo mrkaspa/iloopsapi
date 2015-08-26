@@ -13,7 +13,7 @@ import (
 //Project on the system
 type Project struct {
 	ID      int    `gorm:"primary_key" json:"id"`
-	Slug    string `json:"slug" sql:"unique_index"`
+	Slug    string `json:"slug" sql:"unique"`
 	Name    string `json:"name" validate:"required"`
 	URLRepo string `json:"url_repo"`
 
@@ -39,7 +39,20 @@ func (p *Project) SetSlug() {
 }
 
 //BeforeDelete a Project
-func (p Project) AfterDelete() error {
+func (p *Project) BeforeDelete(txn *gorm.DB) error {
+	return txn.Where("project_id = ?", p.ID).Delete(UsersProjects{}).Error
+	// var userProjects []UsersProjects
+	// txn.Where("project_id = ?", p.ID).Find(&userProjects)
+	// for _, userProject := range userProjects {
+	// 	if err := txn.Delete(&userProject).Error; err != nil {
+	// 		return err
+	// 	}
+	// }
+	// return nil
+}
+
+//AfterDelete a Project
+func (p *Project) AfterDelete() error {
 	return gitadmin.DeleteProject(p.Slug)
 }
 

@@ -32,7 +32,7 @@ func (u UsersProjects) TableName() string {
 }
 
 // AfterCreate callback
-func (u UsersProjects) AfterCreate(txn *gorm.DB) error {
+func (u *UsersProjects) AfterCreate(txn *gorm.DB) error {
 	return u.withRels(txn, func(email string, SSHs *[]SSH, slug string) error {
 		for _, ssh := range *SSHs {
 			if err := gitadmin.AddSSHToProject(email, ssh.ID, slug); err != nil {
@@ -50,7 +50,7 @@ func (u UsersProjects) AfterCreate(txn *gorm.DB) error {
 }
 
 // AfterDelete callback
-func (u UsersProjects) AfterDelete(txn *gorm.DB) error {
+func (u *UsersProjects) AfterDelete(txn *gorm.DB) error {
 	err := u.withRels(txn, func(email string, SSHs *[]SSH, slug string) error {
 		for _, ssh := range *SSHs {
 			if err := gitadmin.RemoveSSHFromProject(email, ssh.ID, slug); err != nil {
