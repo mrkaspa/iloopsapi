@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mrkaspa/go-helpers"
+	helpers "github.com/mrkaspa/go-helpers"
 )
 
 var TemplateProjectConf = "@users_%s = %s\nrepo %s\n  RW+ = @users_%s"

@@ -5,7 +5,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/mrkaspa/go-helpers"
+	helpers "github.com/mrkaspa/go-helpers"
 )
 
 //AddSSH to gitolite
