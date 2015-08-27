@@ -172,9 +172,9 @@ var _ = Describe("Projects", func() {
 
 	})
 
-	Context("Validating access of an user by his ssh", func() {
+	Context("Scheduling a project", func() {
 
-		Describe("GET /projects/:slug/has_access", func() {
+		Describe("POST /projects/:slug/schedule", func() {
 
 			BeforeEach(func() {
 				project = addProject(user)
@@ -185,8 +185,13 @@ var _ = Describe("Projects", func() {
 			})
 
 			It("Should get ok", func() {
-				sshJSON, _ := json.Marshal(ssh)
-				resp, _ := client.CallRequest("GET", fmt.Sprintf("/projects/%s/has_access", project.Slug), bytes.NewReader(sshJSON))
+				projectConfig := models.ProjectConfig{
+					Name:  project.Name,
+					AppID: project.Slug,
+					Loops: models.Loops{CronFormat: "@every 1m"},
+				}
+				projectConfigJSON, _ := json.Marshal(projectConfig)
+				resp, _ := client.CallRequest("POST", fmt.Sprintf("/projects/%s/schedule", project.Slug), bytes.NewReader(projectConfigJSON))
 				Expect(resp.StatusCode).To(Equal(http.StatusOK))
 			})
 

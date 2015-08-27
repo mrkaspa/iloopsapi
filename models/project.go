@@ -1,10 +1,15 @@
 package models
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"net/http"
+	"os"
 	"time"
 
 	"bitbucket.org/kiloops/api/gitadmin"
+	"bitbucket.org/kiloops/api/utils"
 
 	"github.com/gosimple/slug"
 	"github.com/jinzhu/gorm"
@@ -12,10 +17,12 @@ import (
 
 //Project on the system
 type Project struct {
-	ID      int    `gorm:"primary_key" json:"id"`
-	Slug    string `json:"slug" sql:"unique"`
-	Name    string `json:"name" validate:"required"`
-	URLRepo string `json:"url_repo"`
+	ID          int    `gorm:"primary_key" json:"id"`
+	Slug        string `json:"slug" sql:"unique"`
+	Name        string `json:"name" validate:"required"`
+	URLRepo     string `json:"url_repo"`
+	Periodicity string `json:"periodicity"`
+	Command     string `json:"command"`
 
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -87,6 +94,28 @@ func (p *Project) DelegateUser(txn *gorm.DB, userAdmin, user *User) error {
 	} else {
 		return ErrUserIsNotCollaborator
 	}
+}
+
+func (p Project) GetCommand() string {
+	return fmt.Sprintf("docker run -e affinity:image==%s %s", p.Slug, p.Slug)
+}
+
+func (p Project) Schedule() error {
+	task := Task{ID: p.Slug, Periodicity: p.Periodicity, Command: p.Command}
+	taskJSON, _ := json.Marshal(task)
+	client := utils.Client{
+		&http.Client{},
+		"http://" + os.Getenv("GUARTZ_HOST"),
+		"application/json",
+	}
+	resp, err := client.CallRequest("POST", "/tasks", bytes.NewReader(taskJSON))
+	if err != nil {
+		return err
+	}
+	if resp.StatusCode != http.StatusOK {
+		return ErrTaskNotScheduled
+	}
+	return nil
 }
 
 //FindProject by id

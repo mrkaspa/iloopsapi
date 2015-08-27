@@ -1,12 +1,12 @@
 package endpoint
 
 import (
+	"fmt"
 	"net/http"
 
 	"bitbucket.org/kiloops/api/models"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"github.com/mrkaspa/go-helpers"
 )
 
 //ProjectList serves the route GET /projects
@@ -130,23 +130,27 @@ func ProjectDelegate(c *gin.Context) {
 	})
 }
 
-//SSHHasAccess serves the route GET /projects/:slug/has_access
-func ProjectHasAccessBySSH(c *gin.Context) {
-	var ssh models.SSH
-	if err := c.BindJSON(&ssh); err == nil {
-		ssh.Hash = helpers.MD5(ssh.PublicKey)
-		models.Gdb.Where("hash like ?", ssh.Hash).First(&ssh)
-		project, err := models.FindProjectBySlug(c.Param("slug"))
-		if ssh.ID != 0 && err == nil {
-			var user models.User
-			models.Gdb.Model(&ssh).Related(&user)
-			if user.HasWriteAccessTo(project.ID) {
-				c.JSON(http.StatusOK, "")
-			} else {
-				c.JSON(http.StatusForbidden, "")
+//ProjectSchedule serves the route POST /projects/:slug/schedule
+func ProjectSchedule(c *gin.Context) {
+	fmt.Println("Entro en ProjectSchedule")
+	models.InTx(func(txn *gorm.DB) bool {
+		if project, err := models.FindProjectBySlug(c.Param("slug")); err == nil {
+			var projectConfig models.ProjectConfig
+			var err error
+			if err = c.BindJSON(&projectConfig); err == nil {
+				project.Periodicity = projectConfig.Loops.CronFormat
+				project.Command = project.GetCommand()
+				if err = txn.Save(&project).Error; err == nil {
+					if err = project.Schedule(); err == nil {
+						c.JSON(http.StatusOK, "")
+						return true
+					}
+				}
 			}
+			c.JSON(http.StatusBadRequest, err.Error())
 		} else {
-			c.JSON(http.StatusNotFound, "")
+			c.AbortWithStatus(http.StatusNotFound)
 		}
-	}
+		return false
+	})
 }

@@ -28,8 +28,9 @@ func GetMainEngine() *gin.Engine {
 
 		internal := v1.Group("")
 		{
-			internal.GET("projects/:slug/has_access", ProjectHasAccessBySSH)
+			internal.POST("projects/:slug/schedule", ProjectSchedule)
 		}
+
 	}
 
 	router.NoRoute(Proxy)
