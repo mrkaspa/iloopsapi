@@ -59,7 +59,11 @@ func CommitChange(path string) error {
 		return nil
 	}
 	session := sh.NewSession()
-	return session.SetDir(path).Command("git", "pull", "origin", "master").Command("git", "add", "-A").Command("git", "commit", "-m", "update repo").Command("git", "push", "origin", "master").Run()
+	session.SetDir(path)
+	session.Command("git", "pull", "origin", "master").Run()
+	session.Command("git", "add", "-A").Run()
+	session.Command("git", "commit", "-m", "update repo").Run()
+	return session.Command("git", "push", "origin", "master").Run()
 }
 
 func RollbackChange(path string) error {
@@ -67,7 +71,8 @@ func RollbackChange(path string) error {
 		return nil
 	}
 	session := sh.NewSession()
-	return session.SetDir(path).Command("git", "reset", "--hard", "HEAD").Run()
+	session.SetDir(path).Command("git", "reset", "--hard", "HEAD").Run()
+	return session.SetDir(path).Command("git", "clean", "-f").Run()
 }
 
 func RevertAll(path string) error {
