@@ -97,7 +97,7 @@ func (p *Project) DelegateUser(txn *gorm.DB, userAdmin, user *User) error {
 }
 
 func (p Project) GetCommand() string {
-	return fmt.Sprintf("docker run -rm %s", p.Slug)
+	return fmt.Sprintf("docker run --rm %s", p.Slug)
 }
 
 func (p Project) Schedule() error {
