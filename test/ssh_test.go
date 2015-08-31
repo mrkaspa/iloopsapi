@@ -55,12 +55,12 @@ var _ = Describe("SSH", func() {
 		})
 
 		It("create an ssh", func() {
-			resp, _ := client.CallRequestWithHeaders("DELETE", fmt.Sprintf("/ssh/%d", ssh.ID), bytes.NewReader(emptyJSON), authHeaders(user))
+			resp, _ := client.CallRequestNoBodytWithHeaders("DELETE", fmt.Sprintf("/ssh/%d", ssh.ID), authHeaders(user))
 			Expect(resp.StatusCode).To(Equal(http.StatusOK))
 		})
 
 		It("throws error when delete an unknown ssh", func() {
-			resp, _ := client.CallRequestWithHeaders("DELETE", "/ssh/-1", bytes.NewReader(emptyJSON), authHeaders(user))
+			resp, _ := client.CallRequestNoBodytWithHeaders("DELETE", "/ssh/-1", authHeaders(user))
 			Expect(resp.StatusCode).To(Equal(http.StatusNotFound))
 		})
 

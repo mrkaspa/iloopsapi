@@ -42,6 +42,7 @@ func (u User) LoggedIn(login UserLogin) bool {
 	return helpers.MD5(login.Password) == u.Password
 }
 
+//AllProjects loads user projects
 func (u User) AllProjects() *[]UsersProjects {
 	userProjects := []UsersProjects{}
 	Gdb.Where("user_id = ?", u.ID).Find(&userProjects)
@@ -53,70 +54,77 @@ func (u User) AllProjects() *[]UsersProjects {
 	return &fullUserProjects
 }
 
+//OwnedProjects that the user created or is admin
 func (u User) OwnedProjects() []UsersProjects {
 	userProjects := []UsersProjects{}
 	Gdb.Where("user_id = ? and role = ?", u.ID, Creator).Find(&userProjects)
 	return userProjects
 }
 
+//CollaboratorProjects that the user can access to
 func (u User) CollaboratorProjects() []UsersProjects {
 	userProjects := []UsersProjects{}
 	Gdb.Where("user_id = ? and role = ?", u.ID, Collaborator).Find(&userProjects)
 	return userProjects
 }
 
+//CreateProject a new one
 func (u User) CreateProject(txn *gorm.DB, project *Project) error {
-	if txn.Create(&project).Error == nil {
-		// Creates a relation between the user and the project
-		userProject := UsersProjects{Role: Creator, UserID: u.ID, ProjectID: project.ID}
-		if txn.Create(&userProject).Error == nil {
-			return nil
-		} else {
-			return ErrUserProjectNotSaved
-		}
-	} else {
+	if txn.Create(&project).Error != nil {
 		return ErrProjectNotSaved
 	}
+	// Creates a relation between the user and the project
+	userProject := UsersProjects{Role: Creator, UserID: u.ID, ProjectID: project.ID}
+	if txn.Create(&userProject).Error != nil {
+		return ErrUserProjectNotSaved
+	}
+	return nil
 }
 
+//LeaveProject by ID
 func (u User) LeaveProject(txn *gorm.DB, projectID int) error {
 	var userProject UsersProjects
 	txn.Where("user_id = ? and project_id = ?", u.ID, projectID).Find(&userProject)
 	return txn.Delete(&userProject).Error
 }
 
+//HasAdminAccessTo by ID
 func (u User) HasAdminAccessTo(projectID int) bool {
 	var count int
 	Gdb.Model(UsersProjects{}).Where("user_id = ? and project_id = ? and role = ?", u.ID, projectID, Creator).Count(&count)
 	return count > 0
 }
 
+//HasCollaboratorAccessTo by ID
 func (u User) HasCollaboratorAccessTo(projectID int) bool {
 	var count int
 	Gdb.Model(UsersProjects{}).Where("user_id = ? and project_id = ? and role = ?", u.ID, projectID, Collaborator).Count(&count)
 	return count > 0
 }
 
+//HasWriteAccessTo By ID
 func (u User) HasWriteAccessTo(projectID int) bool {
 	var count int
 	Gdb.Model(UsersProjects{}).Where("user_id = ? and project_id = ? and role in (?,?)", u.ID, projectID, Creator, Collaborator).Count(&count)
 	return count > 0
 }
 
+//FindUser by ID
 func FindUser(id int) (*User, error) {
 	var user User
 	Gdb.First(&user, id)
-	if user.ID != 0 {
-		return &user, nil
+	if user.ID == 0 {
+		return nil, ErrUserNotFound
 	}
-	return nil, ErrUserNotFound
+	return &user, nil
 }
 
+//FindUserByEmail by email
 func FindUserByEmail(email string) (*User, error) {
 	var user User
 	Gdb.Where("email like ?", email).First(&user)
-	if user.ID != 0 {
-		return &user, nil
+	if user.ID == 0 {
+		return nil, ErrUserNotFound
 	}
-	return nil, ErrUserNotFound
+	return &user, nil
 }

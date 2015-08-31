@@ -11,8 +11,6 @@ import (
 	"bitbucket.org/kiloops/api/models"
 )
 
-var emptyJSON, _ = json.Marshal(struct{}{})
-
 func authHeaders(user models.User) map[string]string {
 	return map[string]string{
 		"AUTH_ID":    fmt.Sprintf("%d", user.ID),

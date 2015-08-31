@@ -13,6 +13,5 @@ func GetValidator() *validator.Validate {
 		TagName:         "validate",
 		ValidationFuncs: validator.BakedInValidators,
 	}
-
 	return validator.New(config)
 }

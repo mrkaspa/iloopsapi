@@ -30,20 +30,20 @@ func (s *SSH) BeforeCreate() error {
 func (s *SSH) AfterCreate(txn *gorm.DB) error {
 	var user User
 	txn.Model(s).Related(&user)
-	if user.ID != 0 {
-		return gitadmin.AddSSH(user.Email, s.ID, s.PublicKey)
+	if user.ID == 0 {
+		return ErrUserNotFound
 	}
-	return ErrUserNotFound
+	return gitadmin.AddSSH(user.Email, s.ID, s.PublicKey)
 }
 
 //AfterDelete callback
 func (s *SSH) AfterDelete(txn *gorm.DB) error {
 	var user User
 	txn.Model(s).Related(&user)
-	if user.ID != 0 {
-		return gitadmin.DeleteSSH(user.Email, s.ID)
+	if user.ID == 0 {
+		return ErrUserNotFound
 	}
-	return ErrUserNotFound
+	return gitadmin.DeleteSSH(user.Email, s.ID)
 }
 
 //TableName for SSH

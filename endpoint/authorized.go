@@ -28,6 +28,7 @@ func Authorized() gin.HandlerFunc {
 	}
 }
 
+//AdminAccessToProject middleware
 func AdminAccessToProject() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		user := userSession(c)
@@ -44,6 +45,7 @@ func AdminAccessToProject() gin.HandlerFunc {
 	}
 }
 
+//WriteAccessToProject middleware
 func WriteAccessToProject() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		user := userSession(c)

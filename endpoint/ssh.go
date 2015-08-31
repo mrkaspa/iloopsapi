@@ -1,7 +1,6 @@
 package endpoint
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -14,22 +13,22 @@ import (
 func SSHCreate(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		var ssh models.SSH
-		if err := c.BindJSON(&ssh); err == nil {
-			if valid, errMap := models.ValidStruct(&ssh); valid {
-				user := userSession(c)
-				ssh.UserID = user.ID
-				if txn.Create(&ssh).Error == nil {
-					c.JSON(http.StatusOK, ssh)
-					return true
-				} else {
-					c.JSON(http.StatusBadRequest, "SSH can't be saved")
-				}
-			} else {
-				fmt.Println(errMap)
-				c.JSON(http.StatusConflict, errMap)
-			}
+		if err := c.BindJSON(&ssh); err != nil {
+			c.JSON(http.StatusConflict, err)
+			return false
 		}
-		return false
+		if valid, errMap := models.ValidStruct(&ssh); !valid {
+			c.JSON(http.StatusConflict, errMap)
+			return false
+		}
+		user := userSession(c)
+		ssh.UserID = user.ID
+		if txn.Create(&ssh).Error != nil {
+			c.JSON(http.StatusBadRequest, "SSH can't be saved")
+			return false
+		}
+		c.JSON(http.StatusOK, ssh)
+		return true
 	})
 }
 
@@ -38,16 +37,15 @@ func SSHDestroy(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		var ssh models.SSH
 		id, _ := strconv.Atoi(c.Param("id"))
-		if txn.First(&ssh, id); ssh.ID != 0 {
-			if txn.Delete(&ssh).Error == nil {
-				c.JSON(http.StatusOK, "")
-				return true
-			} else {
-				c.JSON(http.StatusBadRequest, "SSH can't be deleted")
-			}
-		} else {
+		if txn.First(&ssh, id); ssh.ID == 0 {
 			c.JSON(http.StatusNotFound, "SSH not found")
+			return false
 		}
-		return false
+		if txn.Delete(&ssh).Error != nil {
+			c.JSON(http.StatusBadRequest, "SSH can't be deleted")
+			return false
+		}
+		c.JSON(http.StatusOK, "")
+		return true
 	})
 }

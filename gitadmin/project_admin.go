@@ -11,20 +11,22 @@ import (
 	"github.com/mrkaspa/go-helpers"
 )
 
+//TemplateProjectConf for user access
 var TemplateProjectConf = "@users_%s = %s\nrepo %s\n  RW+ = @users_%s"
 
+//CreateProject git file
 func CreateProject(slug string) error {
 	path := ProjectPath(slug)
 	if helpers.FileExists(path) {
 		return ErrProjectFileExists
 	}
-	if _, err := os.Create(path); err == nil {
-		return saveProjectFile(path, slug, &[]string{}, true)
-	} else {
+	if _, err := os.Create(path); err != nil {
 		return err
 	}
+	return saveProjectFile(path, slug, &[]string{}, true)
 }
 
+//AddSSHToProject file key to project
 func AddSSHToProject(email string, sshID int, slug string) error {
 	if !helpers.FileExists(KeyPath(email, sshID)) {
 		return ErrSSHFileNotFound
@@ -35,6 +37,7 @@ func AddSSHToProject(email string, sshID int, slug string) error {
 	return saveProjectFile(path, slug, users, false)
 }
 
+//RemoveSSHFromProject file key to project
 func RemoveSSHFromProject(email string, sshID int, slug string) error {
 	if !helpers.FileExists(KeyPath(email, sshID)) {
 		return ErrSSHFileNotFound
@@ -51,15 +54,15 @@ func RemoveSSHFromProject(email string, sshID int, slug string) error {
 	return saveProjectFile(path, slug, &usersFiltered, false)
 }
 
+//DeleteProject git file
 func DeleteProject(slug string) error {
 	path := ProjectPath(slug)
-	if err := os.Remove(path); err == nil {
-		chanResp := make(chan error)
-		ChanCommit <- ChanReq{GITOLITEPATH, &chanResp}
-		return GetCloseChanResponse(&chanResp)
-	} else {
+	if err := os.Remove(path); err != nil {
 		return err
 	}
+	chanResp := make(chan error)
+	ChanCommit <- ChanReq{GITOLITEPATH, &chanResp}
+	return GetCloseChanResponse(&chanResp)
 }
 
 func currentUsers(path string) *[]string {
@@ -86,19 +89,18 @@ func saveProjectFile(path string, slug string, users *[]string, commit bool) err
 		usersBuff.WriteString(user + " ")
 	}
 	content := fmt.Sprintf(TemplateProjectConf, slug, strings.TrimSpace(usersBuff.String()), slug, slug)
-	if err := ioutil.WriteFile(path, []byte(content), os.ModePerm); err == nil {
-		if commit {
-			chanResp := make(chan error)
-			ChanCommit <- ChanReq{GITOLITEPATH, &chanResp}
-			return GetCloseChanResponse(&chanResp)
-		} else {
-			return nil
-		}
-	} else {
+	if err := ioutil.WriteFile(path, []byte(content), os.ModePerm); err != nil {
 		return err
 	}
+	if !commit {
+		return nil
+	}
+	chanResp := make(chan error)
+	ChanCommit <- ChanReq{GITOLITEPATH, &chanResp}
+	return GetCloseChanResponse(&chanResp)
 }
 
+//ProjectPath generator
 func ProjectPath(slug string) string {
 	return GITOLITEPATH + "conf" + "/" + "repos" + "/" + slug + ".conf"
 }

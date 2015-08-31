@@ -59,7 +59,7 @@ var _ = Describe("Projects", func() {
 
 			It("lists all the projects", func() {
 				var projects []models.Project
-				resp, _ := client.CallRequestWithHeaders("GET", "/projects", bytes.NewReader(emptyJSON), authHeaders(user))
+				resp, _ := client.CallRequestNoBodytWithHeaders("GET", "/projects", authHeaders(user))
 				Expect(resp.StatusCode).To(Equal(http.StatusOK))
 				defer resp.Body.Close()
 				getBodyJSON(resp, &projects)
@@ -72,7 +72,7 @@ var _ = Describe("Projects", func() {
 
 			It("gets a project", func() {
 				var projectResp models.Project
-				resp, _ := client.CallRequestWithHeaders("GET", fmt.Sprintf("/projects/%s", project.Slug), bytes.NewReader(emptyJSON), authHeaders(user))
+				resp, _ := client.CallRequestNoBodytWithHeaders("GET", fmt.Sprintf("/projects/%s", project.Slug), authHeaders(user))
 				Expect(resp.StatusCode).To(Equal(http.StatusOK))
 				defer resp.Body.Close()
 				getBodyJSON(resp, &projectResp)
@@ -84,7 +84,7 @@ var _ = Describe("Projects", func() {
 		Describe("DELETE /projects/:slug", func() {
 
 			It("deletes a project", func() {
-				resp, _ := client.CallRequestWithHeaders("DELETE", fmt.Sprintf("/projects/%s", project.Slug), bytes.NewReader(emptyJSON), authHeaders(user))
+				resp, _ := client.CallRequestNoBodytWithHeaders("DELETE", fmt.Sprintf("/projects/%s", project.Slug), authHeaders(user))
 				Expect(resp.StatusCode).To(Equal(http.StatusOK))
 				projectsOwned := user.OwnedProjects()
 				Expect(len(projectsOwned)).To(Equal(0))
@@ -95,7 +95,7 @@ var _ = Describe("Projects", func() {
 		Describe("PUT /projects/:slug/leave", func() {
 
 			It("an admin tries to leave a project", func() {
-				resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%s/leave", project.Slug), bytes.NewReader(emptyJSON), authHeaders(user))
+				resp, _ := client.CallRequestNoBodytWithHeaders("PUT", fmt.Sprintf("/projects/%s/leave", project.Slug), authHeaders(user))
 				Expect(resp.StatusCode).To(Equal(http.StatusBadRequest))
 			})
 
@@ -115,7 +115,7 @@ var _ = Describe("Projects", func() {
 			Describe("PUT /projects/:slug/add/:email", func() {
 
 				It("adds another user to the project", func() {
-					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%s/add/%s", project.Slug, otherUser.Email), bytes.NewReader(emptyJSON), authHeaders(user))
+					resp, _ := client.CallRequestNoBodytWithHeaders("PUT", fmt.Sprintf("/projects/%s/add/%s", project.Slug, otherUser.Email), authHeaders(user))
 					Expect(resp.StatusCode).To(Equal(http.StatusOK))
 					projectsCollab := otherUser.CollaboratorProjects()
 					Expect(len(projectsCollab)).To(Equal(1))
@@ -130,7 +130,7 @@ var _ = Describe("Projects", func() {
 						project.AddUser(txn, &otherUser)
 						return true
 					})
-					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%s/delegate/%s", project.Slug, otherUser.Email), bytes.NewReader(emptyJSON), authHeaders(user))
+					resp, _ := client.CallRequestNoBodytWithHeaders("PUT", fmt.Sprintf("/projects/%s/delegate/%s", project.Slug, otherUser.Email), authHeaders(user))
 					Expect(resp.StatusCode).To(Equal(http.StatusOK))
 					projectsCollab := user.CollaboratorProjects()
 					Expect(len(projectsCollab)).To(Equal(1))
@@ -147,7 +147,7 @@ var _ = Describe("Projects", func() {
 						project.AddUser(txn, &otherUser)
 						return true
 					})
-					resp, _ := client.CallRequestWithHeaders("PUT", fmt.Sprintf("/projects/%s/leave", project.Slug), bytes.NewReader(emptyJSON), authHeaders(otherUser))
+					resp, _ := client.CallRequestNoBodytWithHeaders("PUT", fmt.Sprintf("/projects/%s/leave", project.Slug), authHeaders(otherUser))
 					Expect(resp.StatusCode).To(Equal(http.StatusOK))
 				})
 
@@ -160,7 +160,7 @@ var _ = Describe("Projects", func() {
 						project.AddUser(txn, &otherUser)
 						return true
 					})
-					resp, _ := client.CallRequestWithHeaders("DELETE", fmt.Sprintf("/projects/%s/remove/%s", project.Slug, otherUser.Email), bytes.NewReader(emptyJSON), authHeaders(user))
+					resp, _ := client.CallRequestNoBodytWithHeaders("DELETE", fmt.Sprintf("/projects/%s/remove/%s", project.Slug, otherUser.Email), authHeaders(user))
 					Expect(resp.StatusCode).To(Equal(http.StatusOK))
 					projectsCollab := user.CollaboratorProjects()
 					Expect(len(projectsCollab)).To(Equal(0))

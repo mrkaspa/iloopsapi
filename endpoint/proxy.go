@@ -10,14 +10,17 @@ import (
 
 //Proxy requests to another api
 func Proxy(c *gin.Context) {
-	//TODO set guartz api host
 	c.Request.URL.Host = os.Getenv("GUARTZ_HOST")
 	client := http.Client{}
-	if resp, err := client.Do(c.Request); err == nil {
-		if jsonDataFromHTTP, err := ioutil.ReadAll(resp.Body); err == nil {
-			c.JSON(resp.StatusCode, string(jsonDataFromHTTP))
-			return
-		}
+	resp, err := client.Do(c.Request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "")
+		return
 	}
-	c.JSON(http.StatusInternalServerError, "")
+	jsonDataFromHTTP, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "")
+		return
+	}
+	c.JSON(resp.StatusCode, string(jsonDataFromHTTP))
 }

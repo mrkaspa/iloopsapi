@@ -49,6 +49,7 @@ var _ = BeforeSuite(func() {
 	gServer = httptest.NewServer(gEndpoint.GetMainEngine())
 	gURL, _ := url.Parse(gServer.URL)
 	os.Setenv("GUARTZ_HOST", gURL.Host)
+	models.InitGuartzClient()
 	client = utils.Client{
 		&http.Client{},
 		ts.URL + "/" + apiVersion,

@@ -16,6 +16,7 @@ import (
 func main() {
 	initEnv()
 	models.InitDB()
+	models.InitGuartzClient()
 	gitadmin.InitVars()
 	gitadmin.InitGitAdmin()
 
