@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	"bitbucket.org/kiloops/api/gitadmin"
 	"bitbucket.org/kiloops/api/models"
@@ -62,6 +64,30 @@ var _ = Describe("SSH", func() {
 		It("throws error when delete an unknown ssh", func() {
 			resp, _ := client.CallRequestNoBodytWithHeaders("DELETE", "/ssh/-1", authHeaders(user))
 			Expect(resp.StatusCode).To(Equal(http.StatusNotFound))
+		})
+
+	})
+
+	Describe("After a project is created", func() {
+
+		BeforeEach(func() {
+			ssh = addSSH(user)
+			project = addProject(user)
+			anotherSSH = addAnotherSSH(user)
+		})
+
+		AfterEach(func() {
+			gitadmin.DeleteSSH(user.Email, ssh.ID)
+		})
+
+		It("should containg the two keys in the default project file", func() {
+			projectPath := gitadmin.ProjectPath(project.Slug)
+			data, err := ioutil.ReadFile(projectPath)
+			if err != nil {
+				panic("error reading file " + projectPath)
+			}
+			eq := "@users_" + project.Slug + " = " + user.Email + "-" + strconv.Itoa(ssh.ID) + " " + user.Email + "-" + strconv.Itoa(anotherSSH.ID) + "\nrepo " + project.Slug + "\n  RW+ = @users_" + project.Slug
+			Expect(string(data)).To(BeEquivalentTo(eq))
 		})
 
 	})

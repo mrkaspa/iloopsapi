@@ -12,11 +12,13 @@ var (
 	ChanRollback chan ChanReq
 )
 
+//ChanReq represent the requests to the channels
 type ChanReq struct {
 	Path     string
 	ChanResp *chan error
 }
 
+//InitGitAdmin go routine
 func InitGitAdmin() {
 
 	ChanCommit = make(chan ChanReq)
@@ -42,18 +44,21 @@ func InitGitAdmin() {
 	}()
 }
 
+//GetCloseChanResponse gets the response and closes the channel
 func GetCloseChanResponse(chanResp *chan error) error {
 	err := <-*chanResp
 	close(*chanResp)
 	return err
 }
 
+//FinishGitAdmin go routine
 func FinishGitAdmin() {
 	fmt.Println("***Closing channels***")
 	close(ChanCommit)
 	close(ChanRollback)
 }
 
+//CommitChange to the master
 func CommitChange(path string) error {
 	if utils.IsTest() {
 		return nil
@@ -66,6 +71,7 @@ func CommitChange(path string) error {
 	return session.Command("git", "push", "origin", "master").Run()
 }
 
+//RollbackChange from the gitolite repo
 func RollbackChange(path string) error {
 	if utils.IsTest() {
 		return nil
@@ -75,6 +81,7 @@ func RollbackChange(path string) error {
 	return session.SetDir(path).Command("git", "clean", "-f").Run()
 }
 
+//RevertAll changes of the gitolite repo
 func RevertAll(path string) error {
 	fmt.Println("***RevertAll***")
 	if utils.IsTest() {
@@ -82,4 +89,17 @@ func RevertAll(path string) error {
 		return session.SetDir(path).Command("git", "clean", "-f").Run()
 	}
 	return nil
+}
+
+//InTx executes a task on the repo inside a git transaction
+func InTx(f func() error) error {
+	if err := f(); err != nil {
+		chanResp := make(chan error)
+		ChanRollback <- ChanReq{GITOLITEPATH, &chanResp}
+		GetCloseChanResponse(&chanResp)
+		return err
+	}
+	chanResp := make(chan error)
+	ChanCommit <- ChanReq{GITOLITEPATH, &chanResp}
+	return GetCloseChanResponse(&chanResp)
 }

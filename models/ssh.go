@@ -33,7 +33,17 @@ func (s *SSH) AfterCreate(txn *gorm.DB) error {
 	if user.ID == 0 {
 		return ErrUserNotFound
 	}
-	return gitadmin.AddSSH(user.Email, s.ID, s.PublicKey)
+	if err := gitadmin.AddSSH(user.Email, s.ID, s.PublicKey); err != nil {
+		return err
+	}
+	userProjects := user.AllProjects()
+	for _, userProject := range *userProjects {
+		err := gitadmin.InTx(func() error { return gitadmin.AddSSHToProject(user.Email, s.ID, userProject.Project.Slug) })
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 //AfterDelete callback
@@ -43,7 +53,17 @@ func (s *SSH) AfterDelete(txn *gorm.DB) error {
 	if user.ID == 0 {
 		return ErrUserNotFound
 	}
-	return gitadmin.DeleteSSH(user.Email, s.ID)
+	if err := gitadmin.DeleteSSH(user.Email, s.ID); err != nil {
+		return err
+	}
+	userProjects := user.AllProjects()
+	for _, userProject := range *userProjects {
+		err := gitadmin.InTx(func() error { return gitadmin.RemoveSSHFromProject(user.Email, s.ID, userProject.Project.Slug) })
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 //TableName for SSH

@@ -57,6 +57,7 @@ func (p *Project) SetSlug() {
 
 //BeforeDelete a Project
 func (p *Project) BeforeDelete(txn *gorm.DB) error {
+	go p.Stop()
 	return txn.Where("project_id = ?", p.ID).Delete(UsersProjects{}).Error
 }
 
