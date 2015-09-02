@@ -27,21 +27,24 @@ var _ = Describe("SSH", func() {
 			sshKey := `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlCc96zWY05/vFIcP5NLhi8bIVkcUdSyet1Dw7+rQqbeEJaQ0Ifz/x17AGkQAnC0ZjdHI7sCFjVGuvk6agw6MJzKU8a+iWisAVu4hvv22DXBPKYak28GMEW3e0Ba/8mUiCdLCW5lfQ85QmDABqdWb6BGy2VSJ/k4NfWW728RwbQf1MZSwS2+kqvR3XjpkpMETLz5DmRty6Dqp3al73JbE7raWhidoYeS0wiJKsWiaucfewz+feubNkEnO5/p1v1zpAlaPYEVvZEeG5ABchNZ4Co+SGvVd4+FuxVgLkPOqpV5y3JFFrmSJE4HMsin96u/3OHcgVwew6nyE9YyoKZ/rL michel.ing@hotmail.com`
 			ssh := models.SSH{Name: "demo", PublicKey: sshKey}
 			sshJSON, _ := json.Marshal(ssh)
-			resp, _ := client.CallRequestWithHeaders("POST", "/ssh", bytes.NewReader(sshJSON), authHeaders(user))
 			var sshResp models.SSH
-			Expect(resp.StatusCode).To(Equal(http.StatusOK))
-			getBodyJSON(resp, &sshResp)
-			path := gitadmin.KeyPath(user.Email, sshResp.ID)
-			Expect(helpers.FileExists(path)).To(BeTrue())
-			err := gitadmin.DeleteSSH(user.Email, sshResp.ID)
-			Expect(err).To(BeNil())
+			client.CallRequestWithHeaders("POST", "/ssh", bytes.NewReader(sshJSON), authHeaders(user)).WithResponseJSON(&sshResp, func(resp *http.Response) error {
+				Expect(resp.StatusCode).To(Equal(http.StatusOK))
+				path := gitadmin.KeyPath(user.Email, sshResp.ID)
+				Expect(helpers.FileExists(path)).To(BeTrue())
+				err := gitadmin.DeleteSSH(user.Email, sshResp.ID)
+				Expect(err).To(BeNil())
+				return nil
+			})
 		})
 
 		It("crashes when creates an ssh empty", func() {
 			ssh := models.SSH{PublicKey: ""}
 			sshJSON, _ := json.Marshal(ssh)
-			resp, _ := client.CallRequestWithHeaders("POST", "/ssh", bytes.NewReader(sshJSON), authHeaders(user))
-			Expect(resp.StatusCode).To(Equal(http.StatusConflict))
+			client.CallRequestWithHeaders("POST", "/ssh", bytes.NewReader(sshJSON), authHeaders(user)).WithResponse(func(resp *http.Response) error {
+				Expect(resp.StatusCode).To(Equal(http.StatusConflict))
+				return nil
+			})
 		})
 
 	})
@@ -57,13 +60,17 @@ var _ = Describe("SSH", func() {
 		})
 
 		It("create an ssh", func() {
-			resp, _ := client.CallRequestNoBodytWithHeaders("DELETE", fmt.Sprintf("/ssh/%d", ssh.ID), authHeaders(user))
-			Expect(resp.StatusCode).To(Equal(http.StatusOK))
+			client.CallRequestNoBodytWithHeaders("DELETE", fmt.Sprintf("/ssh/%d", ssh.ID), authHeaders(user)).WithResponse(func(resp *http.Response) error {
+				Expect(resp.StatusCode).To(Equal(http.StatusOK))
+				return nil
+			})
 		})
 
 		It("throws error when delete an unknown ssh", func() {
-			resp, _ := client.CallRequestNoBodytWithHeaders("DELETE", "/ssh/-1", authHeaders(user))
-			Expect(resp.StatusCode).To(Equal(http.StatusNotFound))
+			client.CallRequestNoBodytWithHeaders("DELETE", "/ssh/-1", authHeaders(user)).WithResponse(func(resp *http.Response) error {
+				Expect(resp.StatusCode).To(Equal(http.StatusNotFound))
+				return nil
+			})
 		})
 
 	})

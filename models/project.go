@@ -106,26 +106,22 @@ func (p Project) GetCommand() string {
 func (p Project) Schedule() error {
 	task := Task{ID: p.Slug, Periodicity: p.Periodicity, Command: p.Command}
 	taskJSON, _ := json.Marshal(task)
-	resp, err := guartzClient.CallRequest("POST", "/tasks", bytes.NewReader(taskJSON))
-	if err != nil {
-		return err
-	}
-	if resp.StatusCode != http.StatusOK {
-		return ErrTaskNotScheduled
-	}
-	return nil
+	return guartzClient.CallRequest("POST", "/tasks", bytes.NewReader(taskJSON)).WithResponse(func(resp *http.Response) error {
+		if resp.StatusCode != http.StatusOK {
+			return ErrTaskNotScheduled
+		}
+		return nil
+	})
 }
 
 //Stop a worker
 func (p *Project) Stop() error {
-	resp, err := guartzClient.CallRequestNoBody("DELETE", "/tasks/"+p.Slug)
-	if err != nil {
-		return err
-	}
-	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNotFound {
-		return ErrTaskNotStopped
-	}
-	return nil
+	return guartzClient.CallRequestNoBody("DELETE", "/tasks/"+p.Slug).WithResponse(func(resp *http.Response) error {
+		if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNotFound {
+			return ErrTaskNotStopped
+		}
+		return nil
+	})
 }
 
 //FindProject by id

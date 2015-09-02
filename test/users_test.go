@@ -18,8 +18,10 @@ var _ = Describe("Users", func() {
 		It("create an user", func() {
 			userLogin := defaultUser()
 			userJSON, _ := json.Marshal(userLogin)
-			resp, _ := client.CallRequest("POST", "/users", bytes.NewReader(userJSON))
-			Expect(resp.StatusCode).To(Equal(http.StatusOK))
+			client.CallRequest("POST", "/users", bytes.NewReader(userJSON)).WithResponse(func(resp *http.Response) error {
+				Expect(resp.StatusCode).To(Equal(http.StatusOK))
+				return nil
+			})
 		})
 
 	})
@@ -34,15 +36,19 @@ var _ = Describe("Users", func() {
 		It("login successfully", func() {
 			userLogin := defaultUser()
 			userJSON, _ := json.Marshal(userLogin)
-			resp, _ := client.CallRequest("POST", "/users/login", bytes.NewReader(userJSON))
-			Expect(resp.StatusCode).To(Equal(http.StatusOK))
+			client.CallRequest("POST", "/users/login", bytes.NewReader(userJSON)).WithResponse(func(resp *http.Response) error {
+				Expect(resp.StatusCode).To(Equal(http.StatusOK))
+				return nil
+			})
 		})
 
 		It("fails login incorrect password", func() {
 			userLogin := models.UserLogin{Email: "michel.ingesoft@gmail.com", Password: "h1"}
 			userJSON, _ := json.Marshal(userLogin)
-			resp, _ := client.CallRequest("POST", "/users/login", bytes.NewReader(userJSON))
-			Expect(resp.StatusCode).To(Equal(http.StatusBadRequest))
+			client.CallRequest("POST", "/users/login", bytes.NewReader(userJSON)).WithResponse(func(resp *http.Response) error {
+				Expect(resp.StatusCode).To(Equal(http.StatusBadRequest))
+				return nil
+			})
 		})
 
 	})
