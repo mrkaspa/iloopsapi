@@ -1,8 +1,6 @@
 package gitadmin
 
 import (
-	"fmt"
-
 	"bitbucket.org/kiloops/api/utils"
 	"github.com/codeskyblue/go-sh"
 )
@@ -24,7 +22,7 @@ func InitGitAdmin() {
 	ChanCommit = make(chan ChanReq)
 	ChanRollback = make(chan ChanReq)
 
-	fmt.Println("***INIT GIT ADMIN***")
+	utils.Log.Info("***INIT GIT ADMIN***")
 
 	go func() {
 		for {
@@ -53,7 +51,7 @@ func GetCloseChanResponse(chanResp *chan error) error {
 
 //FinishGitAdmin go routine
 func FinishGitAdmin() {
-	fmt.Println("***Closing channels***")
+	utils.Log.Info("***Closing Git channels***")
 	close(ChanCommit)
 	close(ChanRollback)
 }
@@ -83,7 +81,7 @@ func RollbackChange(path string) error {
 
 //RevertAll changes of the gitolite repo
 func RevertAll(path string) error {
-	fmt.Println("***RevertAll***")
+	utils.Log.Info("***RevertAll***")
 	if utils.IsTest() {
 		session := sh.NewSession()
 		return session.SetDir(path).Command("git", "clean", "-f").Run()

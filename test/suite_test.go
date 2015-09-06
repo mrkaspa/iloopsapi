@@ -9,6 +9,7 @@ import (
 
 	"os"
 
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 
 	"bitbucket.org/kiloops/api/endpoint"
@@ -39,13 +40,16 @@ func TestApi(t *testing.T) {
 
 var _ = BeforeSuite(func() {
 	initEnv()
+	utils.InitLogTest()
 	models.InitDB()
 	gModels.InitDB()
 	gitadmin.InitVars()
 	gitadmin.InitGitAdmin()
 	gModels.InitCron()
 	cleanDB()
-	ts = httptest.NewServer(endpoint.GetMainEngine())
+	router := endpoint.GetMainEngine()
+	router.Use(gin.LoggerWithWriter(utils.LogWriter))
+	ts = httptest.NewServer(router)
 	gServer = httptest.NewServer(gEndpoint.GetMainEngine())
 	gURL, _ := url.Parse(gServer.URL)
 	os.Setenv("GUARTZ_HOST", gURL.Host)
@@ -70,7 +74,7 @@ var _ = BeforeEach(func() {
 })
 
 func cleanDB() {
-	fmt.Println("***Cleaning***")
+	utils.Log.Info("***Cleaning***")
 	models.Gdb.Delete(models.UsersProjects{})
 	models.Gdb.Delete(models.Project{})
 	models.Gdb.Delete(models.SSH{})
