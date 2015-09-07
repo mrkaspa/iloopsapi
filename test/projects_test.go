@@ -98,7 +98,7 @@ var _ = Describe("Projects", func() {
 
 			It("an admin tries to leave a project", func() {
 				client.CallRequestNoBodytWithHeaders("PUT", fmt.Sprintf("/projects/%s/leave", project.Slug), authHeaders(user)).WithResponse(func(resp *http.Response) error {
-					Expect(resp.StatusCode).To(Equal(http.StatusBadRequest))
+					Expect(resp.StatusCode).To(Equal(http.StatusConflict))
 					return nil
 				})
 			})

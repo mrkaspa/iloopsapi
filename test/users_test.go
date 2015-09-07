@@ -46,7 +46,7 @@ var _ = Describe("Users", func() {
 			userLogin := models.UserLogin{Email: "michel.ingesoft@gmail.com", Password: "h1"}
 			userJSON, _ := json.Marshal(userLogin)
 			client.CallRequest("POST", "/users/login", bytes.NewReader(userJSON)).WithResponse(func(resp *http.Response) error {
-				Expect(resp.StatusCode).To(Equal(http.StatusBadRequest))
+				Expect(resp.StatusCode).To(Equal(http.StatusConflict))
 				return nil
 			})
 		})

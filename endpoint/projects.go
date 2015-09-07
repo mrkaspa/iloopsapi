@@ -1,10 +1,10 @@
 package endpoint
 
 import (
-	"fmt"
 	"net/http"
 
 	"bitbucket.org/kiloops/api/models"
+	"bitbucket.org/kiloops/api/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 )
@@ -26,16 +26,16 @@ func ProjectCreate(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		var project models.Project
 		if err := c.BindJSON(&project); err != nil {
-			c.JSON(http.StatusConflict, err)
+			c.JSON(http.StatusBadRequest, err)
 			return false
 		}
 		if valid, errMap := models.ValidStruct(&project); !valid {
-			c.JSON(http.StatusConflict, errMap)
+			errorResponseMap(c, errMap)
 			return false
 		}
 		user := userSession(c)
 		if err := user.CreateProject(txn, &project); err != nil {
-			c.JSON(http.StatusBadRequest, "Couldn't create the project")
+			errorResponseFromAppError(c, ProjectCreateErr)
 			return false
 		}
 		c.JSON(http.StatusOK, project)
@@ -48,7 +48,7 @@ func ProjectDestroy(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		project := currentProject(c)
 		if err := txn.Delete(&project).Error; err != nil {
-			c.JSON(http.StatusBadRequest, "Could not delete the project")
+			errorResponseFromAppError(c, ProjectDeleteErr)
 			return false
 		}
 		c.JSON(http.StatusOK, project)
@@ -62,11 +62,11 @@ func ProjectLeave(c *gin.Context) {
 		user := userSession(c)
 		project := currentProject(c)
 		if user.HasAdminAccessTo(project.ID) {
-			c.JSON(http.StatusBadRequest, "An admin user can't leave a project")
+			errorResponseFromAppError(c, AdminCantLeaveProjectErr)
 			return false
 		}
 		if err := user.LeaveProject(txn, project.ID); err != nil {
-			c.JSON(http.StatusBadRequest, "Could not leave the project")
+			errorResponseFromAppError(c, UserLeaveProjectErr)
 			return false
 		}
 		c.JSON(http.StatusOK, "")
@@ -84,7 +84,7 @@ func ProjectAddUser(c *gin.Context) {
 			return false
 		}
 		if err := project.AddUser(txn, user); err != nil {
-			c.JSON(http.StatusBadRequest, "")
+			errorResponseFromAppError(c, ProjectAddUserErr)
 			return false
 		}
 		c.JSON(http.StatusOK, "")
@@ -102,7 +102,7 @@ func ProjectRemoveUser(c *gin.Context) {
 			return false
 		}
 		if err := project.RemoveUser(txn, user); err != nil {
-			c.JSON(http.StatusBadRequest, "")
+			errorResponseFromAppError(c, ProjectRemoveUserErr)
 			return false
 		}
 		c.JSON(http.StatusOK, "")
@@ -121,7 +121,7 @@ func ProjectDelegate(c *gin.Context) {
 			return false
 		}
 		if err := project.DelegateUser(txn, userAdmin, user); err != nil {
-			c.JSON(http.StatusBadRequest, "")
+			errorResponseFromAppError(c, ProjectDelegateUserErr)
 			return false
 		}
 		c.JSON(http.StatusOK, "")
@@ -131,7 +131,7 @@ func ProjectDelegate(c *gin.Context) {
 
 //ProjectSchedule serves the route POST /projects/:slug/schedule
 func ProjectSchedule(c *gin.Context) {
-	fmt.Println("Entro en ProjectSchedule")
+	utils.Log.Info("Entro en ProjectSchedule")
 	models.InTx(func(txn *gorm.DB) bool {
 		project, err := models.FindProjectBySlug(c.Param("slug"))
 		if err != nil {
@@ -140,17 +140,17 @@ func ProjectSchedule(c *gin.Context) {
 		}
 		var projectConfig models.ProjectConfig
 		if err := c.BindJSON(&projectConfig); err != nil {
-			c.JSON(http.StatusBadRequest, err.Error())
+			c.JSON(http.StatusBadRequest, err)
 			return false
 		}
 		project.Periodicity = projectConfig.Loops.CronFormat
 		project.Command = project.GetCommand()
 		if err := txn.Save(&project).Error; err != nil {
-			c.JSON(http.StatusBadRequest, err.Error())
+			errorResponse(c, GeneralErrCode, err)
 			return false
 		}
 		if err := project.Schedule(); err != nil {
-			c.JSON(http.StatusBadRequest, err.Error())
+			errorResponse(c, GeneralErrCode, err)
 			return false
 		}
 		c.JSON(http.StatusOK, "")

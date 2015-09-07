@@ -14,17 +14,17 @@ func SSHCreate(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		var ssh models.SSH
 		if err := c.BindJSON(&ssh); err != nil {
-			c.JSON(http.StatusConflict, err)
+			c.JSON(http.StatusBadRequest, err)
 			return false
 		}
 		if valid, errMap := models.ValidStruct(&ssh); !valid {
-			c.JSON(http.StatusConflict, errMap)
+			errorResponseMap(c, errMap)
 			return false
 		}
 		user := userSession(c)
 		ssh.UserID = user.ID
 		if txn.Create(&ssh).Error != nil {
-			c.JSON(http.StatusBadRequest, "SSH can't be saved")
+			errorResponseFromAppError(c, SSHCreateErr)
 			return false
 		}
 		c.JSON(http.StatusOK, ssh)
@@ -42,7 +42,7 @@ func SSHDestroy(c *gin.Context) {
 			return false
 		}
 		if txn.Delete(&ssh).Error != nil {
-			c.JSON(http.StatusBadRequest, "SSH can't be deleted")
+			errorResponseFromAppError(c, SSHDeleteErr)
 			return false
 		}
 		c.JSON(http.StatusOK, "")

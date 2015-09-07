@@ -19,6 +19,7 @@ import (
 
 	gEndpoint "github.com/infiniteloopsco/guartz/endpoint"
 	gModels "github.com/infiniteloopsco/guartz/models"
+	gUtil "github.com/infiniteloopsco/guartz/utils"
 
 	_ "github.com/go-sql-driver/mysql"
 	. "github.com/onsi/ginkgo"
@@ -41,6 +42,7 @@ func TestApi(t *testing.T) {
 var _ = BeforeSuite(func() {
 	initEnv()
 	utils.InitLogTest()
+	gUtil.InitLogTest()
 	models.InitDB()
 	gModels.InitDB()
 	gitadmin.InitVars()

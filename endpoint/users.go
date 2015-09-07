@@ -17,12 +17,12 @@ func UserCreate(c *gin.Context) {
 			return false
 		}
 		if valid, errMap := models.ValidStruct(&userLogin); !valid {
-			c.JSON(http.StatusConflict, errMap)
+			errorResponseMap(c, errMap)
 			return false
 		}
 		user := models.User{Email: userLogin.Email, Password: userLogin.Password}
 		if txn.Create(&user).Error != nil {
-			c.JSON(http.StatusBadRequest, "User can't be saved")
+			errorResponseFromAppError(c, UserCreateErr)
 			return false
 		}
 		userLogged := models.UserLogged{ID: user.ID, Email: user.Email, Token: user.Token}
@@ -35,7 +35,7 @@ func UserCreate(c *gin.Context) {
 func UserLogin(c *gin.Context) {
 	var userLogin models.UserLogin
 	if err := c.BindJSON(&userLogin); err != nil {
-		c.JSON(http.StatusBadRequest, "Could not authenticate the User")
+		c.JSON(http.StatusBadRequest, err)
 		return
 	}
 	var user models.User
@@ -44,6 +44,6 @@ func UserLogin(c *gin.Context) {
 		userLogged := models.UserLogged{ID: user.ID, Email: user.Email, Token: user.Token}
 		c.JSON(http.StatusOK, userLogged)
 	} else {
-		c.JSON(http.StatusBadRequest, "Could not authenticate the User")
+		errorResponseFromAppError(c, UserLoginErr)
 	}
 }
