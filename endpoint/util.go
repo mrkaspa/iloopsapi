@@ -26,7 +26,7 @@ func errorResponseFromAppError(c *gin.Context, error AppError) {
 }
 
 func errorResponse(c *gin.Context, code int, err error) {
-	c.JSON(http.StatusConflict, JSONError{Code: code, Error: err.Error()})
+	c.JSON(http.StatusConflict, JSONError{Code: code, ErrorCad: err.Error()})
 }
 
 func errorResponseMap(c *gin.Context, errMap validator.ValidationErrors) {

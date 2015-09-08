@@ -4,8 +4,12 @@ import "errors"
 
 type JSONError struct {
 	Code      int
-	Error     string
+	ErrorCad  string
 	MapErrors map[string]string
+}
+
+func (j JSONError) Error() string {
+	return ""
 }
 
 type AppError struct {
