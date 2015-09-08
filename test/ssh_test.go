@@ -10,6 +10,7 @@ import (
 
 	"bitbucket.org/kiloops/api/gitadmin"
 	"bitbucket.org/kiloops/api/models"
+	"bitbucket.org/kiloops/api/utils"
 	"github.com/mrkaspa/go-helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -28,13 +29,18 @@ var _ = Describe("SSH", func() {
 			ssh := models.SSH{Name: "demo", PublicKey: sshKey}
 			sshJSON, _ := json.Marshal(ssh)
 			var sshResp models.SSH
-			client.CallRequestWithHeaders("POST", "/ssh", bytes.NewReader(sshJSON), authHeaders(user)).WithResponseJSON(&sshResp, func(resp *http.Response) error {
-				Expect(resp.StatusCode).To(Equal(http.StatusOK))
-				path := gitadmin.KeyPath(user.Email, sshResp.ID)
-				Expect(helpers.FileExists(path)).To(BeTrue())
-				err := gitadmin.DeleteSSH(user.Email, sshResp.ID)
-				Expect(err).To(BeNil())
-				return nil
+			client.CallRequestWithHeaders("POST", "/ssh", bytes.NewReader(sshJSON), authHeaders(user)).Solve(utils.MapExec{
+				http.StatusOK: utils.InfoExec{
+					&sshResp,
+					func(resp *http.Response) error {
+						Expect(resp.StatusCode).To(Equal(http.StatusOK))
+						path := gitadmin.KeyPath(user.Email, sshResp.ID)
+						Expect(helpers.FileExists(path)).To(BeTrue())
+						err := gitadmin.DeleteSSH(user.Email, sshResp.ID)
+						Expect(err).To(BeNil())
+						return nil
+					},
+				},
 			})
 		})
 

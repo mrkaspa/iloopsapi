@@ -8,6 +8,7 @@ import (
 
 	"bitbucket.org/kiloops/api/gitadmin"
 	"bitbucket.org/kiloops/api/models"
+	"bitbucket.org/kiloops/api/utils"
 	"github.com/jinzhu/gorm"
 	"github.com/mrkaspa/go-helpers"
 	. "github.com/onsi/ginkgo"
@@ -31,15 +32,20 @@ var _ = Describe("Projects", func() {
 			project := models.Project{Name: "Demo Project"}
 			projectJSON, _ := json.Marshal(project)
 			var projectResp models.Project
-			client.CallRequestWithHeaders("POST", "/projects", bytes.NewReader(projectJSON), authHeaders(user)).WithResponseJSON(&projectResp, func(resp *http.Response) error {
-				Expect(resp.StatusCode).To(Equal(http.StatusOK))
-				Expect(projectResp.Slug).ToNot(BeEmpty())
-				projectsOwned := user.OwnedProjects()
-				Expect(len(projectsOwned)).To(Equal(1))
-				path := gitadmin.ProjectPath(projectResp.Slug)
-				Expect(helpers.FileExists(path)).To(BeTrue())
-				gitadmin.DeleteProject(projectResp.Slug)
-				return nil
+			client.CallRequestWithHeaders("POST", "/projects", bytes.NewReader(projectJSON), authHeaders(user)).Solve(utils.MapExec{
+				http.StatusOK: utils.InfoExec{
+					&projectResp,
+					func(resp *http.Response) error {
+						Expect(resp.StatusCode).To(Equal(http.StatusOK))
+						Expect(projectResp.Slug).ToNot(BeEmpty())
+						projectsOwned := user.OwnedProjects()
+						Expect(len(projectsOwned)).To(Equal(1))
+						path := gitadmin.ProjectPath(projectResp.Slug)
+						Expect(helpers.FileExists(path)).To(BeTrue())
+						gitadmin.DeleteProject(projectResp.Slug)
+						return nil
+					},
+				},
 			})
 		})
 
@@ -59,10 +65,15 @@ var _ = Describe("Projects", func() {
 
 			It("lists all the projects", func() {
 				var projects []models.Project
-				client.CallRequestNoBodytWithHeaders("GET", "/projects", authHeaders(user)).WithResponseJSON(&projects, func(resp *http.Response) error {
-					Expect(resp.StatusCode).To(Equal(http.StatusOK))
-					Expect(len(projects)).To(Equal(1))
-					return nil
+				client.CallRequestNoBodytWithHeaders("GET", "/projects", authHeaders(user)).Solve(utils.MapExec{
+					http.StatusOK: utils.InfoExec{
+						&projects,
+						func(resp *http.Response) error {
+							Expect(resp.StatusCode).To(Equal(http.StatusOK))
+							Expect(len(projects)).To(Equal(1))
+							return nil
+						},
+					},
 				})
 			})
 
@@ -72,10 +83,15 @@ var _ = Describe("Projects", func() {
 
 			It("gets a project", func() {
 				var projectResp models.Project
-				client.CallRequestNoBodytWithHeaders("GET", fmt.Sprintf("/projects/%s", project.Slug), authHeaders(user)).WithResponseJSON(&projectResp, func(resp *http.Response) error {
-					Expect(resp.StatusCode).To(Equal(http.StatusOK))
-					Expect(projectResp.Name).To(Equal(project.Name))
-					return nil
+				client.CallRequestNoBodytWithHeaders("GET", fmt.Sprintf("/projects/%s", project.Slug), authHeaders(user)).Solve(utils.MapExec{
+					http.StatusOK: utils.InfoExec{
+						&projectResp,
+						func(resp *http.Response) error {
+							Expect(resp.StatusCode).To(Equal(http.StatusOK))
+							Expect(projectResp.Name).To(Equal(project.Name))
+							return nil
+						},
+					},
 				})
 			})
 
