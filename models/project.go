@@ -69,7 +69,13 @@ func (p *Project) AfterDelete() error {
 //AddUser adds new user
 func (p *Project) AddUser(txn *gorm.DB, user *User) error {
 	r := UsersProjects{Role: Collaborator, UserID: user.ID, ProjectID: p.ID}
-	return txn.Save(&r).Error
+	if err := txn.Create(&r).Error; err != nil {
+		if err != ErrUserExceedMaxProjects {
+			return ErrUserProjectNotSaved
+		}
+		return err
+	}
+	return nil
 }
 
 //RemoveUser removes and user
@@ -99,7 +105,7 @@ func (p *Project) DelegateUser(txn *gorm.DB, userAdmin, user *User) error {
 
 //GetCommand create the command
 func (p Project) GetCommand() string {
-	return fmt.Sprintf("docker run -d %s", p.Slug)
+	return fmt.Sprintf("docker run -d %s:latest", p.Slug)
 }
 
 //Schedule a worker

@@ -11,4 +11,5 @@ var (
 	ErrProjectNotFound       = errors.New("Project not found")
 	ErrTaskNotScheduled      = errors.New("The task can't be scheduled")
 	ErrTaskNotStopped        = errors.New("The task can't be stopped")
+	ErrUserExceedMaxProjects = errors.New("The user can't have more projects associated")
 )

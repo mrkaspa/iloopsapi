@@ -22,7 +22,7 @@ func UserCreate(c *gin.Context) {
 		}
 		user := models.User{Email: userLogin.Email, Password: userLogin.Password}
 		if txn.Create(&user).Error != nil {
-			errorResponseFromAppError(c, UserCreateErr)
+			errorResponseFromAppError(c, ErrUserCreate)
 			return false
 		}
 		userLogged := models.UserLogged{ID: user.ID, Email: user.Email, Token: user.Token}
@@ -39,11 +39,16 @@ func UserLogin(c *gin.Context) {
 		return
 	}
 	var user models.User
-	err := models.Gdb.Find(&user, "email = ?", userLogin.Email).Error
-	if err == nil && user.Email != "" && user.LoggedIn(userLogin) {
+	models.Gdb.Find(&user, "email = ?", userLogin.Email)
+	switch {
+	case user.Email == "":
+		c.JSON(http.StatusNotFound, "")
+	case !user.LoggedIn(userLogin):
+		errorResponseFromAppError(c, ErrUserLogin)
+	case !user.Active:
+		errorResponseFromAppError(c, ErrUserActive)
+	default:
 		userLogged := models.UserLogged{ID: user.ID, Email: user.Email, Token: user.Token}
 		c.JSON(http.StatusOK, userLogged)
-	} else {
-		errorResponseFromAppError(c, UserLoginErr)
 	}
 }

@@ -18,7 +18,7 @@ func authHeaders(user models.User) map[string]string {
 }
 
 func defaultUser() models.User {
-	return models.User{Email: "michel.ingesoft@gmail.com", Password: "h1h1h1h1h1h1"}
+	return models.User{Email: "michel.ingesoft@gmail.com", Password: "h1h1h1h1h1h1", Active: true}
 }
 
 func saveUser() models.User {
@@ -33,7 +33,7 @@ func saveUser() models.User {
 }
 
 func saveOtherUser() models.User {
-	user := models.User{Email: "angelbotto@gmail.com", Password: "h1h1h1h1h1h1"}
+	user := models.User{Email: "angelbotto@gmail.com", Password: "h1h1h1h1h1h1", Active: true}
 	models.InTx(func(txn *gorm.DB) bool {
 		if txn.Create(&user).Error != nil {
 			panic("error creating the user")

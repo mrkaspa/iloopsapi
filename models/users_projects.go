@@ -13,6 +13,8 @@ const (
 	Collaborator
 )
 
+const maxNumProjects = 5
+
 //UsersProjects ManyToMany rel
 type UsersProjects struct {
 	ID        int     `gorm:"primary_key" json:"id"`
@@ -29,6 +31,15 @@ type UsersProjects struct {
 //TableName for UsersProjects
 func (u UsersProjects) TableName() string {
 	return "users_projects"
+}
+
+func (u *UsersProjects) BeforeCreate(txn *gorm.DB) error {
+	var counter int
+	txn.Model(UsersProjects{}).Where("user_id = ?", u.UserID).Count(&counter)
+	if counter > maxNumProjects {
+		return ErrUserExceedMaxProjects
+	}
+	return nil
 }
 
 // AfterCreate callback

@@ -11,6 +11,7 @@ import (
 type User struct {
 	ID        int    `gorm:"primary_key"`
 	Email     string `sql:"unique"`
+	Active    bool   `sql:"default:0"`
 	Password  string
 	Token     string
 	CreatedAt time.Time
@@ -25,9 +26,10 @@ type UserLogin struct {
 
 //UserLogged model
 type UserLogged struct {
-	ID    int    `gorm:"primary_key"`
-	Email string `json:"email"`
-	Token string `json:"token"`
+	ID     int    `gorm:"primary_key"`
+	Email  string `json:"email"`
+	Token  string `json:"token"`
+	Active bool   `json:"active"`
 }
 
 //BeforeCreate callback
@@ -74,9 +76,8 @@ func (u User) CreateProject(txn *gorm.DB, project *Project) error {
 		return ErrProjectNotSaved
 	}
 	// Creates a relation between the user and the project
-	userProject := UsersProjects{Role: Creator, UserID: u.ID, ProjectID: project.ID}
-	if txn.Create(&userProject).Error != nil {
-		return ErrUserProjectNotSaved
+	if err := project.AddUser(txn, &u); err != nil {
+		return err
 	}
 	return nil
 }

@@ -18,7 +18,7 @@ func Authorized() gin.HandlerFunc {
 		} else {
 			var user models.User
 			models.Gdb.Where("id = ? and token = ?", authID, authToken).First(&user)
-			if user.ID != 0 {
+			if user.ID != 0 && user.Active {
 				c.Set("userSession", &user)
 				c.Next()
 			} else {

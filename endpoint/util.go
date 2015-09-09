@@ -30,9 +30,9 @@ func errorResponse(c *gin.Context, code int, err error) {
 }
 
 func errorResponseMap(c *gin.Context, errMap validator.ValidationErrors) {
-	jsonErr := JSONError{Code: ValidationErrCode, MapErrors: make(map[string]string)}
+	jsonErr := JSONError{Code: ErrCodeValidation, MapErrors: make(map[string]string)}
 	for _, value := range errMap {
-		jsonErr.MapErrors[value.Tag] = value.Field
+		jsonErr.MapErrors[value.Field] = value.Tag
 	}
 	c.JSON(http.StatusConflict, jsonErr)
 }

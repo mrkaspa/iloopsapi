@@ -24,7 +24,7 @@ func SSHCreate(c *gin.Context) {
 		user := userSession(c)
 		ssh.UserID = user.ID
 		if txn.Create(&ssh).Error != nil {
-			errorResponseFromAppError(c, SSHCreateErr)
+			errorResponseFromAppError(c, ErrSSHCreate)
 			return false
 		}
 		c.JSON(http.StatusOK, ssh)
@@ -42,7 +42,7 @@ func SSHDestroy(c *gin.Context) {
 			return false
 		}
 		if txn.Delete(&ssh).Error != nil {
-			errorResponseFromAppError(c, SSHDeleteErr)
+			errorResponseFromAppError(c, ErrSSHDelete)
 			return false
 		}
 		c.JSON(http.StatusOK, "")

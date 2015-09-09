@@ -35,7 +35,11 @@ func ProjectCreate(c *gin.Context) {
 		}
 		user := userSession(c)
 		if err := user.CreateProject(txn, &project); err != nil {
-			errorResponseFromAppError(c, ProjectCreateErr)
+			if err == models.ErrUserExceedMaxProjects {
+				errorResponse(c, http.StatusConflict, err)
+			} else {
+				errorResponseFromAppError(c, ErrProjectCreate)
+			}
 			return false
 		}
 		c.JSON(http.StatusOK, project)
@@ -48,7 +52,7 @@ func ProjectDestroy(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		project := currentProject(c)
 		if err := txn.Delete(&project).Error; err != nil {
-			errorResponseFromAppError(c, ProjectDeleteErr)
+			errorResponseFromAppError(c, ErrProjectDelete)
 			return false
 		}
 		c.JSON(http.StatusOK, project)
@@ -62,11 +66,11 @@ func ProjectLeave(c *gin.Context) {
 		user := userSession(c)
 		project := currentProject(c)
 		if user.HasAdminAccessTo(project.ID) {
-			errorResponseFromAppError(c, AdminCantLeaveProjectErr)
+			errorResponseFromAppError(c, ErrAdminCantLeaveProject)
 			return false
 		}
 		if err := user.LeaveProject(txn, project.ID); err != nil {
-			errorResponseFromAppError(c, UserLeaveProjectErr)
+			errorResponseFromAppError(c, ErrUserLeaveProject)
 			return false
 		}
 		c.JSON(http.StatusOK, "")
@@ -84,7 +88,11 @@ func ProjectAddUser(c *gin.Context) {
 			return false
 		}
 		if err := project.AddUser(txn, user); err != nil {
-			errorResponseFromAppError(c, ProjectAddUserErr)
+			if err == models.ErrUserExceedMaxProjects {
+				errorResponse(c, http.StatusConflict, err)
+			} else {
+				errorResponseFromAppError(c, ErrProjectAddUser)
+			}
 			return false
 		}
 		c.JSON(http.StatusOK, "")
@@ -102,7 +110,7 @@ func ProjectRemoveUser(c *gin.Context) {
 			return false
 		}
 		if err := project.RemoveUser(txn, user); err != nil {
-			errorResponseFromAppError(c, ProjectRemoveUserErr)
+			errorResponseFromAppError(c, ErrProjectRemoveUser)
 			return false
 		}
 		c.JSON(http.StatusOK, "")
@@ -121,7 +129,7 @@ func ProjectDelegate(c *gin.Context) {
 			return false
 		}
 		if err := project.DelegateUser(txn, userAdmin, user); err != nil {
-			errorResponseFromAppError(c, ProjectDelegateUserErr)
+			errorResponseFromAppError(c, ErrProjectDelegateUser)
 			return false
 		}
 		c.JSON(http.StatusOK, "")
@@ -146,11 +154,11 @@ func ProjectSchedule(c *gin.Context) {
 		project.Periodicity = projectConfig.Loops.CronFormat
 		project.Command = project.GetCommand()
 		if err := txn.Save(&project).Error; err != nil {
-			errorResponse(c, GeneralErrCode, err)
+			errorResponse(c, ErrCodeGeneral, err)
 			return false
 		}
 		if err := project.Schedule(); err != nil {
-			errorResponse(c, GeneralErrCode, err)
+			errorResponse(c, ErrCodeGeneral, err)
 			return false
 		}
 		c.JSON(http.StatusOK, "")
