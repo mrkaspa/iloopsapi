@@ -3,6 +3,7 @@ package endpoint
 import (
 	"net/http"
 
+	"bitbucket.org/kiloops/api/ierrors"
 	"bitbucket.org/kiloops/api/models"
 	"gopkg.in/bluesuncorp/validator.v6"
 
@@ -21,18 +22,24 @@ func currentProject(c *gin.Context) *models.Project {
 	return project
 }
 
-func errorResponseFromAppError(c *gin.Context, error AppError) {
-	errorResponse(c, error.Code, error.Error)
-}
-
-func errorResponse(c *gin.Context, code int, err error) {
-	c.JSON(http.StatusConflict, JSONError{Code: code, ErrorCad: err.Error()})
+func errorResponse(c *gin.Context, errs ...error) {
+	err := errs[0]
+	switch err := err.(type) {
+	case ierrors.AppError:
+		c.JSON(http.StatusConflict, err)
+	case error:
+		if len(errs) == 2 {
+			errorResponse(c, errs[1])
+		} else {
+			c.JSON(http.StatusConflict, ierrors.AppError{Code: ierrors.ErrCodeGeneral, ErrorS: err.Error()})
+		}
+	}
 }
 
 func errorResponseMap(c *gin.Context, errMap validator.ValidationErrors) {
-	jsonErr := JSONError{Code: ErrCodeValidation, MapErrors: make(map[string]string)}
+	err := ierrors.AppError{Code: ierrors.ErrCodeValidation, MapErrors: make(map[string]string)}
 	for _, value := range errMap {
-		jsonErr.MapErrors[value.Field] = value.Tag
+		err.MapErrors[value.Field] = value.Tag
 	}
-	c.JSON(http.StatusConflict, jsonErr)
+	c.JSON(http.StatusConflict, err)
 }

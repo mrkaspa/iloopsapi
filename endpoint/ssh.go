@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"bitbucket.org/kiloops/api/ierrors"
 	"bitbucket.org/kiloops/api/models"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -23,8 +24,8 @@ func SSHCreate(c *gin.Context) {
 		}
 		user := userSession(c)
 		ssh.UserID = user.ID
-		if txn.Create(&ssh).Error != nil {
-			errorResponseFromAppError(c, ErrSSHCreate)
+		if err := txn.Create(&ssh).Error; err != nil {
+			errorResponse(c, err, ierrors.ErrSSHCreate)
 			return false
 		}
 		c.JSON(http.StatusOK, ssh)
@@ -41,8 +42,8 @@ func SSHDestroy(c *gin.Context) {
 			c.JSON(http.StatusNotFound, "SSH not found")
 			return false
 		}
-		if txn.Delete(&ssh).Error != nil {
-			errorResponseFromAppError(c, ErrSSHDelete)
+		if err := txn.Delete(&ssh).Error; err != nil {
+			errorResponse(c, err, ierrors.ErrSSHDelete)
 			return false
 		}
 		c.JSON(http.StatusOK, "")

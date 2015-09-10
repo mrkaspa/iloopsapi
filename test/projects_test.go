@@ -49,6 +49,25 @@ var _ = Describe("Projects", func() {
 			})
 		})
 
+		It("create more than 5 projects", func() {
+			project := models.Project{Name: "Demo Project"}
+			projectJSON, _ := json.Marshal(project)
+			for i := 1; i <= 6; i++ {
+				cResp := client.CallRequestWithHeaders("POST", "/projects", bytes.NewReader(projectJSON), authHeaders(user))
+				if i < 6 {
+					cResp.WithResponse(func(resp *http.Response) error {
+						Expect(resp.StatusCode).To(Equal(http.StatusOK))
+						return nil
+					})
+				} else {
+					cResp.WithResponse(func(resp *http.Response) error {
+						Expect(resp.StatusCode).To(Equal(http.StatusConflict))
+						return nil
+					})
+				}
+			}
+		})
+
 	})
 
 	Context("After adding a project", func() {
@@ -149,7 +168,7 @@ var _ = Describe("Projects", func() {
 
 				It("delegates admin role to another user", func() {
 					models.InTx(func(txn *gorm.DB) bool {
-						project.AddUser(txn, &otherUser)
+						project.AddUser(txn, &otherUser, models.Collaborator)
 						return true
 					})
 					client.CallRequestNoBodytWithHeaders("PUT", fmt.Sprintf("/projects/%s/delegate/%s", project.Slug, otherUser.Email), authHeaders(user)).WithResponse(func(resp *http.Response) error {
@@ -168,7 +187,7 @@ var _ = Describe("Projects", func() {
 
 				It("an user leaves a project", func() {
 					models.InTx(func(txn *gorm.DB) bool {
-						project.AddUser(txn, &otherUser)
+						project.AddUser(txn, &otherUser, models.Collaborator)
 						return true
 					})
 					client.CallRequestNoBodytWithHeaders("PUT", fmt.Sprintf("/projects/%s/leave", project.Slug), authHeaders(otherUser)).WithResponse(func(resp *http.Response) error {
@@ -183,7 +202,7 @@ var _ = Describe("Projects", func() {
 
 				It("remove an user from a project", func() {
 					models.InTx(func(txn *gorm.DB) bool {
-						project.AddUser(txn, &otherUser)
+						project.AddUser(txn, &otherUser, models.Collaborator)
 						return true
 					})
 					client.CallRequestNoBodytWithHeaders("DELETE", fmt.Sprintf("/projects/%s/remove/%s", project.Slug, otherUser.Email), authHeaders(user)).WithResponse(func(resp *http.Response) error {

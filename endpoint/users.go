@@ -3,6 +3,7 @@ package endpoint
 import (
 	"net/http"
 
+	"bitbucket.org/kiloops/api/ierrors"
 	"bitbucket.org/kiloops/api/models"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -21,8 +22,8 @@ func UserCreate(c *gin.Context) {
 			return false
 		}
 		user := models.User{Email: userLogin.Email, Password: userLogin.Password}
-		if txn.Create(&user).Error != nil {
-			errorResponseFromAppError(c, ErrUserCreate)
+		if err := txn.Create(&user).Error; err != nil {
+			errorResponse(c, err, ierrors.ErrUserCreate)
 			return false
 		}
 		userLogged := models.UserLogged{ID: user.ID, Email: user.Email, Token: user.Token}
@@ -44,9 +45,9 @@ func UserLogin(c *gin.Context) {
 	case user.Email == "":
 		c.JSON(http.StatusNotFound, "")
 	case !user.LoggedIn(userLogin):
-		errorResponseFromAppError(c, ErrUserLogin)
+		errorResponse(c, ierrors.ErrUserLogin)
 	case !user.Active:
-		errorResponseFromAppError(c, ErrUserActive)
+		errorResponse(c, ierrors.ErrUserInactive)
 	default:
 		userLogged := models.UserLogged{ID: user.ID, Email: user.Email, Token: user.Token}
 		c.JSON(http.StatusOK, userLogged)

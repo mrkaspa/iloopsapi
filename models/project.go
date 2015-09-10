@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"bitbucket.org/kiloops/api/gitadmin"
+	"bitbucket.org/kiloops/api/ierrors"
 	"bitbucket.org/kiloops/api/utils"
 
 	"github.com/gosimple/slug"
@@ -67,12 +68,9 @@ func (p *Project) AfterDelete() error {
 }
 
 //AddUser adds new user
-func (p *Project) AddUser(txn *gorm.DB, user *User) error {
-	r := UsersProjects{Role: Collaborator, UserID: user.ID, ProjectID: p.ID}
+func (p *Project) AddUser(txn *gorm.DB, user *User, role int) error {
+	r := UsersProjects{Role: role, UserID: user.ID, ProjectID: p.ID}
 	if err := txn.Create(&r).Error; err != nil {
-		if err != ErrUserExceedMaxProjects {
-			return ErrUserProjectNotSaved
-		}
 		return err
 	}
 	return nil
@@ -83,7 +81,7 @@ func (p *Project) RemoveUser(txn *gorm.DB, user *User) error {
 	var userProject UsersProjects
 	txn.Model(UsersProjects{}).Where("user_id = ? and project_id = ?", user.ID, p.ID).First(&userProject)
 	if userProject.Role != Collaborator {
-		return ErrCreatorNotRemoved
+		return ierrors.ErrCreatorNotRemoved
 	}
 	return txn.Delete(&userProject).Error
 }
@@ -91,7 +89,7 @@ func (p *Project) RemoveUser(txn *gorm.DB, user *User) error {
 //DelegateUser sets an user as Creator
 func (p *Project) DelegateUser(txn *gorm.DB, userAdmin, user *User) error {
 	if !user.HasCollaboratorAccessTo(p.ID) {
-		return ErrUserIsNotCollaborator
+		return ierrors.ErrUserIsNotCollaborator
 	}
 	if err := txn.Model(UsersProjects{}).Where("user_id = ? and project_id = ?", userAdmin.ID, p.ID).Update("role", Collaborator).Error; err != nil {
 		return err
@@ -114,7 +112,7 @@ func (p Project) Schedule() error {
 	taskJSON, _ := json.Marshal(task)
 	return guartzClient.CallRequest("POST", "/tasks", bytes.NewReader(taskJSON)).WithResponse(func(resp *http.Response) error {
 		if resp.StatusCode != http.StatusOK {
-			return ErrTaskNotScheduled
+			return ierrors.ErrTaskNotScheduled
 		}
 		return nil
 	})
@@ -124,7 +122,7 @@ func (p Project) Schedule() error {
 func (p *Project) Stop() error {
 	return guartzClient.CallRequestNoBody("DELETE", "/tasks/"+p.Slug).WithResponse(func(resp *http.Response) error {
 		if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNotFound {
-			return ErrTaskNotStopped
+			return ierrors.ErrTaskNotStopped
 		}
 		return nil
 	})
@@ -135,7 +133,7 @@ func FindProject(id int) (*Project, error) {
 	var project Project
 	Gdb.First(&project, id)
 	if project.ID == 0 {
-		return nil, ErrProjectNotFound
+		return nil, ierrors.ErrProjectNotFound
 	}
 	return &project, nil
 }
@@ -145,7 +143,7 @@ func FindProjectBySlug(slug string) (*Project, error) {
 	var project Project
 	Gdb.Where("slug like ?", slug).First(&project)
 	if project.ID == 0 {
-		return nil, ErrProjectNotFound
+		return nil, ierrors.ErrProjectNotFound
 	}
 	return &project, nil
 }

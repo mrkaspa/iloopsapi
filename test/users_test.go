@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"bitbucket.org/kiloops/api/endpoint"
+	"bitbucket.org/kiloops/api/ierrors"
 	"bitbucket.org/kiloops/api/models"
 	"bitbucket.org/kiloops/api/utils"
 	. "github.com/onsi/ginkgo"
@@ -44,16 +44,16 @@ var _ = Describe("Users", func() {
 			})
 		})
 
-		FIt("fails login incorrect password", func() {
+		It("fails login incorrect password", func() {
 			userLogin := models.UserLogin{Email: "michel.ingesoft@gmail.com", Password: "h1"}
 			userJSON, _ := json.Marshal(userLogin)
-			var jError endpoint.JSONError
+			var appError ierrors.AppError
 			client.CallRequest("POST", "/users/login", bytes.NewReader(userJSON)).Solve(utils.MapExec{
 				http.StatusConflict: utils.InfoExec{
-					&jError,
+					&appError,
 					func(resp *http.Response) error {
-						Expect(jError.Code).To(Equal(endpoint.ErrCodeCredential))
-						return jError
+						Expect(appError.Code).To(Equal(ierrors.ErrCodeCredential))
+						return appError
 					},
 				},
 			})

@@ -3,6 +3,8 @@ package models
 import (
 	"time"
 
+	"bitbucket.org/kiloops/api/ierrors"
+
 	"github.com/jinzhu/gorm"
 	"github.com/mrkaspa/go-helpers"
 )
@@ -73,10 +75,10 @@ func (u User) CollaboratorProjects() []UsersProjects {
 //CreateProject a new one
 func (u User) CreateProject(txn *gorm.DB, project *Project) error {
 	if txn.Create(&project).Error != nil {
-		return ErrProjectNotSaved
+		return ierrors.ErrProjectNotSaved
 	}
 	// Creates a relation between the user and the project
-	if err := project.AddUser(txn, &u); err != nil {
+	if err := project.AddUser(txn, &u, Creator); err != nil {
 		return err
 	}
 	return nil
@@ -115,7 +117,7 @@ func FindUser(id int) (*User, error) {
 	var user User
 	Gdb.First(&user, id)
 	if user.ID == 0 {
-		return nil, ErrUserNotFound
+		return nil, ierrors.ErrUserNotFound
 	}
 	return &user, nil
 }
@@ -125,7 +127,7 @@ func FindUserByEmail(email string) (*User, error) {
 	var user User
 	Gdb.Where("email like ?", email).First(&user)
 	if user.ID == 0 {
-		return nil, ErrUserNotFound
+		return nil, ierrors.ErrUserNotFound
 	}
 	return &user, nil
 }

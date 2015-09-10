@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"bitbucket.org/kiloops/api/gitadmin"
+	"bitbucket.org/kiloops/api/ierrors"
 
 	"github.com/jinzhu/gorm"
 	"github.com/mrkaspa/go-helpers"
@@ -31,7 +32,7 @@ func (s *SSH) AfterCreate(txn *gorm.DB) error {
 	var user User
 	txn.Model(s).Related(&user)
 	if user.ID == 0 {
-		return ErrUserNotFound
+		return ierrors.ErrUserNotFound
 	}
 	if err := gitadmin.AddSSH(user.Email, s.ID, s.PublicKey); err != nil {
 		return err
@@ -51,7 +52,7 @@ func (s *SSH) AfterDelete(txn *gorm.DB) error {
 	var user User
 	txn.Model(s).Related(&user)
 	if user.ID == 0 {
-		return ErrUserNotFound
+		return ierrors.ErrUserNotFound
 	}
 	if err := gitadmin.DeleteSSH(user.Email, s.ID); err != nil {
 		return err

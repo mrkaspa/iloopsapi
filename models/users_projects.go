@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"bitbucket.org/kiloops/api/gitadmin"
+	"bitbucket.org/kiloops/api/ierrors"
 	"github.com/jinzhu/gorm"
 )
 
@@ -36,8 +37,8 @@ func (u UsersProjects) TableName() string {
 func (u *UsersProjects) BeforeCreate(txn *gorm.DB) error {
 	var counter int
 	txn.Model(UsersProjects{}).Where("user_id = ?", u.UserID).Count(&counter)
-	if counter > maxNumProjects {
-		return ErrUserExceedMaxProjects
+	if counter >= maxNumProjects {
+		return ierrors.ErrUserExceedMaxProjects
 	}
 	return nil
 }
@@ -75,10 +76,10 @@ func (u UsersProjects) withRels(txn *gorm.DB, f func(string, *[]SSH, string) err
 	txn.Model(&u).Related(&user)
 	txn.Model(&u).Related(&project)
 	if user.ID == 0 {
-		return ErrUserNotFound
+		return ierrors.ErrUserNotFound
 	}
 	if project.ID == 0 {
-		return ErrProjectNotFound
+		return ierrors.ErrProjectNotFound
 	}
 	var SSHs []SSH
 	txn.Model(&user).Related(&SSHs)
