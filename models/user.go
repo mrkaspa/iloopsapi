@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"bitbucket.org/kiloops/api/ierrors"
+	"bitbucket.org/kiloops/api/utils"
 
 	"github.com/jinzhu/gorm"
 	"github.com/mrkaspa/go-helpers"
@@ -38,6 +39,9 @@ type UserLogged struct {
 func (u *User) BeforeCreate() error {
 	u.Password = helpers.MD5(u.Password)
 	u.Token = helpers.RandomString(20)
+	if utils.IsTest() {
+		u.Active = true
+	}
 	return nil
 }
 
