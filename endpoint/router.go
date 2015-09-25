@@ -8,6 +8,8 @@ func GetMainEngine() *gin.Engine {
 
 	v1 := router.Group("v1")
 	{
+		v1.POST("status", StatusGet)
+
 		v1.POST("users", UserCreate)
 		v1.POST("users/login", UserLogin)
 
