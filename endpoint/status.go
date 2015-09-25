@@ -8,5 +8,5 @@ import (
 )
 
 func StatusGet(c *gin.Context) {
-	c.JSON(http.StatusOK, map[string]string{"timestamp": time.Now().Format(time.RFC850)})
+	c.JSON(http.StatusOK, map[string]int64{"timestamp": time.Now().Unix()})
 }
