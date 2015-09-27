@@ -1,0 +1,47 @@
+{"level":"info","msg":"*** INIT DB ***","time":"2015-09-26T21:52:29-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-09-26T21:52:29-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-09-26T21:52:29-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-09-26T21:52:29-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-09-26T21:52:33-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-09-26T21:52:33-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-09-26T21:52:33-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-09-26T21:52:33-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-09-26T21:52:49-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-09-26T21:52:49-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-09-26T21:52:49-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-09-26T21:52:49-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-09-26T21:53:00-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-09-26T21:53:00-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-09-26T21:53:00-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-09-26T21:53:00-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-09-26T21:58:18-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-09-26T21:58:18-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-09-26T21:58:18-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-09-26T21:58:18-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-09-26T21:59:12-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-09-26T21:59:12-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-09-26T21:59:12-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-09-26T21:59:12-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-09-26T22:00:53-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-09-26T22:00:53-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-09-26T22:00:53-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-09-26T22:00:53-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-09-26T22:01:50-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-09-26T22:01:50-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-09-26T22:01:50-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-09-26T22:01:50-05:00"}
+{"level":"info","msg":"[GIN] 2015/09/26 - 22:01:51 |\u001b[97;41m 500 \u001b[0m|    1.987839ms | [::1]:52152 |\u001b[97;46m  \u001b[0m POST    /v1/v1/users/login","time":"2015-09-26T22:01:51-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-09-26T22:02:38-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-09-26T22:02:38-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-09-26T22:02:38-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-09-26T22:02:38-05:00"}
+{"level":"info","msg":"[GIN] 2015/09/26 - 22:02:44 |\u001b[97;41m 500 \u001b[0m|      48.144µs | [::1]:52179 |\u001b[97;46m  \u001b[0m POST    /v1/v1/users/login","time":"2015-09-26T22:02:44-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-09-26T22:04:39-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-09-26T22:04:40-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-09-26T22:04:40-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-09-26T22:04:40-05:00"}
+{"level":"info","msg":"[GIN] 2015/09/26 - 22:04:41 |\u001b[97;41m 500 \u001b[0m|      36.981µs | [::1]:52244 |\u001b[97;46m  \u001b[0m POST    /v1/v1/users/login","time":"2015-09-26T22:04:41-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-09-26T22:22:11-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-09-26T22:22:12-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-09-26T22:22:12-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-09-26T22:22:12-05:00"}

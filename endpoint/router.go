@@ -1,12 +1,22 @@
 package endpoint
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 //GetMainEngine server & routes
 func GetMainEngine() *gin.Engine {
 	router := gin.Default()
 
-	v1 := router.Group("v1")
+	root := router.Group("", AngularFilter)
+
+	root.OPTIONS("/*path", func(c *gin.Context) {
+		c.String(http.StatusOK, "")
+	})
+
+	v1 := root.Group("v1")
 	{
 		v1.GET("status", StatusGet)
 
