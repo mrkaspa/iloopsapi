@@ -12,7 +12,7 @@ import (
 
 //User model
 type User struct {
-	ID        int    `gorm:"primary_key" json:"id" `
+	ID        int    `gorm:"primary_key" json:"id"`
 	Email     string `sql:"unique"`
 	Active    bool   `sql:"default:0"`
 	Password  string
@@ -29,7 +29,7 @@ type UserLogin struct {
 
 //UserLogged model
 type UserLogged struct {
-	ID     int    `gorm:"primary_key"`
+	ID     int    `gorm:"primary_key" json:"id"`
 	Email  string `json:"email"`
 	Token  string `json:"token"`
 	Active bool   `json:"active"`
