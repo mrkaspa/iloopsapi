@@ -49,7 +49,7 @@ func UserLogin(c *gin.Context) {
 	case !user.Active:
 		errorResponse(c, ierrors.ErrUserInactive)
 	default:
-		userLogged := models.UserLogged{ID: user.ID, Email: user.Email, Token: user.Token}
+		userLogged := models.UserLogged{ID: user.ID, Email: user.Email, Token: user.Token, Active: user.Active}
 		c.JSON(http.StatusOK, userLogged)
 	}
 }
