@@ -12,8 +12,8 @@ import (
 //Authorized middleware
 func Authorized() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		authID := c.Request.Header.Get("AUTH_ID")
-		authToken := c.Request.Header.Get("AUTH_TOKEN")
+		authID := c.Request.Header.Get("HTTP_AUTH_ID")
+		authToken := c.Request.Header.Get("HTTP_AUTH_TOKEN")
 		utils.Log.Infof("authID >> %s", authID)
 		utils.Log.Infof("authToken >> %s", authToken)
 		if authID == "" || authToken == "" {
