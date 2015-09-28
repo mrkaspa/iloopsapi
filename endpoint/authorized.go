@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"bitbucket.org/kiloops/api/models"
+	"bitbucket.org/kiloops/api/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,6 +14,8 @@ func Authorized() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authID := c.Request.Header.Get("AUTH_ID")
 		authToken := c.Request.Header.Get("AUTH_TOKEN")
+		utils.Log.Infof("authID >> %s", authID)
+		utils.Log.Infof("authToken >> %s", authToken)
 		if authID == "" || authToken == "" {
 			c.AbortWithStatus(http.StatusForbidden)
 		} else {
