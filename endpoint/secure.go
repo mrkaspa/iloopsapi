@@ -18,12 +18,21 @@ func Authorized() gin.HandlerFunc {
 		} else {
 			var user models.User
 			models.Gdb.Where("id = ? and token = ?", authID, authToken).First(&user)
-			if user.ID != 0 && user.Active {
+			if user.ID != 0 {
 				c.Set("userSession", &user)
 				c.Next()
 			} else {
 				c.AbortWithStatus(http.StatusForbidden)
 			}
+		}
+	}
+}
+
+func Active() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		user := userSession(c)
+		if !user.Active {
+			c.AbortWithStatus(http.StatusForbidden)
 		}
 	}
 }
