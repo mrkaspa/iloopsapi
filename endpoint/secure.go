@@ -31,7 +31,13 @@ func Authorized() gin.HandlerFunc {
 func Active() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		user := userSession(c)
-		if !user.Active {
+		if user != nil {
+			if user.Active {
+				c.Next()
+			} else {
+				c.AbortWithStatus(http.StatusForbidden)
+			}
+		} else {
 			c.AbortWithStatus(http.StatusForbidden)
 		}
 	}

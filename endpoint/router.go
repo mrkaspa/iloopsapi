@@ -26,17 +26,19 @@ func GetMainEngine() *gin.Engine {
 		auth := v1.Group("", Authorized())
 		{
 			auth.POST("ssh", SSHCreate)
-			auth.DELETE("ssh/:id", SSHDestroy)
-			auth.GET("projects", ProjectList)
-			auth.GET("projects/:slug", WriteAccessToProject(), ProjectShow)
 
 			active := auth.Group("", Active())
-			active.POST("projects", ProjectCreate)
-			active.PUT("projects/:slug/leave", WriteAccessToProject(), ProjectLeave)
-			active.PUT("projects/:slug/add/:email", AdminAccessToProject(), ProjectAddUser)
-			active.DELETE("projects/:slug/remove/:email", AdminAccessToProject(), ProjectRemoveUser)
-			active.PUT("projects/:slug/delegate/:email", AdminAccessToProject(), ProjectDelegate)
-			active.DELETE("projects/:slug", AdminAccessToProject(), ProjectDestroy)
+			{
+				active.DELETE("ssh/:id", SSHDestroy)
+				active.GET("projects", ProjectList)
+				active.GET("projects/:slug", WriteAccessToProject(), ProjectShow)
+				active.POST("projects", ProjectCreate)
+				active.PUT("projects/:slug/leave", WriteAccessToProject(), ProjectLeave)
+				active.PUT("projects/:slug/add/:email", AdminAccessToProject(), ProjectAddUser)
+				active.DELETE("projects/:slug/remove/:email", AdminAccessToProject(), ProjectRemoveUser)
+				active.PUT("projects/:slug/delegate/:email", AdminAccessToProject(), ProjectDelegate)
+				active.DELETE("projects/:slug", AdminAccessToProject(), ProjectDestroy)
+			}
 		}
 
 		internal := v1.Group("")
