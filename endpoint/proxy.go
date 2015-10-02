@@ -1,6 +1,7 @@
 package endpoint
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -10,6 +11,8 @@ import (
 
 //Proxy requests to another api
 func Proxy(c *gin.Context) {
+	fmt.Println("request >> ")
+	fmt.Println(c.Request.URL)
 	c.Request.URL.Host = os.Getenv("GUARTZ_HOST")
 	client := http.Client{}
 	resp, err := client.Do(c.Request)
