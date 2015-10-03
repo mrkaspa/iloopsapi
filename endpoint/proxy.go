@@ -29,5 +29,6 @@ func Proxy(c *gin.Context) {
 		return
 	}
 	c.Header("Content-Type", "application/json")
+	c.Writer.WriteHeader(resp.StatusCode)
 	c.Writer.Write(jsonDataFromHTTP)
 }
