@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -11,9 +12,11 @@ import (
 
 //Proxy requests to another api
 func Proxy(c *gin.Context) {
-	fmt.Println("request >> ")
-	fmt.Println(c.Request.URL)
-	c.Request.URL.Host = os.Getenv("GUARTZ_HOST")
+	c.Request.RequestURI = ""
+	newURLString := fmt.Sprintf("http://%s%s?%s", os.Getenv("GUARTZ_HOST"), c.Request.URL.Path, c.Request.URL.RawQuery)
+	newURL, err := url.Parse(newURLString)
+
+	c.Request.URL = newURL
 	client := http.Client{}
 	resp, err := client.Do(c.Request)
 	if err != nil {
@@ -25,5 +28,6 @@ func Proxy(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "")
 		return
 	}
-	c.JSON(resp.StatusCode, string(jsonDataFromHTTP))
+	c.Header("Content-Type", "application/json")
+	c.Writer.Write(jsonDataFromHTTP)
 }

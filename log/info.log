@@ -53,3 +53,230 @@
 {"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-09-27T22:34:54-05:00"}
 {"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-09-27T22:34:54-05:00"}
 {"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-09-27T22:34:54-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-02T16:41:26-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-02T16:41:27-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-02T16:41:27-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-02T16:41:27-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:41:40 |\u001b[97;41m 500 \u001b[0m|    2.419644ms | [::1]:49619 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:41:40-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:41:42 |\u001b[97;41m 500 \u001b[0m|      51.103µs | [::1]:49619 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:41:42-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:41:44 |\u001b[97;41m 500 \u001b[0m|      51.497µs | [::1]:49619 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:41:44-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:41:45 |\u001b[97;41m 500 \u001b[0m|      49.735µs | [::1]:49619 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:41:45-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:41:46 |\u001b[97;41m 500 \u001b[0m|      51.607µs | [::1]:49619 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:41:46-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:41:46 |\u001b[97;41m 500 \u001b[0m|      49.416µs | [::1]:49619 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:41:46-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:41:46 |\u001b[97;41m 500 \u001b[0m|      46.299µs | [::1]:49619 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:41:46-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-02T16:42:28-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-02T16:42:28-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-02T16:42:28-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-02T16:42:28-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:42:30 |\u001b[97;41m 500 \u001b[0m|     107.862µs | [::1]:49664 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:42:30-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:42:40 |\u001b[97;41m 500 \u001b[0m|      58.842µs | [::1]:49664 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:42:40-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-02T16:43:10-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-02T16:43:10-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-02T16:43:10-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-02T16:43:10-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:43:16 |\u001b[97;41m 500 \u001b[0m|      77.409µs | [::1]:49683 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:43:16-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-02T16:43:37-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-02T16:43:37-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-02T16:43:37-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-02T16:43:37-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:43:43 |\u001b[97;41m 500 \u001b[0m|     115.136µs | [::1]:49695 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:43:43-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:44:04 |\u001b[97;41m 500 \u001b[0m|     106.056µs | [::1]:49699 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:44:04-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:44:11 |\u001b[97;41m 500 \u001b[0m|      74.135µs | [::1]:49699 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:44:11-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:44:17 |\u001b[97;41m 500 \u001b[0m|      53.173µs | [::1]:49699 |\u001b[97;44m  \u001b[0m GET     /","time":"2015-10-02T16:44:17-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:44:24 |\u001b[97;41m 500 \u001b[0m|      54.979µs | [::1]:49699 |\u001b[97;44m  \u001b[0m GET     /","time":"2015-10-02T16:44:24-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:49 |\u001b[97;41m 500 \u001b[0m|     124.409µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /","time":"2015-10-02T16:50:49-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:50 |\u001b[97;41m 500 \u001b[0m|        93.9µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /","time":"2015-10-02T16:50:50-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:50 |\u001b[97;41m 500 \u001b[0m|      55.778µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /","time":"2015-10-02T16:50:50-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:56 |\u001b[97;41m 500 \u001b[0m|      62.268µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:50:56-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:57 |\u001b[97;41m 500 \u001b[0m|      97.938µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:50:57-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:57 |\u001b[97;41m 500 \u001b[0m|      52.986µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:50:57-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:57 |\u001b[97;41m 500 \u001b[0m|      58.081µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:50:57-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:58 |\u001b[97;41m 500 \u001b[0m|      42.218µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:50:58-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:58 |\u001b[97;41m 500 \u001b[0m|       54.81µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:50:58-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:58 |\u001b[97;41m 500 \u001b[0m|      58.235µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:50:58-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:58 |\u001b[97;41m 500 \u001b[0m|      75.616µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:50:58-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:58 |\u001b[97;41m 500 \u001b[0m|     117.033µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:50:58-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:58 |\u001b[97;41m 500 \u001b[0m|      57.004µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:50:58-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:59 |\u001b[97;41m 500 \u001b[0m|      58.484µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:50:59-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:50:59 |\u001b[97;41m 500 \u001b[0m|      61.459µs | [::1]:49964 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/","time":"2015-10-02T16:50:59-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:51:35 |\u001b[97;41m 500 \u001b[0m|      86.626µs | [::1]:49975 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:51:35-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-02T16:57:48-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-02T16:57:48-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-02T16:57:48-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-02T16:57:48-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:57:52 |\u001b[97;41m 500 \u001b[0m|     120.231µs | [::1]:50239 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:57:52-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:57:57 |\u001b[97;41m 500 \u001b[0m|      72.805µs | [::1]:50239 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:57:57-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-02T16:58:28-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-02T16:58:28-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-02T16:58:28-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-02T16:58:28-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:58:31 |\u001b[97;41m 500 \u001b[0m|     216.821µs | [::1]:50254 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:58:31-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-02T16:59:10-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-02T16:59:10-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-02T16:59:10-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-02T16:59:10-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:59:14 |\u001b[97;41m 500 \u001b[0m|     155.239µs | [::1]:50267 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:59:14-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-02T16:59:42-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-02T16:59:42-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-02T16:59:42-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-02T16:59:42-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 16:59:46 |\u001b[97;41m 500 \u001b[0m|    4.982522ms | [::1]:50277 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T16:59:46-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:00 |\u001b[97;42m 200 \u001b[0m|    5.642085ms | [::1]:50286 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:00-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:22 |\u001b[97;42m 200 \u001b[0m|    2.882604ms | [::1]:50291 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:22-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:23 |\u001b[97;42m 200 \u001b[0m|    1.366547ms | [::1]:50291 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:23-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:24 |\u001b[97;42m 200 \u001b[0m|    2.023273ms | [::1]:50291 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:24-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:54 |\u001b[97;42m 200 \u001b[0m|    2.899353ms | [::1]:50301 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:54-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:54 |\u001b[97;42m 200 \u001b[0m|    1.489115ms | [::1]:50301 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:54-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:55 |\u001b[97;42m 200 \u001b[0m|    1.377456ms | [::1]:50301 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:55-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:55 |\u001b[97;42m 200 \u001b[0m|    1.661949ms | [::1]:50301 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:55-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:55 |\u001b[97;42m 200 \u001b[0m|     875.625µs | [::1]:50301 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:55-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:55 |\u001b[97;42m 200 \u001b[0m|    1.126035ms | [::1]:50301 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:55-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:55 |\u001b[97;42m 200 \u001b[0m|    1.177248ms | [::1]:50301 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:55-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:55 |\u001b[97;42m 200 \u001b[0m|    1.136195ms | [::1]:50301 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:55-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:55 |\u001b[97;42m 200 \u001b[0m|    1.528535ms | [::1]:50301 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:55-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:56 |\u001b[97;42m 200 \u001b[0m|    1.178443ms | [::1]:50301 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:56-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:00:56 |\u001b[97;42m 200 \u001b[0m|    1.217977ms | [::1]:50301 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:00:56-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-02T17:01:11-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-02T17:01:12-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-02T17:01:12-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-02T17:01:12-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:01:15 |\u001b[97;42m 200 \u001b[0m|     4.73771ms | [::1]:50308 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:01:15-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-02T17:01:36-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-02T17:01:36-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-02T17:01:36-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-02T17:01:36-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:01:41 |\u001b[97;42m 200 \u001b[0m|     3.95411ms | [::1]:50317 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:01:41-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-02T17:02:03-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-02T17:02:03-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-02T17:02:03-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-02T17:02:03-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:02:05 |\u001b[97;42m 200 \u001b[0m|   10.213568ms | [::1]:50344 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:02:05-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:02:07 |\u001b[97;42m 200 \u001b[0m|    1.607239ms | [::1]:50344 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:02:07-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:36 |\u001b[97;42m 200 \u001b[0m|    1.766132ms | [::1]:50398 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:36-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-02T17:06:50-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-02T17:06:50-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-02T17:06:50-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-02T17:06:50-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:51 |\u001b[97;42m 200 \u001b[0m|    3.531512ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:51-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:52 |\u001b[97;42m 200 \u001b[0m|   10.306315ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:52-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:53 |\u001b[97;42m 200 \u001b[0m|    1.388707ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:53-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:53 |\u001b[97;42m 200 \u001b[0m|     754.423µs | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:53-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:53 |\u001b[97;42m 200 \u001b[0m|     909.663µs | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:53-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:53 |\u001b[97;42m 200 \u001b[0m|    1.020224ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:53-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:54 |\u001b[97;42m 200 \u001b[0m|    1.588913ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:54-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:54 |\u001b[97;42m 200 \u001b[0m|    1.445248ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:54-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:54 |\u001b[97;42m 200 \u001b[0m|    1.177179ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:54-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:54 |\u001b[97;42m 200 \u001b[0m|    1.212815ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:54-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:54 |\u001b[97;42m 200 \u001b[0m|     967.601µs | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:54-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:54 |\u001b[97;42m 200 \u001b[0m|    1.504489ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:54-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:55 |\u001b[97;42m 200 \u001b[0m|    1.496768ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:55-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:56 |\u001b[97;42m 200 \u001b[0m|    1.533076ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:56-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:56 |\u001b[97;42m 200 \u001b[0m|    1.994506ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:56-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:56 |\u001b[97;42m 200 \u001b[0m|    1.680678ms | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:56-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:56 |\u001b[97;42m 200 \u001b[0m|     873.709µs | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:56-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:06:56 |\u001b[97;42m 200 \u001b[0m|      842.12µs | [::1]:50410 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:06:56-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:07:15 |\u001b[97;42m 200 \u001b[0m|     2.87567ms | [::1]:50413 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:07:15-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:07:16 |\u001b[97;42m 200 \u001b[0m|    1.318635ms | [::1]:50413 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:07:16-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:07:16 |\u001b[97;42m 200 \u001b[0m|    1.386809ms | [::1]:50413 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:07:16-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:07:16 |\u001b[97;42m 200 \u001b[0m|    2.216129ms | [::1]:50413 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:07:16-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:07:16 |\u001b[97;42m 200 \u001b[0m|    1.227745ms | [::1]:50413 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:07:16-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/02 - 17:07:17 |\u001b[97;42m 200 \u001b[0m|    1.384936ms | [::1]:50413 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-02T17:07:17-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 08:50:56 |\u001b[97;42m 200 \u001b[0m|  113.894871ms | [::1]:53574 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T08:50:56-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-03T08:51:46-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-03T08:51:46-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-03T08:51:46-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-03T08:51:46-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 08:51:52 |\u001b[97;42m 200 \u001b[0m|    4.506762ms | [::1]:53607 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T08:51:52-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-03T08:52:47-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-03T08:52:47-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-03T08:52:47-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-03T08:52:47-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 08:52:51 |\u001b[97;42m 200 \u001b[0m|    7.117033ms | [::1]:53619 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T08:52:51-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-03T08:56:29-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-03T08:56:29-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-03T08:56:29-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-03T08:56:29-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 08:56:35 |\u001b[97;42m 200 \u001b[0m|    2.940359ms | [::1]:53644 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T08:56:35-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 08:56:36 |\u001b[97;42m 200 \u001b[0m|     755.354µs | [::1]:53644 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T08:56:36-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 08:56:37 |\u001b[97;42m 200 \u001b[0m|    1.318271ms | [::1]:53644 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T08:56:37-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 08:56:37 |\u001b[97;42m 200 \u001b[0m|    2.409548ms | [::1]:53644 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T08:56:37-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 08:56:44 |\u001b[97;42m 200 \u001b[0m|    1.184285ms | [::1]:53644 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T08:56:44-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 08:56:44 |\u001b[97;43m 404 \u001b[0m|   10.566396ms | [::1]:53644 |\u001b[97;44m  \u001b[0m GET     /favicon.ico","time":"2015-10-03T08:56:44-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 08:56:58 |\u001b[97;42m 200 \u001b[0m|    3.315589ms | [::1]:53657 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T08:56:58-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 08:56:59 |\u001b[97;42m 200 \u001b[0m|     788.898µs | [::1]:53657 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T08:56:59-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-03T08:57:32-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-03T08:57:32-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-03T08:57:32-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-03T08:57:32-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 08:57:34 |\u001b[97;42m 200 \u001b[0m|    3.807714ms | [::1]:53673 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T08:57:34-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:00:43 |\u001b[97;42m 200 \u001b[0m|    1.618637ms | [::1]:53697 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:00:43-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-03T09:00:48-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-03T09:00:48-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-03T09:00:48-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-03T09:00:48-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:00:51 |\u001b[97;42m 200 \u001b[0m|    3.389419ms | [::1]:53708 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:00:51-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:00:52 |\u001b[97;42m 200 \u001b[0m|     987.154µs | [::1]:53708 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:00:52-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-03T09:01:27-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-03T09:01:27-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-03T09:01:27-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-03T09:01:27-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:01:29 |\u001b[97;42m 200 \u001b[0m|      82.463µs | [::1]:53728 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:01:29-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:01:30 |\u001b[97;42m 200 \u001b[0m|      26.539µs | [::1]:53728 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:01:30-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:01:31 |\u001b[97;42m 200 \u001b[0m|      36.155µs | [::1]:53728 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:01:31-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-03T09:01:34-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-03T09:01:34-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-03T09:01:34-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-03T09:01:34-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:01:37 |\u001b[97;42m 200 \u001b[0m|     128.584µs | [::1]:53739 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:01:37-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:01:37 |\u001b[97;42m 200 \u001b[0m|      30.329µs | [::1]:53739 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:01:37-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:01:38 |\u001b[97;42m 200 \u001b[0m|       31.53µs | [::1]:53739 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:01:38-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:01:38 |\u001b[97;42m 200 \u001b[0m|      30.371µs | [::1]:53739 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:01:38-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:01:38 |\u001b[97;42m 200 \u001b[0m|      35.235µs | [::1]:53739 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:01:38-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:01:38 |\u001b[97;42m 200 \u001b[0m|      30.209µs | [::1]:53739 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:01:38-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:01:38 |\u001b[97;42m 200 \u001b[0m|      29.352µs | [::1]:53739 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:01:38-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:01:54 |\u001b[97;42m 200 \u001b[0m|       63.47µs | [::1]:53751 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:01:54-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-03T09:01:59-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-03T09:01:59-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-03T09:01:59-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-03T09:01:59-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:00 |\u001b[97;42m 200 \u001b[0m|      59.773µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:00-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:00 |\u001b[97;42m 200 \u001b[0m|      32.428µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:00-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:01 |\u001b[97;42m 200 \u001b[0m|      32.122µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:01-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:01 |\u001b[97;42m 200 \u001b[0m|       32.23µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:01-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:01 |\u001b[97;42m 200 \u001b[0m|      36.929µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:01-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:01 |\u001b[97;42m 200 \u001b[0m|      32.665µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:01-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:01 |\u001b[97;42m 200 \u001b[0m|       31.78µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:01-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:02 |\u001b[97;42m 200 \u001b[0m|      33.239µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:02-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:02 |\u001b[97;42m 200 \u001b[0m|       29.69µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:02-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:02 |\u001b[97;42m 200 \u001b[0m|      30.982µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:02-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:02 |\u001b[97;42m 200 \u001b[0m|      25.703µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:02-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:02 |\u001b[97;42m 200 \u001b[0m|      32.073µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:02-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:02 |\u001b[97;42m 200 \u001b[0m|      29.925µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:02-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:02 |\u001b[97;42m 200 \u001b[0m|      30.906µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:02-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:02 |\u001b[97;42m 200 \u001b[0m|       31.99µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:02-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:03 |\u001b[97;42m 200 \u001b[0m|      30.631µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:03-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:03 |\u001b[97;42m 200 \u001b[0m|      24.751µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:03-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:03 |\u001b[97;42m 200 \u001b[0m|      31.329µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:03-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:03 |\u001b[97;42m 200 \u001b[0m|      36.417µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:03-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:04 |\u001b[97;42m 200 \u001b[0m|      28.725µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:04-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:04 |\u001b[97;42m 200 \u001b[0m|      32.766µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:04-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:04 |\u001b[97;42m 200 \u001b[0m|      30.312µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:04-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:04 |\u001b[97;42m 200 \u001b[0m|      26.401µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:04-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:05 |\u001b[97;42m 200 \u001b[0m|      25.937µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:05-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:06 |\u001b[97;42m 200 \u001b[0m|      37.232µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:06-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:06 |\u001b[97;42m 200 \u001b[0m|      31.538µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:06-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:06 |\u001b[97;42m 200 \u001b[0m|      30.514µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:06-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:06 |\u001b[97;42m 200 \u001b[0m|      37.437µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:06-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:06 |\u001b[97;42m 200 \u001b[0m|      28.556µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:06-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:06 |\u001b[97;42m 200 \u001b[0m|      34.997µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:06-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:06 |\u001b[97;42m 200 \u001b[0m|      39.451µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:06-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:06 |\u001b[97;42m 200 \u001b[0m|      32.929µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:06-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:06 |\u001b[97;42m 200 \u001b[0m|      36.929µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:06-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:06 |\u001b[97;42m 200 \u001b[0m|      37.076µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:06-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:06 |\u001b[97;42m 200 \u001b[0m|       29.81µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:06-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:02:07 |\u001b[97;42m 200 \u001b[0m|      31.806µs | [::1]:53760 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:02:07-05:00"}
+{"level":"info","msg":"*** INIT DB ***","time":"2015-10-03T09:06:11-05:00"}
+{"level":"info","msg":"GITOLITEPATH = /Users/michelperez/code/misc/gitolite/gitolite-admin/","time":"2015-10-03T09:06:12-05:00"}
+{"level":"info","msg":"GITURLROOT = git@infiniteloops.co/","time":"2015-10-03T09:06:12-05:00"}
+{"level":"info","msg":"***INIT GIT ADMIN***","time":"2015-10-03T09:06:12-05:00"}
+{"level":"info","msg":"[GIN] 2015/10/03 - 09:06:15 |\u001b[97;43m 404 \u001b[0m|    2.706134ms | [::1]:54009 |\u001b[97;44m  \u001b[0m GET     /tasks/slack-noti-10/executions","time":"2015-10-03T09:06:15-05:00"}

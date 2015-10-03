@@ -48,7 +48,7 @@ func GetMainEngine() *gin.Engine {
 
 	}
 
-	router.NoRoute(Proxy, AngularFilter)
+	router.NoRoute(AngularFilter, Proxy)
 
 	return router
 }
