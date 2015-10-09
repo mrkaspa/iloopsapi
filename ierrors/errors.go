@@ -10,6 +10,7 @@ const (
 	ErrCodeCredential
 	ErrCodeUserInactive
 	ErrCodeCreate
+	ErrCodeUpdate
 	ErrCodeDelete
 	ErrCodeAdminLeaveProject
 	ErrCodeUserLeaveProject
@@ -19,18 +20,22 @@ const (
 )
 
 var (
-	ErrProjectCreate         = AppError{Code: ErrCodeCreate, ErrorS: "Could not create the project"}
-	ErrProjectDelete         = AppError{Code: ErrCodeDelete, ErrorS: "Could not delete the project"}
-	ErrAdminCantLeaveProject = AppError{Code: ErrCodeAdminLeaveProject, ErrorS: "An admin user can't leave a project"}
-	ErrUserLeaveProject      = AppError{Code: ErrCodeUserLeaveProject, ErrorS: "Could not leave the project"}
-	ErrProjectAddUser        = AppError{Code: ErrCodeGeneral, ErrorS: "Could not add the user"}
-	ErrProjectRemoveUser     = AppError{Code: ErrCodeGeneral, ErrorS: "Could not remove the user"}
-	ErrProjectDelegateUser   = AppError{Code: ErrCodeGeneral, ErrorS: "Could not delegate the project to the user"}
-	ErrSSHCreate             = AppError{Code: ErrCodeCreate, ErrorS: "Could not create the SSH"}
-	ErrSSHDelete             = AppError{Code: ErrCodeDelete, ErrorS: "Could not delete the SSH"}
-	ErrUserCreate            = AppError{Code: ErrCodeCreate, ErrorS: "Could not create the user"}
-	ErrUserLogin             = AppError{Code: ErrCodeCredential, ErrorS: "Could not authenticate the User"}
-	ErrUserInactive          = AppError{Code: ErrCodeUserInactive, ErrorS: "The user is inactive"}
+	ErrProjectCreate          = AppError{Code: ErrCodeCreate, ErrorS: "Could not create the project"}
+	ErrProjectDelete          = AppError{Code: ErrCodeDelete, ErrorS: "Could not delete the project"}
+	ErrAdminCantLeaveProject  = AppError{Code: ErrCodeAdminLeaveProject, ErrorS: "An admin user can't leave a project"}
+	ErrUserLeaveProject       = AppError{Code: ErrCodeUserLeaveProject, ErrorS: "Could not leave the project"}
+	ErrProjectAddUser         = AppError{Code: ErrCodeGeneral, ErrorS: "Could not add the user"}
+	ErrProjectRemoveUser      = AppError{Code: ErrCodeGeneral, ErrorS: "Could not remove the user"}
+	ErrProjectDelegateUser    = AppError{Code: ErrCodeGeneral, ErrorS: "Could not delegate the project to the user"}
+	ErrSSHCreate              = AppError{Code: ErrCodeCreate, ErrorS: "Could not create the SSH"}
+	ErrSSHDelete              = AppError{Code: ErrCodeDelete, ErrorS: "Could not delete the SSH"}
+	ErrUserCreate             = AppError{Code: ErrCodeCreate, ErrorS: "Could not create the user"}
+	ErrUserUpdate             = AppError{Code: ErrCodeUpdate, ErrorS: "Could not update the user"}
+	ErrPasswordRequestCreate  = AppError{Code: ErrCodeCreate, ErrorS: "Could not create the password request"}
+	ErrPasswordRequestUpdate  = AppError{Code: ErrCodeUpdate, ErrorS: "Could not update the password request"}
+	ErrPasswordRequestExpired = AppError{Code: ErrCodeGeneral, ErrorS: "The password request has expired"}
+	ErrUserLogin              = AppError{Code: ErrCodeCredential, ErrorS: "Could not authenticate the User"}
+	ErrUserInactive           = AppError{Code: ErrCodeUserInactive, ErrorS: "The user is inactive"}
 
 	ErrTaskNotScheduled      = AppError{Code: ErrCodeProjectStart, ErrorS: "The task can't be scheduled"}
 	ErrTaskNotStopped        = AppError{Code: ErrCodeProjectStop, ErrorS: "The task can't be stopped"}

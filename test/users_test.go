@@ -3,7 +3,6 @@ package test
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"bitbucket.org/kiloops/api/ierrors"
@@ -31,7 +30,6 @@ var _ = Describe("Users", func() {
 	Describe("POST /users/login", func() {
 
 		BeforeEach(func() {
-			fmt.Println("***saveUser()***")
 			user = saveUser()
 		})
 
@@ -56,6 +54,59 @@ var _ = Describe("Users", func() {
 						return appError
 					},
 				},
+			})
+		})
+
+	})
+
+	Describe("POST /users/forgot", func() {
+
+		BeforeEach(func() {
+			user = saveUser()
+		})
+
+		It("requests a password change", func() {
+			email := models.Email{Value: user.Email}
+			emailJSON, _ := json.Marshal(email)
+			client.CallRequest("POST", "/users/forgot", bytes.NewReader(emailJSON)).WithResponse(func(resp *http.Response) error {
+				Expect(resp.StatusCode).To(Equal(http.StatusOK))
+				return nil
+			})
+		})
+
+	})
+
+	Describe("POST /users/change_password", func() {
+
+		var token string
+
+		BeforeEach(func() {
+			user = saveUser()
+			var passwordRequest models.PasswordRequest
+			email := models.Email{Value: user.Email}
+			emailJSON, _ := json.Marshal(email)
+			client.CallRequest("POST", "/users/forgot", bytes.NewReader(emailJSON)).Solve(utils.MapExec{
+				http.StatusOK: utils.InfoExec{
+					&passwordRequest,
+					func(resp *http.Response) error {
+						token = passwordRequest.Token
+						return nil
+					},
+				},
+			})
+		})
+
+		It("requests a password change", func() {
+			newPassword := "jokalive123"
+			changePassword := models.ChangePassword{
+				Email:    user.Email,
+				Token:    token,
+				Password: newPassword,
+			}
+			changePasswordJSON, _ := json.Marshal(changePassword)
+			client.CallRequest("POST", "/users/change_password", bytes.NewReader(changePasswordJSON)).WithResponse(func(resp *http.Response) error {
+				Expect(resp.StatusCode).To(Equal(http.StatusOK))
+				return nil
 			})
 		})
 

@@ -55,6 +55,39 @@ var _ = Describe("SSH", func() {
 
 	})
 
+	Describe("GET /ssh", func() {
+
+		BeforeEach(func() {
+			ssh = addSSH(user)
+		})
+
+		AfterEach(func() {
+			gitadmin.DeleteSSH(user.Email, ssh.ID)
+		})
+
+		It("list all ssh", func() {
+			var sshs *[]models.SSH
+			client.CallRequestNoBodytWithHeaders("GET", "/ssh", authHeaders(user)).Solve(utils.MapExec{
+				http.StatusOK: utils.InfoExec{
+					&sshs,
+					func(resp *http.Response) error {
+						Expect(len(*sshs)).To(BeEquivalentTo(1))
+						return nil
+					},
+				},
+				utils.Default: utils.InfoExec{
+					nil,
+					func(resp *http.Response) error {
+						Panic()
+						return nil
+					},
+				},
+			})
+
+		})
+
+	})
+
 	Describe("DELETE /ssh/:id", func() {
 
 		BeforeEach(func() {

@@ -35,10 +35,14 @@ type UserLogged struct {
 	Active bool   `json:"active"`
 }
 
+func (u *User) SetPassword(password string) {
+	u.Password = helpers.MD5(password)
+	u.Token = helpers.RandomString(20)
+}
+
 //BeforeCreate callback
 func (u *User) BeforeCreate() error {
-	u.Password = helpers.MD5(u.Password)
-	u.Token = helpers.RandomString(20)
+	u.SetPassword(u.Password)
 	if utils.IsTest() {
 		u.Active = true
 	}
@@ -48,6 +52,13 @@ func (u *User) BeforeCreate() error {
 //LoggedIn validtes if a user is logged
 func (u User) LoggedIn(login UserLogin) bool {
 	return helpers.MD5(login.Password) == u.Password
+}
+
+//AllSHHs list the sshs
+func (u User) AllSHHs() *[]SSH {
+	sshs := []SSH{}
+	Gdb.Where("user_id = ?", u.ID).Find(&sshs)
+	return &sshs
 }
 
 //AllProjects loads user projects

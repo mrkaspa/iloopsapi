@@ -30,6 +30,7 @@ func InitDB() {
 	db.AutoMigrate(&SSH{})
 	db.AutoMigrate(&Project{})
 	db.AutoMigrate(&UsersProjects{})
+	db.AutoMigrate(&PasswordRequest{})
 
 	//Add unique index
 	db.Model(&UsersProjects{}).AddUniqueIndex("idx_user_project", "user_id", "project_id")

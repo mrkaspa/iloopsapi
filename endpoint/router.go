@@ -22,6 +22,8 @@ func GetMainEngine() *gin.Engine {
 
 		v1.POST("users", UserCreate)
 		v1.POST("users/login", UserLogin)
+		v1.POST("users/forgot", UserForgot)
+		v1.POST("users/change_password", UserChangePassword)
 
 		auth := v1.Group("", Authorized())
 		{
@@ -29,6 +31,7 @@ func GetMainEngine() *gin.Engine {
 
 			active := auth.Group("", Active())
 			{
+				active.GET("ssh", SSHList)
 				active.DELETE("ssh/:id", SSHDestroy)
 				active.GET("projects", ProjectList)
 				active.GET("projects/:slug", WriteAccessToProject(), ProjectShow)

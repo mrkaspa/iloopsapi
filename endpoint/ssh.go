@@ -7,8 +7,16 @@ import (
 	"bitbucket.org/kiloops/api/ierrors"
 	"bitbucket.org/kiloops/api/models"
 	"github.com/gin-gonic/gin"
+	"github.com/gosimple/slug"
 	"github.com/jinzhu/gorm"
 )
+
+//SSHList serves the route GET /ssh
+func SSHList(c *gin.Context) {
+	user := userSession(c)
+	sshs := user.AllSHHs()
+	c.JSON(http.StatusOK, *sshs)
+}
 
 //SSHCreate serves the route POST /ssh
 func SSHCreate(c *gin.Context) {
@@ -23,6 +31,7 @@ func SSHCreate(c *gin.Context) {
 			return false
 		}
 		user := userSession(c)
+		ssh.Name = slug.Make(ssh.Name)
 		ssh.UserID = user.ID
 		if err := txn.Create(&ssh).Error; err != nil {
 			errorResponse(c, err, ierrors.ErrSSHCreate)
@@ -38,7 +47,9 @@ func SSHDestroy(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		var ssh models.SSH
 		id, _ := strconv.Atoi(c.Param("id"))
-		if txn.First(&ssh, id); ssh.ID == 0 {
+		user := userSession(c)
+		txn.Where("(id = ? or name like ?) and user_id = ?", id, id, user.ID).First(&ssh)
+		if ssh.ID == 0 {
 			c.JSON(http.StatusNotFound, "SSH not found")
 			return false
 		}
