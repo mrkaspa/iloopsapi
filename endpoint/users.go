@@ -75,7 +75,7 @@ func UserForgot(c *gin.Context) {
 			c.JSON(http.StatusNotFound, "User not found")
 			return false
 		}
-		passwordRequest := models.PasswordRequest{}
+		passwordRequest := models.PasswordRequest{UserID: user.ID}
 		if err := txn.Create(&passwordRequest).Error; err != nil {
 			fmt.Println(err)
 			errorResponse(c, err, ierrors.ErrPasswordRequestCreate)
@@ -100,13 +100,6 @@ func UserChangePassword(c *gin.Context) {
 		return
 	}
 	models.InTx(func(txn *gorm.DB) bool {
-		var user models.User
-		models.Gdb.Find(&user, "email like ?", changePassword.Email)
-		if user.ID == 0 {
-			c.JSON(http.StatusNotFound, "User not found")
-			return false
-		}
-
 		var passwordRequest models.PasswordRequest
 		models.Gdb.Find(&passwordRequest, "token like ? and used = false", changePassword.Token)
 		if passwordRequest.ID == 0 {
@@ -126,6 +119,8 @@ func UserChangePassword(c *gin.Context) {
 			errorResponse(c)
 		}
 
+		var user models.User
+		txn.Model(&passwordRequest).Related(&user)
 		user.SetPassword(changePassword.Password)
 		if err := txn.Save(&user).Error; err != nil {
 			errorResponse(c, err, ierrors.ErrUserUpdate)

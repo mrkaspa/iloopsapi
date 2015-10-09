@@ -46,9 +46,10 @@ func SSHCreate(c *gin.Context) {
 func SSHDestroy(c *gin.Context) {
 	models.InTx(func(txn *gorm.DB) bool {
 		var ssh models.SSH
-		id, _ := strconv.Atoi(c.Param("id"))
+		strID := c.Param("id")
+		id, _ := strconv.Atoi(strID)
 		user := userSession(c)
-		txn.Where("(id = ? or name like ?) and user_id = ?", id, id, user.ID).First(&ssh)
+		txn.Where("(id = ? or name like ?) and user_id = ?", id, strID, user.ID).First(&ssh)
 		if ssh.ID == 0 {
 			c.JSON(http.StatusNotFound, "SSH not found")
 			return false

@@ -39,6 +39,7 @@ func InitDB() {
 	db.Model(&SSH{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
 	db.Model(&UsersProjects{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
 	db.Model(&UsersProjects{}).AddForeignKey("project_id", "projects(id)", "RESTRICT", "RESTRICT")
+	db.Model(&PasswordRequest{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
 
 	Gdb = &db
 }

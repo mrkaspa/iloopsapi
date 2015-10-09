@@ -99,7 +99,6 @@ var _ = Describe("Users", func() {
 		It("requests a password change", func() {
 			newPassword := "jokalive123"
 			changePassword := models.ChangePassword{
-				Email:    user.Email,
 				Token:    token,
 				Password: newPassword,
 			}

@@ -10,6 +10,7 @@ import (
 
 type PasswordRequest struct {
 	ID        int       `gorm:"primary_key" json:"id"`
+	UserID    int       `json:"user_id" validate:"required"`
 	Token     string    `json:"token"`
 	Used      bool      `json:"used"`
 	CreatedAt time.Time `json:"created_at"`
