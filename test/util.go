@@ -7,7 +7,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 
-	"bitbucket.org/kiloops/api/models"
+	"github.com/mrkaspa/iloopsapi/models"
 )
 
 func authHeaders(user models.User) map[string]string {

@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"bitbucket.org/kiloops/api/gitadmin"
-	"bitbucket.org/kiloops/api/models"
-	"bitbucket.org/kiloops/api/utils"
+	"github.com/mrkaspa/iloopsapi/gitadmin"
+	"github.com/mrkaspa/iloopsapi/models"
+	"github.com/mrkaspa/iloopsapi/utils"
 	"github.com/mrkaspa/go-helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

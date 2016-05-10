@@ -1,7 +1,7 @@
 package gitadmin
 
 import (
-	"bitbucket.org/kiloops/api/utils"
+	"github.com/mrkaspa/iloopsapi/utils"
 	"github.com/codeskyblue/go-sh"
 )
 

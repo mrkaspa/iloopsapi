@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"bitbucket.org/kiloops/api/ierrors"
-	"bitbucket.org/kiloops/api/models"
-	"bitbucket.org/kiloops/api/utils"
+	"github.com/mrkaspa/iloopsapi/ierrors"
+	"github.com/mrkaspa/iloopsapi/models"
+	"github.com/mrkaspa/iloopsapi/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 )

@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"os"
 
-	"bitbucket.org/kiloops/api/utils"
+	"github.com/mrkaspa/iloopsapi/utils"
 
 	"github.com/jinzhu/gorm"
 )

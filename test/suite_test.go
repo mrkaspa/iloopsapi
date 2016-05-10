@@ -12,10 +12,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 
-	"bitbucket.org/kiloops/api/endpoint"
-	"bitbucket.org/kiloops/api/gitadmin"
-	"bitbucket.org/kiloops/api/models"
-	"bitbucket.org/kiloops/api/utils"
+	"github.com/mrkaspa/iloopsapi/endpoint"
+	"github.com/mrkaspa/iloopsapi/gitadmin"
+	"github.com/mrkaspa/iloopsapi/models"
+	"github.com/mrkaspa/iloopsapi/utils"
 
 	gEndpoint "github.com/infiniteloopsco/guartz/endpoint"
 	gModels "github.com/infiniteloopsco/guartz/models"

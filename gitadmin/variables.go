@@ -3,7 +3,7 @@ package gitadmin
 import (
 	"os"
 
-	"bitbucket.org/kiloops/api/utils"
+	"github.com/mrkaspa/iloopsapi/utils"
 )
 
 var (

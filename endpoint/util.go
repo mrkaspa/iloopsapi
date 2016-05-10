@@ -3,8 +3,8 @@ package endpoint
 import (
 	"net/http"
 
-	"bitbucket.org/kiloops/api/ierrors"
-	"bitbucket.org/kiloops/api/models"
+	"github.com/mrkaspa/iloopsapi/ierrors"
+	"github.com/mrkaspa/iloopsapi/models"
 	"gopkg.in/bluesuncorp/validator.v6"
 
 	"github.com/gin-gonic/gin"

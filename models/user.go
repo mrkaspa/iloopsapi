@@ -3,8 +3,8 @@ package models
 import (
 	"time"
 
-	"bitbucket.org/kiloops/api/ierrors"
-	"bitbucket.org/kiloops/api/utils"
+	"github.com/mrkaspa/iloopsapi/ierrors"
+	"github.com/mrkaspa/iloopsapi/utils"
 
 	"github.com/jinzhu/gorm"
 	"github.com/mrkaspa/go-helpers"

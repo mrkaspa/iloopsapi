@@ -1,6 +1,6 @@
 package test
 
-import "bitbucket.org/kiloops/api/models"
+import "github.com/mrkaspa/iloopsapi/models"
 
 var (
 	user       models.User

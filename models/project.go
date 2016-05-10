@@ -8,9 +8,9 @@ import (
 	"os"
 	"time"
 
-	"bitbucket.org/kiloops/api/gitadmin"
-	"bitbucket.org/kiloops/api/ierrors"
-	"bitbucket.org/kiloops/api/utils"
+	"github.com/mrkaspa/iloopsapi/gitadmin"
+	"github.com/mrkaspa/iloopsapi/ierrors"
+	"github.com/mrkaspa/iloopsapi/utils"
 
 	"github.com/gosimple/slug"
 	"github.com/jinzhu/gorm"

@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"bitbucket.org/kiloops/api/ierrors"
-	"bitbucket.org/kiloops/api/models"
+	"github.com/mrkaspa/iloopsapi/ierrors"
+	"github.com/mrkaspa/iloopsapi/models"
 	"github.com/gin-gonic/gin"
 	"github.com/gosimple/slug"
 	"github.com/jinzhu/gorm"

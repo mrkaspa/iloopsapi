@@ -3,8 +3,8 @@ package models
 import (
 	"time"
 
-	"bitbucket.org/kiloops/api/gitadmin"
-	"bitbucket.org/kiloops/api/ierrors"
+	"github.com/mrkaspa/iloopsapi/gitadmin"
+	"github.com/mrkaspa/iloopsapi/ierrors"
 	"github.com/jinzhu/gorm"
 )
 
